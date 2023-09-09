@@ -40,10 +40,10 @@ Activate Virtual Environment (Must do every time you launch, you'll see (venv) i
 
 Install Requirements
 
-    python -m pip install -r .\requirements.txt
+    python -m pip install -r ./requirements.txt
 
 Launch with 
 
-    python .\app.py
+    python ./app.py
 
 Open in browser at http://127.0.0.1:5000 or http://localhost:5000
