@@ -1,0 +1,6 @@
+flask
+bootstrap-flask
+flask_sqlalchemy
+flask_wtf
+wtforms
+flask-login
