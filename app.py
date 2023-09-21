@@ -1,15 +1,45 @@
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap5
 from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
+from flask_migrate import Migrate
 
-app = Flask(__name__)
-app.secret_key = 'dev'
-bootstrap = Bootstrap5(app)
+from flask_login import (
+    UserMixin,
+    login_user,
+    LoginManager,
+    current_user,
+    logout_user,
+    login_required,
+)
+
+login_manager = LoginManager()
+login_manager.session_protection = "strong"
+login_manager.login_view = "login"
+login_manager.login_message_category = "info"
+
 db = SQLAlchemy()
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
-app.config["FLASK_ENV"] = "development"
-app.config["DEBUG"] = True
-db.init_app(app)
+migrate = Migrate()
+bcrypt = Bcrypt()
+
+def create_app():
+    app = Flask(__name__)
+
+    app.secret_key = 'dev'
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
+    app.config["FLASK_ENV"] = "development"
+    app.config["DEBUG"] = True
+
+    login_manager.init_app(app)
+    db.init_app(app)
+    migrate.init_app(app, db)
+    bcrypt.init_app(app)
+
+    bootstrap = Bootstrap5(app)
+
+    return app
+
+app = create_app()
 
 class Roles(db.Model):
     role_id = db.Column(db.Integer, primary_key=True)
@@ -58,7 +88,7 @@ class UserCourses(db.Model):
 
 class Applications(db.Model):
     app_id = db.Column(db.Integer, primary_key=True)
-    user_id = db.COlumn(db.Integer, db.ForeignKey("Users.user_id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("Users.user_id"))
     course_id = db.Column(db.Integer, db.ForeignKey("Courses.course_id"))
     status = db.Column(db.Boolean, nullable=False)
     editable = db.Column(db.Boolean, nullable=False)

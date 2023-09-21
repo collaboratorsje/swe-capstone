@@ -4,3 +4,5 @@ flask_sqlalchemy
 flask_wtf
 wtforms
 flask-login
+flask-bcrypt
+flask-migrate
