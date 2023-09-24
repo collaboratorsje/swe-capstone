@@ -11,9 +11,17 @@
     <body>
         <!-- Top Navbar-->
         <nav class="navbar navbar-extended-sm">
-            <div class="container-fluid">
+            <div class="navbar navbar-nav mr-auto">
                 <ul class="nav nav-pills">
                     {{ render_nav_item('Home', 'Home') }}
+                </ul>    
+            </div>
+            <div class="navbar navbar-nav ml-auto">
+                <ul class="nav nav-pills">
+                    <!-- If if authentificated login else account-->
+                    {{ render_nav_item('Login', 'Login') }}
+                    {{ render_nav_item('Register', 'Register') }}
+                </ul>
             </div>
         </nav>
     
