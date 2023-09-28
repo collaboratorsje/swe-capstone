@@ -3,7 +3,7 @@ import sqlite3
 import os
 
 
-dbfile = "database.db"
+dbfile = os.path.join(os.getcwd(), "app", "instance", "database.db")
 tablefile = "CreateTables.sql"
 
 def Connection():
