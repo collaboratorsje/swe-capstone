@@ -1,22 +1,7 @@
 
 from flask_login import UserMixin
 from GTAApplication import app, db
-### example model from tutorial
-"""
-class User(UserMixin, db.Model):
-    __tablename__ = "user"
-    
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    pwd = db.Column(db.String(300), nullable=False, unique=True)
 
-    def __repr__(self):
-        return '<User %r>' % self.username
-"""
-
-### models from app.py below
-#class Users(db.Model):
 class Users(UserMixin, db.Model):
     __tablename__ = "user"
     
@@ -32,7 +17,6 @@ class Users(UserMixin, db.Model):
     graduating_semester = db.Column(db.Integer)
     user_pwd = db.Column(db.String)
 
-    #def is_authenticated(self):
 class Roles(db.Model):
     __tablename__ = "roles"
     role_id = db.Column(db.Integer, primary_key=True)
