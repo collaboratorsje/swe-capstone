@@ -4,6 +4,8 @@ from GTAApplication import gta, db, login_manager  #, models, forms
 from GTAApplication.forms import forms
 from GTAApplication.models import models
 from flask_login import login_required, login_user, logout_user
+from werkzeug.security import generate_password_hash
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -60,8 +62,20 @@ def AccountPage():
 
 @gta.route('/auth', methods=["POST", "GET"])
 def auth():
-    print("Placeholder to test pages")
     form = forms.RegisterForm()
-    if form.validate_on_submit:
-        print(form.data)
-    return redirect("/")
+    if form.validate_on_submit():  # make sure to call the method with ()
+        new_user = models.Users(
+            user_fname=form.first_name.data,
+            user_lname=form.last_name.data,
+            user_email=form.email.data,
+            role=form.user_role.data,
+            major=form.user_major.data,
+            degree=form.user_degree.data,
+            user_pwd=generate_password_hash(form.password.data, method='sha256')
+            # Add other fields as necessary
+        )
+        db.session.add(new_user)
+        db.session.commit()
+        flash('Thanks for registering!')
+        return redirect(url_for('login'))  # or wherever you want to redirect
+    return render_template('register.html', form=form)
