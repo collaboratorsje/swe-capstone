@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS Users(
     `gpa` DECIMAL(3, 2),
     `hours` DECIMAL(5, 2),
     `graduating_semseter` INTEGER,
+    `user_pass` VARCHAR(25) NOT NULL,
     FOREIGN KEY (`role`) 
         REFERENCES Roles (`role_id`)
             ON DELETE NO ACTION
@@ -36,6 +37,7 @@ CREATE TABLE IF NOT EXISTS Users(
         REFERENCES Degrees (`degree_id`)
             ON DELETE NO ACTION
             ON UPDATE NO ACTION
+    
 );
 
 CREATE TABLE IF NOT EXISTS Courses(

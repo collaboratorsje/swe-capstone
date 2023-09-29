@@ -1,15 +1,15 @@
-from flask import Flask, render_template, redirect, url_for, flash
+from flask import Flask, render_template, redirect, url_for, flash, request
 from flask_bootstrap import Bootstrap5
 from GTAApplication import gta, db, login_manager  #, models, forms
 from GTAApplication.forms import forms
 from GTAApplication.models import models
 from flask_login import login_required, login_user, logout_user
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 @login_manager.user_loader
-def load_user(user_id):
-    return models.Users.get(user_id)
+def load_user(user_email):
+    return models.Users.get(user_email)
 
 @gta.route('/')
 @login_required
@@ -60,22 +60,57 @@ def AdminPage():
 def AccountPage():
     return render_template('account.html')
 
-@gta.route('/auth', methods=["POST", "GET"])
-def auth():
+@gta.route('/authlog', methods=['POST'])
+def authlog():
+    form = forms.LoginForm()
+    if request.method == 'POST':
+        u = models.Users.query.filter_by(user_email=request.form['user_email']).first()
+        print(u.user_email, u.user_pass)
+        print(request.form['user_pass'])
+        if check_password_hash(u.user_pass, request.form['user_pass']):
+            login_user(u)
+        else:
+            flash("Invalid Email or Password")
+
+@gta.route('/authreg', methods=["POST", "GET"])
+def authreg():
+
     form = forms.RegisterForm()
+    if request.method == 'POST':
+        print(request.form['user_id'])
+        nu = new_user = models.Users(
+            user_id=request.form['user_id'],
+            user_fname=request.form['user_fname'],
+            user_lname=request.form['user_lname'],
+            user_email=request.form['user_email'],
+            role=request.form['user_role'],
+            major=request.form['user_major'],
+            degree=request.form['user_degree'],
+            user_pass=generate_password_hash(request.form['user_pass'], method='sha256')
+        )
+        print(nu)
+        print(nu.role, nu.major, nu.degree)
+        db.session.add(nu)
+        db.session.commit()
+        return redirect(url_for('Login'))  # or wherever you want to redirect
+    """
     if form.validate_on_submit():  # make sure to call the method with ()
         new_user = models.Users(
-            user_fname=form.first_name.data,
-            user_lname=form.last_name.data,
-            user_email=form.email.data,
-            role=form.user_role.data,
-            major=form.user_major.data,
-            degree=form.user_degree.data,
-            user_pwd=generate_password_hash(form.password.data, method='sha256')
+            user_fname=form.user_fname.data,
+            user_lname=form.user_lname.data,
+            user_email=form.user_email.data,
+            user_role=form.user_role.data,
+            user_major=form.user_major.data,
+            user_degree=form.user_degree.data,
+            user_gpa=form.user_gpa.data,
+            user_hours=form.user_hours.data,
+            user_pass=generate_password_hash(form.user_pass.data, method='sha256')
             # Add other fields as necessary
         )
         db.session.add(new_user)
         db.session.commit()
         flash('Thanks for registering!')
         return redirect(url_for('login'))  # or wherever you want to redirect
+    
+    """
     return render_template('register.html', form=form)
