@@ -74,43 +74,62 @@ def authlog():
 
 @gta.route('/authreg', methods=["POST", "GET"])
 def authreg():
-
+    print(request.form)
     form = forms.RegisterForm()
-    if request.method == 'POST':
-        print(request.form['user_id'])
-        nu = new_user = models.Users(
-            user_id=request.form['user_id'],
-            user_fname=request.form['user_fname'],
-            user_lname=request.form['user_lname'],
-            user_email=request.form['user_email'],
-            role=request.form['user_role'],
-            major=request.form['user_major'],
-            degree=request.form['user_degree'],
-            user_pass=generate_password_hash(request.form['user_pass'], method='sha256')
-        )
-        print(nu)
-        print(nu.role, nu.major, nu.degree)
-        db.session.add(nu)
-        db.session.commit()
-        return redirect(url_for('Login'))  # or wherever you want to redirect
-    """
-    if form.validate_on_submit():  # make sure to call the method with ()
-        new_user = models.Users(
+
+    result = db.session.execute(db.select(models.Roles.role_id, models.Roles.role_name).where(models.Roles.role_id > 1).where(models.Roles.role_id < 5)).all()
+    roles = [("", "---")]
+    [roles.append((r[0], r[1])) for r in result]
+    #roles = [(r[0], r[1]) for r in result]
+    result = db.session.execute(db.select(models.Majors.major_id, models.Majors.major_name)).all()
+    majors = [("", "---")]
+    [majors.append((r[0], r[1])) for r in result]
+    #majors = [(r[0], r[1]) for r in result]
+    result = db.session.execute(db.select(models.Degrees.degree_id, models.Degrees.degree_name)).all()
+    degrees = [("", "---")]
+    [degrees.append((r[0], r[1])) for r in result]
+    #degrees = [(r[0], r[1]) for r in result]
+    form = forms.RegisterForm()
+
+    # Set choices (not user's selection, but all possible choices)
+    form.user_role.choices = roles
+    form.user_major.choices = majors
+    form.user_degree.choices = degrees
+
+    print(form.user_role.choices)
+    print(form.user_major.choices)
+    print(form.user_degree.choices)
+    print(form.validate_on_submit())
+    if form.validate_on_submit():
+        existing_user = models.Users.query.filter_by(user_id=form.user_id.data).first()
+        print(existing_user)
+        if existing_user:
+            flash('User ID already exists', 'error')
+            return redirect(url_for('authreg'))
+        nu = models.Users(
+            user_id=form.user_id.data,
             user_fname=form.user_fname.data,
             user_lname=form.user_lname.data,
             user_email=form.user_email.data,
-            user_role=form.user_role.data,
-            user_major=form.user_major.data,
-            user_degree=form.user_degree.data,
-            user_gpa=form.user_gpa.data,
-            user_hours=form.user_hours.data,
+            role=form.user_role.data,
+            major=form.user_major.data,
+            degree=form.user_degree.data,
             user_pass=generate_password_hash(form.user_pass.data, method='sha256')
-            # Add other fields as necessary
         )
-        db.session.add(new_user)
-        db.session.commit()
-        flash('Thanks for registering!')
-        return redirect(url_for('login'))  # or wherever you want to redirect
-    
-    """
-    return render_template('register.html', form=form)
+        db.session.add(nu)
+        try:
+            db.session.commit()
+            # Query the database for the user with the provided email or ID
+            created_user = models.Users.query.filter_by(user_email=form.user_email.data).first()
+            if created_user:
+                print(f"User {created_user.user_id} created successfully")
+                flash('Registration successful', 'success')
+                return redirect(url_for('login')) # Replace 'login' with the actual login route endpoint
+            else:
+                print("User creation failed")
+                flash('Registration failed due to database error', 'error')
+        except Exception as e:
+            db.session.rollback()
+            flash('Registration failed due to database error', 'error')
+    return render_template("login.html", form=form)
+
