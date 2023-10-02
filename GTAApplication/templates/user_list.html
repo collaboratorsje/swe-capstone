@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Code Here-->
+<h2>(User list for debugging only)</h2>
+<title>User List</title>
+</head>
+<body>
+    <h1>User List</h1>
+    <ul>
+        {% for user in users %}
+        <li>ID: {{ user.user_id }}, Name: {{ user.user_fname }} {{ user.user_lname }}, Email: {{ user.user_email }}, Role: {{ user.role }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

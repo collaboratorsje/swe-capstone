@@ -17,6 +17,9 @@ class Users(UserMixin, db.Model):
     #graduating_semester = db.Column(db.Integer)
     user_pass = db.Column(db.String)
 
+    def __repr__(self):
+        return f"<User {self.user_id}: {self.user_fname} {self.user_lname}, Email: {self.user_email}, Role: {self.role}>"
+
 class Roles(db.Model):
     __tablename__ = "Roles"
     role_id = db.Column(db.Integer, primary_key=True)

@@ -72,6 +72,12 @@ def authlog():
         else:
             flash("Invalid Email or Password")
 
+@gta.route('/list_users')
+def list_users():
+    userslist = models.Users.query.all()
+    return render_template('user_list.html', users=userslist)
+
+
 @gta.route('/authreg', methods=["POST", "GET"])
 def authreg():
     print(request.form)
