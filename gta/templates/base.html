@@ -13,18 +13,23 @@
         <nav class="navbar navbar-extended-sm">
             <div class="navbar navbar-nav mr-auto">
                 <ul class="nav nav-pills">
-                    {{ render_nav_item('Home', 'Home') }}
-                    {{ render_nav_item('JobsPage', 'Jobs') }}
-                    {{ render_nav_item('ApplicationsPage', 'My Applications') }}
-                    {{ render_nav_item('AdminPage', 'Administration') }}
+                    {{ render_nav_item('main.Home', 'Home') }}
+                    {{ render_nav_item('main.JobsPage', 'Jobs') }}
+                    {{ render_nav_item('main.ApplicationsPage', 'My Applications') }}
+                    {{ render_nav_item('main.AdminPage', 'Administration') }}
                 </ul>    
             </div>
             <div class="navbar navbar-nav ml-auto">
                 <ul class="nav nav-pills">
                     <!-- If if authentificated login else account-->
-                    {{ render_nav_item('LoginPage', 'Login') }}
-                    {{ render_nav_item('RegisterPage', 'Register') }}
-                    {{ render_nav_item('AccountPage','My Account')}}
+                    {% if current_user.is_authenticated %}
+                        {{ current_user }}
+                        {{ render_nav_item('main.AccountPage','My Account')}}
+                        {{ render_nav_item('main.Logout', 'Logout')}}
+                    {% else %}
+                        {{ render_nav_item('form.LoginPage', 'Login') }}
+                        {{ render_nav_item('form.RegisterPage', 'Register') }}
+                    {% endif %}
                 </ul>
             </div>
         </nav>

@@ -1,9 +1,12 @@
 {% from 'bootstrap5/form.html' import render_form, render_field, render_form_row %}
+
 {% extends 'base.html' %}
 {% block content %}
 
 <!-- Code Here-->
-<h2>Create Account</h2>
-<form method="POST" action="/authreg">
+<h2>Login</h2>
+<form method="POST" action="\login">
+    <input type="hidden" id="nextpage" name="nextpage" value="{{next}}">
     {{ render_form(form) }}
+</form>
 {% endblock %}

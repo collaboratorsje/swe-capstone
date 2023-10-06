@@ -1,6 +1,5 @@
-
 from flask_login import UserMixin
-from GTAApplication import app, db
+from gta.extensions import db
 
 class Users(UserMixin, db.Model):
     __tablename__ = "Users"
@@ -17,6 +16,9 @@ class Users(UserMixin, db.Model):
     #graduating_semester = db.Column(db.Integer)
     user_pass = db.Column(db.String)
 
+    def get_id(self):
+        return self.user_id
+    
     def __repr__(self):
         return f"<User {self.user_id}: {self.user_fname} {self.user_lname}, Email: {self.user_email}, Role: {self.role}>"
 
