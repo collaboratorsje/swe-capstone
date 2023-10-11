@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, EmailField, SelectField, DecimalField, SubmitField, PasswordField, HiddenField, BooleanField
 from wtforms.validators import DataRequired
 from gta.extensions import db
-from gta.model.models import Roles, Majors, Degrees
+from gta.model.models import Roles, Majors, Degrees, Courses
 from flask import current_app as app
 
 class RegisterForm(FlaskForm):
@@ -37,6 +37,8 @@ class LoginForm(FlaskForm):
     submit = SubmitField()
 
 class JobForm(FlaskForm):
+    with app.app_context():
+        resm = db.session.execute(db.select(Courses.id, Courses.course_name)).all()
     job_id = IntegerField("Job ID", validators=[DataRequired()])
     job_name = StringField("Job Name", validators=[DataRequired()])
     course_required = SelectField("Course Required", coerce=str, validators=[DataRequired()])
