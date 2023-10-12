@@ -1,0 +1,11 @@
+{% from 'bootstrap5/form.html' import render_form, render_field, render_form_row %}
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Code Here-->
+<h2>Create Job</h2>
+<form method="POST" action="/createjob">
+    {{ form.hidden_tag() }}
+    {{ render_form(form) }}
+</form>
+{% endblock %}

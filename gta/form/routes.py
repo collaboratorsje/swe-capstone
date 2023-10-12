@@ -3,7 +3,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import login_user
 from gta.extensions import db
 from gta.form import bp as fbp
-from gta.form.forms import LoginForm, RegisterForm
+from gta.form.forms import LoginForm, RegisterForm, JobForm
 from gta.model.models import Users
 
 @fbp.route('/login', methods=['POST', 'GET'])
@@ -57,3 +57,17 @@ def RegisterPage():
             return redirect(url_for("form.RegisterPage"))
         return redirect(url_for("form.LoginPage"))
     return render_template("register.html", form=form)
+
+@fbp.route('/createjob', methods=['POST', 'GET'])
+def CreateJobPage():
+    form = JobForm()
+    nextp = None
+    if request.method == 'GET':
+        try:
+            nextp = request.args['next']
+        except:
+            nextp = '/'
+    if form.validate_on_submit and request.method == 'POST':
+        jobTemp = 'test job success'
+        print(jobTemp)
+    return render_template("createjob.html", form=form, next=nextp)
