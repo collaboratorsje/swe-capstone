@@ -32,7 +32,7 @@ class RegisterForm(FlaskForm):
 
 class LoginForm(FlaskForm):
     user_email = EmailField("Email", validators=[DataRequired()])
-    user_pass = PasswordField()
+    user_pass = PasswordField("Password", validators=[DataRequired()])
     next = HiddenField()
     submit = SubmitField()
 

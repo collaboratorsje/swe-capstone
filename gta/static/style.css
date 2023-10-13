@@ -1,0 +1,47 @@
+:root{
+    --light-blue: #0066CC;
+    --dark-blue:#04487F;
+    --hover-blue: #003058;
+    --yellow: #FFD52F;
+    --white: #FFFFFF;
+}
+
+
+.input-width{
+    width: 50%;
+}
+
+.bg-light-blue{
+    background-color: var(--light-blue);
+}
+.bg-dark-blue{
+    background-color: var(--dark-blue);
+}
+.bg-yellow{
+    background-color: var(--yellow);
+}
+.bg-white{
+    background-color: var(--white);
+}
+.light-blue{
+    color: var(--light-blue);
+}
+.dark-blue{
+    color: var(--dark-blue);
+}
+.yellow{
+    color:var(--yellow);
+}
+.white{
+    color: var(--white);
+}
+
+
+.submit-button{
+    background-color: var(--light-blue);
+    color: var(--white);   
+}
+.submit-button:hover{
+    background-color: var(--dark-blue);
+    
+}

@@ -6,7 +6,17 @@
 <!-- Code Here-->
 <h2>Login</h2>
 <form method="POST" action="\login">
+    <!--I don't know what this input is for-->
     <input type="hidden" id="nextpage" name="nextpage" value="{{next}}">
-    {{ render_form(form) }}
+    <!-- {{ render_form(form) }} -->
+    <!--https://bootstrap-flask.readthedocs.io/en/stable/macros/-->
+    {{ form.csrf_token() }}
+    {{ render_field(form.user_email, class='input-width') }}
+    {{ render_field(form.user_pass, class='input-width') }}
+    {{ render_field(form.submit, class='submit-button') }}
+ 
+    <!--Manually typed button in case form.submit doesn't work during testing-->
+    <!-- <input class="btn btn-primary btn-md" id="submit" name="submit" type="submit" value="Submit"> -->
+
 </form>
 {% endblock %}

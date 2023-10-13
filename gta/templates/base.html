@@ -5,7 +5,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>GTA</title>
         <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
-        {{ bootstrap.load_css() }}
+        {% block styles %}
+            {{ bootstrap.load_css() }}
+            <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}" type="text/css">
+        {% endblock %}
     </head>
 
     <body>
@@ -34,7 +37,8 @@
             </div>
         </nav>
     
-    <main>
+    <!--Bootstrap margins and padding-->
+    <main class="m-5 p-5">
         {% block content %}
         {% endblock %}
     </main>
