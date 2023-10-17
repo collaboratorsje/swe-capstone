@@ -4,7 +4,7 @@ from flask_login import login_user
 from gta.extensions import db
 from gta.form import bp as fbp
 from gta.form.forms import LoginForm, RegisterForm, JobForm
-from gta.model.models import Users
+from gta.model.models import Users, Jobs
 
 @fbp.route('/login', methods=['POST', 'GET'])
 def LoginPage():
@@ -61,13 +61,28 @@ def RegisterPage():
 @fbp.route('/createjob', methods=['POST', 'GET'])
 def CreateJobPage():
     form = JobForm()
-    nextp = None
-    if request.method == 'GET':
-        try:
-            nextp = request.args['next']
-        except:
-            nextp = '/'
     if form.validate_on_submit and request.method == 'POST':
-        jobTemp = 'test job success'
-        print(jobTemp)
-    return render_template("createjob.html", form=form, next=nextp)
+        print("In Validate", form.job_name.data)
+        jobObj = db.session.execute(db.select(Jobs.job_id).where(Jobs.job_id==int(form.job_id.data))).first()
+        print(jobObj)
+        if jobObj is None:
+            tempJob = Jobs(
+                job_id=form.job_id.data,
+                job_name=form.job_name.data,
+                course_required=form.course_required.data,
+                certification_required=form.certification_required.data,
+                status=False
+            )
+            print(tempJob)
+            db.session.add(tempJob)
+            try:
+                db.session.commit()
+                print("Created job successfully")
+            except:
+                print("Error Writing to DB")
+                db.session.rollback()
+        else:
+            print("Job Exists")
+            return redirect(url_for("form.CreateJobPage"))
+        return redirect(url_for("main.JobsPage"))
+    return render_template("createjob.html", form=form)
