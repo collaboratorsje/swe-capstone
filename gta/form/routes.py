@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, flash, request
+from flask import render_template, redirect, url_for, flash, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import login_user
 from gta.extensions import db
@@ -62,24 +62,24 @@ def RegisterPage():
 def CreateJobPage():
     form = JobForm()
     if form.validate_on_submit and request.method == 'POST':
-        print("In Validate", form.job_name.data)
-        jobObj = db.session.execute(db.select(Jobs.job_id).where(Jobs.job_id==int(form.job_id.data))).first()
-        print(jobObj)
+        #jobObj = db.session.execute(db.select(Jobs.job_id).where(Jobs.job_id==int(form.job_id.data))).first()
+        #print(jobObj)
+        jobObj = None
         if jobObj is None:
             tempJob = Jobs(
-                job_id=form.job_id.data,
-                job_name=form.job_name.data,
+                role_id = form.role.data,
                 course_required=form.course_required.data,
                 certification_required=form.certification_required.data,
-                status=False
+                status=False,
+                user_id = session['_user_id']
             )
-            print(tempJob)
-            db.session.add(tempJob)
+            print(tempJob, tempJob.user_id)
             try:
+                db.session.add(tempJob)
                 db.session.commit()
                 print("Created job successfully")
-            except:
-                print("Error Writing to DB")
+            except Exception as e:
+                print(e, "Error Writing to DB")
                 db.session.rollback()
         else:
             print("Job Exists")

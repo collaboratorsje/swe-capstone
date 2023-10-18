@@ -74,54 +74,56 @@ degrees = {
     "Other": 4
 }
 
+# https://sse.umkc.edu/docs/degree-sheets/ms-comp-sci-22-23.pdf
+
 courses = {
-    'CS 101': 1,
-    'CS 191': 2, 
-    'CS 201R': 3,
-    'CS 291': 4,
-    'CS 303': 5,
-    'CS 320': 6,
-    'CS 349': 7,
-    'CS 394R': 8,
-    'CS 404': 9,
-    'CS 441': 10,
-    'CS 449': 11,
-    'CS 456': 12,
-    'CS 457': 13,
-    'CS 458': 14,
-    'CS 461': 15,
-    'CS 465R': 16,
-    'CS 470': 17,
-    'CS 5520': 18,
-    'CS 5525': 19,
-    'CS 5552A': 20,
-    'CS 5565': 21,
-    'CS 5573': 22,
-    'CS 5590PA': 23,
-    'CS 5592': 24,
-    'CS 5596A': 25,
-    'CS 5596B': 26,
-    'ECE 216': 27,
-    'ECE 226': 28,
-    'ECE 228': 29,
-    'ECE 241': 30,
-    'ECE 276': 31,
-    'ECE 302': 32,
-    'ECE 330': 33,
-    'ECE 341R': 34,
-    'ECE 428R': 35,
-    'ECE 458': 36,
-    'ECE 466': 37,
-    'ECE 477': 38,
-    'ECE 486': 39,
-    'ECE 5558': 40,
-    'ECE 5560': 41,
-    'ECE 5567': 42,
-    'ECE 5577': 43,
-    'ECE 5578': 44,
-    'ECE 5586': 45,
-    'IT 222': 46,
-    'IT 321': 47
+    'CS 101': {'course': {'name': "Problem Solving and Programming I", 'major': 1}},
+    'CS 191': {'course': {'name': "Discrete Structures I", 'major': 1}},
+    'CS 201R': {'course': {'name': "Problem Solving and Programming II", 'major': 1}},
+    'CS 291': {'course': {'name': "Discrete Structures II", 'major': 1}},
+    'CS 303': {'course': {'name': "Data Structures", 'major': 1}},
+    'CS 320': {'course': {'name': "Data Communications and Networking", 'major': 1}},
+    'CS 349': {'course': {'name': "Java Programming with Applications", 'major': 1}},
+    'CS 394R': {'course': {'name': "Applied Probability", 'major': 1}},
+    'CS 404': {'course': {'name': "Introduction to Algorithms and Complexity", 'major': 1}},
+    'CS 441': {'course': {'name': "Programming Languages: Design and Implementation", 'major': 1}},
+    'CS 449': {'course': {'name': "Foundations of Software Engineering", 'major': 1}},
+    'CS 456': {'course': {'name': "Human Computer Interface", 'major': 1}},
+    'CS 457': {'course': {'name': "Software Architecture: Requirements & Design", 'major': 1}},
+    'CS 458': {'course': {'name': "Software Testing and Verification", 'major': 1}},
+    'CS 461': {'course': {'name': "Introduction to Artificial Intelligence", 'major': 1}},
+    'CS 465R': {'course': {'name': "Introduction to Statistical Learning", 'major': 1}},
+    'CS 470': {'course': {'name': "Introduction to Database Management Systems", 'major': 1}},
+    'CS 5520': {'course': {'name': "Network Architecture", 'major': 1}},
+    'CS 5525': {'course': {'name': "Cloud Computing", 'major': 1}},
+    'CS 5552A': {'course': {'name': "Formal Software Specification", 'major': 1}},
+    'CS 5565': {'course': {'name': "Introduction to Statistical Learning", 'major': 1}},
+    'CS 5573': {'course': {'name': "Information Security & Assurance", 'major': 1}},
+    'CS 5590PA': {'course': {'name': "Special Topics", 'major': 1}}, # No Clue what PA is
+    'CS 5592': {'course': {'name': "Design & Analysis of Algorithms", 'major': 1}},
+    'CS 5596A': {'course': {'name': "Computer Security I: Cryptology", 'major': 1}},
+    'CS 5596B': {'course': {'name': "Computer Security II: Applications", 'major': 1}},
+    'ECE 216': {'course': {'name': "Engineering Computation", 'major': 3}},
+    'ECE 226': {'course': {'name': "Logic Design", 'major': 3}},
+    'ECE 228': {'course': {'name': "Introduction to Computer Design", 'major': 3}},
+    'ECE 241': {'course': {'name': "Applied Engineering Analysis I", 'major': 3}},
+    'ECE 276': {'course': {'name': "Circuit Theory I", 'major': 3}},
+    'ECE 302': {'course': {'name': "Electromagnetic Waves and Fields", 'major': 3}},
+    'ECE 330': {'course': {'name': "Electronic Circuits", 'major': 3}},
+    'ECE 341R': {'course': {'name': "Applied Engineering Analysis II", 'major': 3}},
+    'ECE 428R': {'course': {'name': "Embedded Systems", 'major': 3}},
+    'ECE 458': {'course': {'name': "Automatic Control System Design", 'major': 3}},
+    'ECE 466': {'course': {'name': "Power Systems I", 'major': 3}},
+    'ECE 477': {'course': {'name': "Introduction to Wireless Networking", 'major': 3}},
+    'ECE 486': {'course': {'name': "Pattern Recognition", 'major': 3}},
+    'ECE 5558': {'course': {'name': "Automatic Control System Design", 'major': 3}},
+    'ECE 5560': {'course': {'name': "Electric Power Distribution Systems", 'major': 3}},
+    'ECE 5567': {'course': {'name': "Power Systems II", 'major': 3}},
+    'ECE 5577': {'course': {'name': "Wireless Communications", 'major': 3}},
+    'ECE 5578': {'course': {'name': "Multimedia Communication", 'major': 3}},
+    'ECE 5586': {'course': {'name': "Pattern Recognition", 'major': 3}},
+    'IT 222': {'course': {'name': "Multimedia Production and Concepts", 'major': 2}},
+    'IT 321': {'course': {'name': "Introduction to Computing Resources Administration", 'major': 2}},
 }
 
 base = [roles, majors, degrees, courses]
@@ -150,8 +152,8 @@ def PopulateBase(db, cur):
         cur.execute(sql, data)
     db.commit()
     for k, v in courses.items():
-        sql = """INSERT INTO Courses (`course_name`) Values(?)"""
-        data = [k,]
+        sql = """INSERT INTO Courses (`course_name`, `major_id`, `course_level`) Values(?, ?, ?)"""
+        data = [k,v['course']['major'], v['course']['name']]
         cur.execute(sql, data)
     db.commit()
 

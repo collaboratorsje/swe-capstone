@@ -17,17 +17,18 @@
             <div class="navbar navbar-nav mr-auto">
                 <ul class="nav nav-pills">
                     {{ render_nav_item('main.Home', 'Home') }}
-                    {{ render_nav_item('main.JobsPage', 'Jobs') }}
                     {{ render_nav_item('main.ApplicationsPage', 'My Applications') }}
-                    {{ render_nav_item('main.AdminPage', 'Administration') }}
+                    {% if current_user.is_authenticated %}
+                        {{ render_nav_item('main.JobsPage', 'Jobs') }}
+                        {{ render_nav_item('main.AdminPage', 'Administration') }}
+                    {% endif %}
                 </ul>    
             </div>
             <div class="navbar navbar-nav ml-auto">
                 <ul class="nav nav-pills">
                     <!-- If if authentificated login else account-->
                     {% if current_user.is_authenticated %}
-                        {{ current_user }}
-                        {{ render_nav_item('main.AccountPage','My Account')}}
+                        {{ render_nav_item('main.AccountPage', current_user)}}
                         {{ render_nav_item('main.Logout', 'Logout')}}
                     {% else %}
                         {{ render_nav_item('form.LoginPage', 'Login') }}

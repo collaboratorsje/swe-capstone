@@ -42,17 +42,32 @@ CREATE TABLE IF NOT EXISTS Users(
 
 CREATE TABLE IF NOT EXISTS Courses(
     `course_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-    `course_name` VARCHAR(25) NOT NULL
+    `course_name` VARCHAR(50) NOT NULL,
+    `course_level` VARCHAR(25) NOT NULL,
+    `major_id` INTEGER NOT NULL,
+    FOREIGN KEY (`major_id`)
+        REFERENCES Majors (`major_id`)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION
 );
 
 CREATE TABLE IF NOT EXISTS Jobs(
     `job_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-    `job_name` VARCHAR(25) NOT NULL,
-    `course_required` INTEGER,
+    `role_id` INTEGER NOT NULL,
+    `course_required` INTEGER NOT NULL,
+    `user_id` INTEGER NOT NULL,
     `certification_required` BOOL NOT NULL, 
     `status` BOOL NOT NULL,
     FOREIGN KEY (`course_required`)
         REFERENCES Courses (`course_id`)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION,
+    FOREIGN KEY (`role_id`)
+        REFERENCES Roles (`role_id`)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION,
+    FOREIGN KEY (`user_id`)
+        REFERENCES Users (`user_id`)
             ON DELETE NO ACTION
             ON UPDATE NO ACTION
 );

@@ -38,11 +38,15 @@ class LoginForm(FlaskForm):
 
 class JobForm(FlaskForm):
     with app.app_context():
-        resc = db.session.execute(db.select(Courses.course_id, Courses.course_name)).all()
-    courses = [(r[0], r[1]) for r in resc]
+        resc = db.session.execute(db.select(Courses.course_id, Courses.course_name, Courses.course_level)).all()
+        resr = db.session.execute(db.select(Roles.role_id, Roles.role_name).where(Roles.role_id > 2).where(Roles.role_id < 5)).all()
+    courses = [(r[0], f"{r[1]} - {r[2]}") for r in resc]
     courses.insert(0, ("", "---"))
-    job_id = IntegerField("Job ID", validators=[DataRequired()])
-    job_name = StringField("Job Name", validators=[DataRequired()])
+    roles = [(r[0], r[1]) for r in resr]
+    roles.insert(0, ("", "---"))
+    #job_id = IntegerField("Job ID", validators=[DataRequired()])
+    #job_name = StringField("Job Name", validators=[DataRequired()])
+    role = SelectField("Job Role", coerce=str, choices=roles, validators=[DataRequired()])
     course_required = SelectField("Course Required", coerce=str, choices=courses, validators=[DataRequired()])
     certification_required = BooleanField("Certification Y/N")
     # populate courses from db for course required field
