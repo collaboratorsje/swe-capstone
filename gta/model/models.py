@@ -41,14 +41,17 @@ class Courses(db.Model):
     __tablename__ = "Courses"
     course_id = db.Column(db.Integer, primary_key=True)
     course_name = db.Column(db.String(25), nullable=False)
+    course_level = db.Column(db.String(50), nullable=False)
+    major_id = db.Column(db.Integer, db.ForeignKey("Majors.major_id"))
 
 class Jobs(db.Model):
     __tablename__ = "Jobs"
-    job_id = db.Column(db.Integer, primary_key=True)
-    job_name = db.Column(db.String(25), nullable=False)
+    job_id = db.Column(db.Integer,autoincrement=True, primary_key=True )
+    role_id = db.Column(db.Integer, db.ForeignKey("Roles.role_id"))
     course_required = db.Column(db.Integer, db.ForeignKey("Courses.course_id"))
     certification_required = db.Column(db.Boolean, nullable=False)
     status = db.Column(db.Boolean, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("Users.user_id"))
 
 class Certifications(db.Model):
     cert_id = db.Column(db.Integer, primary_key=True)
