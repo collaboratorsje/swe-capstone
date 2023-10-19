@@ -19,7 +19,7 @@ def Logout():
 @mbp.route('/')
 def Home():
     with app.app_context():
-        resj = db.session.execute(db.select(Courses.course_name, Jobs.certification_required, Roles.role_name).where(Jobs.role_id == Roles.role_id).where(Jobs.course_required == Courses.course_id)).all()
+        resj = db.session.execute(db.select(Courses.course_name, Jobs.certification_required, Roles.role_name, Courses.course_level).where(Jobs.role_id == Roles.role_id).where(Jobs.course_required == Courses.course_id)).all()
     jobs = [r for r in resj]    
     return render_template("index.html", jobs=jobs)
 
