@@ -45,3 +45,37 @@
     background-color: var(--dark-blue);
     
 }
+
+.my-navbar {
+    background-color: var(--light-blue);
+    color: var(--dark-blue);
+}
+
+.nav-pills .nav-link {
+    background-color: var(--dark-blue);
+    color: var(--white);
+}
+
+.nav-pills .nav-link:hover {
+    background-color: var(--hover-blue);
+}
+
+.nav-pills .nav-link.active {
+    background-color: var(--yellow);
+    color: rgb(217, 0, 255);
+}
+
+.apply-btn {
+    background-color: var(--yellow);  
+    border: none;
+}
+
+.apply-btn:hover {
+    background-color: var(--dark-blue); 
+    color: var(--white);
+}
+
+.badge-primary {
+    background-color: var(--dark-blue);
+    color: var(--white);            
+}
