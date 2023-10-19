@@ -2,8 +2,16 @@
 {% block content %}
 
 <!-- Code Here-->
-<h2>GTA</h2>
-{% for j in jobs %}
-    <h4>{{ j[0], j[2], j[1] }}</h4>
-{% endfor %}
+<h2>Job Listings</h2>
+<ul class="list-group">
+    {% for j in jobs %}
+        <li class="list-group-item">
+            <h5>{{ j[0] }} <span class="badge badge-secondary">{{ j[2] }}</span></h5>  <!-- Assuming j[0] is the job title and j[2] is the role name -->
+            <p>{{ j[1] }}</p>  <!-- Assuming j[1] is the certification or some description -->
+            <a href="#" class="btn btn-primary">Apply Blake</a>
+        </li>
+    {% endfor %}
+</ul>
+
+
 {% endblock %}
