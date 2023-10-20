@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, flash, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
-from flask_login import login_user
+from flask_login import login_user, login_required
 from gta.extensions import db
 from gta.form import bp as fbp
 from gta.form.forms import LoginForm, RegisterForm, JobForm
@@ -58,6 +58,7 @@ def RegisterPage():
         return redirect(url_for("form.LoginPage"))
     return render_template("register.html", form=form)
 
+@login_required
 @fbp.route('/createjob', methods=['POST', 'GET'])
 def CreateJobPage():
     form = JobForm()
@@ -86,3 +87,14 @@ def CreateJobPage():
             return redirect(url_for("form.CreateJobPage"))
         return redirect(url_for("main.JobsPage"))
     return render_template("createjob.html", form=form)
+
+@login_required
+@fbp.route('/apply')
+def Apply():
+    #form = ApplyForm()
+    print("in Apply")
+@login_required
+@fbp.route('/myaccount', methods=['POST', 'GET'])
+def MyAccount():
+    form = RegisterForm()
+    user = db.session.execute(db.Select(Users.user_id).where(session['_current_user'] == Users)).all()

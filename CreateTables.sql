@@ -58,6 +58,8 @@ CREATE TABLE IF NOT EXISTS Jobs(
     `user_id` INTEGER NOT NULL,
     `certification_required` BOOL NOT NULL, 
     `status` BOOL NOT NULL,
+    `description` VARCHAR(250),
+    `phone` INTEGER,
     FOREIGN KEY (`course_required`)
         REFERENCES Courses (`course_id`)
             ON DELETE NO ACTION
@@ -102,12 +104,19 @@ CREATE TABLE IF NOT EXISTS Applications(
     `course_id` INTEGER NOT NULL,
     `status` BOOL NOT NULL,
     `editable` BOOL NOT NULL,
+    `job_id` INTEGER NOT NULL,
+    `gta_cert` BINARY,
+    `transcript` BINARY NOT NULL,
     FOREIGN KEY (`user_id`)
         REFERENCES Users (`user_id`)
             ON UPDATE NO ACTION
             ON DELETE NO ACTION,
     FOREIGN KEY (`course_id`)
         REFERENCES Courses (`course_id`)
+            ON UPDATE NO ACTION
+            ON DELETE NO ACTION
+    FOREIGN KEY (`job_id`)
+        REFERENCES Jobs (`job_id`)
             ON UPDATE NO ACTION
             ON DELETE NO ACTION
 );

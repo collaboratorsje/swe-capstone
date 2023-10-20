@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, EmailField, SelectField, DecimalField, SubmitField, PasswordField, HiddenField, BooleanField
+from wtforms import StringField, IntegerField, EmailField, SelectField, DecimalField, SubmitField, PasswordField, HiddenField, BooleanField, FileField
 from wtforms.validators import DataRequired
 from gta.extensions import db
 from gta.model.models import Roles, Majors, Degrees, Courses
@@ -52,3 +52,7 @@ class JobForm(FlaskForm):
     # populate courses from db for course required field
     submit = SubmitField()
 
+class ApplyForm(RegisterForm):
+    RegisterForm
+    gta_cert = FileField()
+    transcipt = FileField(validators=[DataRequired()])

@@ -19,7 +19,6 @@
                     {{ render_nav_item('main.Home', 'Home') }}
                     {{ render_nav_item('main.ApplicationsPage', 'My Applications') }}
                     {% if current_user.is_authenticated %}
-                        {{ render_nav_item('main.JobsPage', 'Jobs') }}
                         {{ render_nav_item('main.AdminPage', 'Administration') }}
                     {% endif %}
                 </ul>    
