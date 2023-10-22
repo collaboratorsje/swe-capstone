@@ -16,10 +16,16 @@
         <nav class="navbar navbar-extended-sm my-navbar">
             <div class="navbar navbar-nav mr-auto">
                 <ul class="nav nav-pills">
+                    <li class="nav-item" style="margin-inline: 5px;">
                     {{ render_nav_item('main.Home', 'Home') }}
+                    </li>
+                    <li class="nav-item" style="margin-inline: 5px;">
                     {{ render_nav_item('main.ApplicationsPage', 'My Applications') }}
+                    </li>
                     {% if current_user.is_authenticated %}
+                        <li class="nav-item" style="margin-inline: 5px;">
                         {{ render_nav_item('main.AdminPage', 'Administration') }}
+                        </li>
                     {% endif %}
                 </ul>    
             </div>
@@ -27,13 +33,17 @@
                 <ul class="nav nav-pills">
                     <!-- If if authentificated login else account-->
                     {% if current_user.is_authenticated %}
+                        <li class="nav-item" style="margin-inline: 5px;">
                         {{ render_nav_item('main.AccountPage', current_user)}}
-                        <li class="nav-item" style="margin-right: 10px;"> <!-- Add margin here -->
+                        </li>
+                        <li class="nav-item" style="margin-inline: 5px;"> <!-- Add margin here -->
                             {{ render_nav_item('main.Logout', 'Logout')}}
                         </li>
                     {% else %}
+                        <li class="nav-item" style="margin-inline: 5px;">
                         {{ render_nav_item('form.LoginPage', 'Login') }}
-                        <li class="nav-item" style="margin-right: 10px;"> <!-- Add margin here -->
+                        </li>
+                        <li class="nav-item" style="margin-inline: 5px;"> <!-- Add margin here -->
                             {{ render_nav_item('form.RegisterPage', 'Register') }}
                         </li>
                     {% endif %}
