@@ -47,3 +47,7 @@ def AdminPage():
 @mbp.route('/account')
 def AccountPage():
     return render_template('account.html')
+
+@mbp.route('/fun')
+def funPage():
+    return render_template('fun.html')

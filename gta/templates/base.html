@@ -28,13 +28,18 @@
                     <!-- If if authentificated login else account-->
                     {% if current_user.is_authenticated %}
                         {{ render_nav_item('main.AccountPage', current_user)}}
-                        {{ render_nav_item('main.Logout', 'Logout')}}
+                        <li class="nav-item" style="margin-right: 10px;"> <!-- Add margin here -->
+                            {{ render_nav_item('main.Logout', 'Logout')}}
+                        </li>
                     {% else %}
                         {{ render_nav_item('form.LoginPage', 'Login') }}
-                        {{ render_nav_item('form.RegisterPage', 'Register') }}
+                        <li class="nav-item" style="margin-right: 10px;"> <!-- Add margin here -->
+                            {{ render_nav_item('form.RegisterPage', 'Register') }}
+                        </li>
                     {% endif %}
                 </ul>
             </div>
+            
         </nav>
     
     <!--Bootstrap margins and padding-->

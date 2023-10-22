@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Starfield Animation</h1>
+    
+    <div id="starfield"></div>
+
+    <style>
+        /* Style the container for the starfield */
+        #starfield {
+            width: 100%;
+            height: 100vh;
+            background-color: black;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Style the individual stars */
+        .star {
+            position: absolute;
+            background-color: white;
+            width: 2px;
+            height: 2px;
+            animation: twinkle 5s linear infinite, move 20s linear infinite;
+        }
+
+        /* Define animations for twinkling and movement */
+        @keyframes twinkle {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes move {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(100vh); }
+        }
+    </style>
+
+    <script>
+        // JavaScript to generate random stars and add them to the starfield
+        function createRandomStar() {
+            var star = document.createElement("div");
+            star.className = "star";
+            star.style.left = Math.random() * 100 + "vw";
+            star.style.top = Math.random() * 100 + "vh";
+            document.getElementById("starfield").appendChild(star);
+        }
+
+        // Create a bunch of random stars
+        for (var i = 0; i < 100; i++) {
+            createRandomStar();
+        }
+    </script>
+{% endblock %}
