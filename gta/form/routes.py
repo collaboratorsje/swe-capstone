@@ -35,6 +35,7 @@ def RegisterPage():
         print(res)
         if res is None:
             nu = Users(
+                # add more fields to go with the register form we will update
                 user_id=form.user_id.data,
                 user_fname=form.user_fname.data,
                 user_lname=form.user_lname.data,
