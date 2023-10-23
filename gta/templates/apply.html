@@ -2,12 +2,9 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<!-- Code Here-->
-<h2>Create Account</h2>
-<form method="POST" action="/register">
-    <!-- {{ render_form(form) }} -->
+<h2>{{ job.course_name }} - {{ job.course_level }} <span class="badge badge-primary">{{ job.role }}</span></h2>
 
-    <!-- https://bootstrap-flask.readthedocs.io/en/stable/macros/ -->
+<form method="POST" enctype="multipart/form-data">
     {{ form.csrf_token() }}
     {{ render_field(form.user_id, class="input-width") }}
     {{ render_field(form.user_fname, class="input-width") }}
@@ -17,7 +14,8 @@
     {{ render_field(form.user_degree, class="input-width") }}
     {{ render_field(form.user_gpa, class="input-width") }}
     {{ render_field(form.user_hours, class="input-width") }}
-    {{ render_field(form.user_pass, class="input-width") }}
-    {{ render_field(form.user_confirm_pass, class="input-width") }}
+    {{ render_field(form.gta_cert, class="input-width") }}
+    {{ render_field(form.transcript, class="input-width") }}
     {{ render_field(form.submit, class="submit-button") }}
+</form>
 {% endblock %}

@@ -11,6 +11,21 @@
     width: 50%;
 }
 
+.input-width-req{
+    width: 50%;
+}
+
+.form-label
+{
+    width: 10%;
+}
+.required .form-label::after
+{
+    color: red;
+    content: "*";
+    padding-left: 1%;
+}
+
 .bg-light-blue{
     background-color: var(--light-blue);
 }

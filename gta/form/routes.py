@@ -1,10 +1,11 @@
 from flask import render_template, redirect, url_for, flash, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import login_user, login_required
-from gta.extensions import db
+from gta.extensions import db, DBUser, DBJob
+from flask import current_app as app
 from gta.form import bp as fbp
-from gta.form.forms import LoginForm, RegisterForm, JobForm
-from gta.model.models import Users, Jobs
+from gta.form.forms import LoginForm, RegisterForm, JobForm, ApplyForm
+from gta.model.models import Users, Jobs, Majors, Degrees, Roles, Courses, Applications
 
 @fbp.route('/login', methods=['POST', 'GET'])
 def LoginPage():
@@ -40,9 +41,11 @@ def RegisterPage():
                 user_fname=form.user_fname.data,
                 user_lname=form.user_lname.data,
                 user_email=form.user_email.data,
-                role=form.user_role.data,
+                role=2,
                 major=form.user_major.data,
                 degree=form.user_degree.data,
+                gpa = form.user_gpa.data,
+                hours = form.user_hours,
                 user_pass=generate_password_hash(form.user_pass.data, method='sha256')
             )
             print(nu)
@@ -90,12 +93,43 @@ def CreateJobPage():
     return render_template("createjob.html", form=form)
 
 @login_required
-@fbp.route('/apply')
-def Apply():
-    #form = ApplyForm()
-    print("in Apply")
+@fbp.route('/apply/<job_id>', methods=['POST', 'GET'])
+def Apply(job_id):
+    u = db.session.execute(db.Select(Users.user_id, Users.user_fname, Users.user_lname, Users.user_email, Users.major, Majors.major_name, Users.degree, Degrees.degree_name, Users.gpa, Users.hours).where(session['_user_id'] == Users.user_id).where(Users.major == Majors.major_id).where(Users.degree == Degrees.degree_id)).first()
+    user = DBUser(u)
+    j = db.session.execute(db.Select(Jobs.job_id, Roles.role_name, Jobs.course_required, Courses.course_name, Courses.course_level, Jobs.certification_required, Jobs.status).where(Jobs.job_id == job_id).where(Jobs.role_id == Roles.role_id).where(Jobs.course_required == Courses.course_id)).first()
+    print(j)
+    job = DBJob(j)
+    form = ApplyForm()
+    form.user_id.data = user.user_id
+    form.user_fname.data = user.user_fname
+    form.user_lname.data = user.user_lname
+    form.user_email.data = user.user_email
+    form.user_major.data = user.major_id
+    form.user_degree.data = user.degree_id
+    form.user_gpa.data = user.user_gpa
+    form.user_hours.data = user.user_hours 
+    if form.validate_on_submit and request.method == 'POST':
+        apl = Applications(
+            user_id=user.user_id,
+            course_id = job.course_id,
+            status = job.status,
+            editable=False,
+            gta_cert = form.gta_cert.data.read(),
+            transcript=form.transcript.data.read(),
+            job_id=job.job_id
+        )
+        try:
+            db.session.add(apl)
+            db.session.commit()
+        except Exception as e:
+            print(f"Failed to Access database: { e }")
+            db.session.rollback()
+        return redirect(url_for('main.Home'))
+    return render_template("apply.html", form=form, job=job)
+    
 @login_required
 @fbp.route('/myaccount', methods=['POST', 'GET'])
 def MyAccount():
     form = RegisterForm()
-    user = db.session.execute(db.Select(Users.user_id).where(session['_current_user'] == Users)).all()
+    u = db.session.execute(db.Select(Users.user_id, Users.user_fname, Users.user_lname, Users.user_email, Majors.major_name, Degrees.degree_name, Users.gpa, Users.hours).where(session['_user_id'] == Users.user_id).where(Users.major == Majors.major_id).where(Users.degree == Degrees.degree_id)).first()

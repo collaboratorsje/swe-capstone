@@ -71,3 +71,4 @@ class Applications(db.Model):
     editable = db.Column(db.Boolean, nullable=False)
     gta_cert = db.Column(db.BLOB)
     transcript = db.Column(db.BLOB, nullable=False)
+    job_id = db.Column(db.Integer, db.ForeignKey("Jobs.job_id"))
