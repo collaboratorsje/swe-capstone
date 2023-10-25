@@ -28,6 +28,7 @@ class RegisterForm(FlaskForm):
     user_hours = DecimalField("Hours", places=2)
     user_pass = PasswordField(validators=[DataRequired()])
     user_confirm_pass = PasswordField(validators=[DataRequired()])
+    ucourses = HiddenField()
     submit = SubmitField()
 
 class LoginForm(FlaskForm):
@@ -57,3 +58,13 @@ class ApplyForm(RegisterForm):
     user_confirm_pass = None
     gta_cert = FileField("GTA Certification")
     transcript = FileField("Transcript",validators=[DataRequired()])
+
+class AddUserCourseForm(FlaskForm):
+    with app.app_context():
+        resc = db.session.execute(db.select(Courses.course_id, Courses.course_name, Courses.course_level)).all()
+    courses = [(r[0], f"{r[1]} - {r[2]}") for r in resc]
+    courses.insert(0, ("", "---"))
+    course_id = SelectField("Course", coerce=str, choices=courses, validators=[DataRequired()])
+    grade = DecimalField("Grade Achieved (%)", validators=[DataRequired()])
+    ucourses = HiddenField()
+    submit = SubmitField()

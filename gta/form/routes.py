@@ -1,11 +1,11 @@
-from flask import render_template, redirect, url_for, flash, request, session
+from flask import render_template, redirect, url_for, flash, request, session, jsonify
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import login_user, login_required
-from gta.extensions import db, DBUser, DBJob
+from gta.extensions import db, DBUser, DBJob, CourseScore
 from flask import current_app as app
 from gta.form import bp as fbp
-from gta.form.forms import LoginForm, RegisterForm, JobForm, ApplyForm
-from gta.model.models import Users, Jobs, Majors, Degrees, Roles, Courses, Applications
+from gta.form.forms import LoginForm, RegisterForm, JobForm, ApplyForm, AddUserCourseForm
+from gta.model.models import Users, Jobs, Majors, Degrees, Roles, Courses, Applications, UserCourses
 
 @fbp.route('/login', methods=['POST', 'GET'])
 def LoginPage():
@@ -30,11 +30,12 @@ def LoginPage():
 @fbp.route('/register', methods=['POST', 'GET'])
 def RegisterPage():
     form = RegisterForm()
+    uform = AddUserCourseForm()
     if form.validate_on_submit and request.method == 'POST':
         print("In Validate", form.user_id.data)
         res = db.session.execute(db.select(Users.user_id).where(Users.user_id==int(form.user_id.data))).first()
-        print(res)
         if res is None:
+            courses = []
             nu = Users(
                 # add more fields to go with the register form we will update
                 user_id=form.user_id.data,
@@ -45,22 +46,61 @@ def RegisterPage():
                 major=form.user_major.data,
                 degree=form.user_degree.data,
                 gpa = form.user_gpa.data,
-                hours = form.user_hours,
+                hours = form.user_hours.data,
                 user_pass=generate_password_hash(form.user_pass.data, method='sha256')
             )
             print(nu)
-            db.session.add(nu)
+            ucourses = uform.ucourses.data
+            ucourses = uform.ucourses.data.split("-")
+            for u in ucourses:
+                if u == '':
+                    ucourses.remove(u)
+                else:
+                    cs = u.split(",")
+                    uc = UserCourses(
+                        user_id = form.user_id.data,
+                        course_id = cs[0],
+                        grade = cs[1]
+                    )
+                    print(uc)
+                    courses.append(uc)
             try:
+                db.session.add(nu)
+                [db.session.add(course) for course in courses]
                 db.session.commit()
                 print("Inserted")
-            except:
-                print("Error Writing to DB")
+            except Exception as e:
+                print(e, "Error Writing to DB")
                 db.session.rollback()
+            finally:
+                ucourses.clear()
         else:
             print("User Exists")
             return redirect(url_for("form.RegisterPage"))
         return redirect(url_for("form.LoginPage"))
-    return render_template("register.html", form=form)
+
+    return render_template("register.html", form=form, courseform=uform, ucourses=None)
+
+@fbp.route('/adducourse', methods=['POST', 'GET'])
+def AddCourses():
+    uform = AddUserCourseForm()
+    courses = []
+    if request.method == 'POST' and uform.validate_on_submit():
+        print(uform.ucourses.data)
+        ucourses = uform.ucourses.data.split("-")
+        for u in ucourses:
+            if u == '':
+                ucourses.remove(u)
+            else:
+                cs = u.split(",")
+                c = {
+                    "course_id": int(cs[0]),
+                    "course": uform.course_id.choices[int(cs[0])][1],
+                    "grade": int(cs[1])
+                }
+                courses.append(c)
+        jsonify(print(courses))
+        return jsonify(courses.pop())
 
 @login_required
 @fbp.route('/createjob', methods=['POST', 'GET'])
@@ -101,14 +141,15 @@ def Apply(job_id):
     print(j)
     job = DBJob(j)
     form = ApplyForm()
-    form.user_id.data = user.user_id
-    form.user_fname.data = user.user_fname
-    form.user_lname.data = user.user_lname
-    form.user_email.data = user.user_email
-    form.user_major.data = user.major_id
-    form.user_degree.data = user.degree_id
-    form.user_gpa.data = user.user_gpa
-    form.user_hours.data = user.user_hours 
+    form.user_id.default = user.user_id
+    form.user_fname.default = user.user_fname
+    form.user_lname.default = user.user_lname
+    form.user_email.default = user.user_email
+    form.user_major.default = user.major_id
+    form.user_degree.default = user.degree_id
+    form.user_gpa.default = user.user_gpa
+    form.user_hours.default = user.user_hours 
+    form.process()
     if form.validate_on_submit and request.method == 'POST':
         apl = Applications(
             user_id=user.user_id,

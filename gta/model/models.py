@@ -58,6 +58,7 @@ class Certifications(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("Users.user_id"))
 
 class UserCourses(db.Model):
+    __tablename__ = "UserCourses"
     uc_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("Users.user_id"))
     course_id = db.Column(db.Integer, db.ForeignKey("Courses.course_id"))

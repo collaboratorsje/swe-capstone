@@ -4,20 +4,92 @@
 
 <!-- Code Here-->
 <h2>Create Account</h2>
-<form method="POST" action="/register">
-    <!-- {{ render_form(form) }} -->
+<div class="flex-container">
+    <div class="flex-child user-data">
+        <h3>User Data</h3>
+        <form method="POST" id="mform" action="/register">
+            <!-- {{ render_form(form) }} -->
+            <!-- https://bootstrap-flask.readthedocs.io/en/stable/macros/ -->
+            {{ form.csrf_token() }}
+            {{ render_field(form.user_id, class="input-width") }}
+            {{ render_field(form.user_fname, class="input-width") }}
+            {{ render_field(form.user_lname, class="input-width") }}
+            {{ render_field(form.user_email, class="input-width") }}
+            {{ render_field(form.user_major, class="input-width") }}
+            {{ render_field(form.user_degree, class="input-width") }}
+            {{ render_field(form.user_gpa, class="input-width") }}
+            {{ render_field(form.user_hours, class="input-width") }}
+            {{ render_field(form.user_pass, class="input-width") }}
+            {{ render_field(form.user_confirm_pass, class="input-width") }}
+            {{ render_field(form.ucourses) }}
+            {{ render_field(form.submit, class="submit-button") }}
+        </form>
+    </div>
+    <div class="flex-child course-data">
+        <h3>Course Data</h3>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCourseForm">Add Course</button>
+        <br><br>
+        <div id="course-posts">
+        </div>
+        <div class="modal fade" id="addCourseForm" tabindex="-1"aria-labelledby="addModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-tital" id="addModalLabel">Add Course</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" onsubmit="return false;" id="uform">
+                            {{ courseform.csrf_token() }}
+                            {{ render_field(courseform.course_id) }}
+                            {{ render_field(courseform.grade) }}
+                            {{ render_field(courseform.submit, id="courseSubmit") }}
+                            {{ render_field(courseform.ucourses)}}
+                            <!--<input type="hidden" id="ucourseshid" value="{{ ucourses }}"> -->
+                            <script>
+                                let form = document.getElementById("uform");
+                                let hid = document.getElementById("ucourses");
+                                let sub = document.getElementById("courseSubmit");
+                                let mainform = document.getElementById("mform");
+                                var courses = document.getElementById("course-posts");
+                                sub.addEventListener("click", function () {
+                                    //console.log(form)
+                                    console.log(form["course_id"].value, form["grade"].value);
+                                    if (form["ucourses"].value === null || form["ucourses"].value === undefined || form["ucourses"].value === "")
+                                    {
+                                        form["ucourses"].value = form["course_id"].value+","+form["grade"].value+"-";
+                                        mainform["ucourses"].value = form["course_id"].value+","+form["grade"].value+"-";
+                                    }
+                                    else
+                                    {
+                                        form["ucourses"].value = form["ucourses"].value+form["course_id"].value+","+form["grade"].value+"-";
+                                        mainform["ucourses"].value = form["ucourses"].value+form["course_id"].value+","+form["grade"].value+"-";
+                                    };
+                                    let data = new FormData(form);
+                                    console.log(hid);
+                                    console.log(data);
+                                //data = '{{ courseform.data|tojson }}';
+                                    //console.log(data)
+                                    fetch('/adducourse', {
+                                        method: "POST",
+                                        body: data
+                                    }).then(
+                                        response => response.json()
+                                    ).then(
+                                        response => { const NewE = Object.assign(document.createElement('div'),
+                                            {innerHTML: response["course"]+" "+response["grade"]+"%\n<button id='remove-course-"+response["course_id"]+"' class='btn btn-remove-course btn-primary'>Remove</button>",
+                                             className: "course-post",
+                                             id: "course-post-"+response["course_id"]
+                                            });
+                                            courses.appendChild(NewE);
+                                            alert("Added Course")});
+                                });
 
-    <!-- https://bootstrap-flask.readthedocs.io/en/stable/macros/ -->
-    {{ form.csrf_token() }}
-    {{ render_field(form.user_id, class="input-width") }}
-    {{ render_field(form.user_fname, class="input-width") }}
-    {{ render_field(form.user_lname, class="input-width") }}
-    {{ render_field(form.user_email, class="input-width") }}
-    {{ render_field(form.user_major, class="input-width") }}
-    {{ render_field(form.user_degree, class="input-width") }}
-    {{ render_field(form.user_gpa, class="input-width") }}
-    {{ render_field(form.user_hours, class="input-width") }}
-    {{ render_field(form.user_pass, class="input-width") }}
-    {{ render_field(form.user_confirm_pass, class="input-width") }}
-    {{ render_field(form.submit, class="submit-button") }}
+                            </script>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
 {% endblock %}

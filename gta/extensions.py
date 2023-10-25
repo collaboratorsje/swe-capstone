@@ -28,3 +28,11 @@ class DBJob:
         self.course_level = j[4]
         self.cert = j[5]
         self.status = j[6]
+
+class CourseScore:
+    def __init__(self, c: tuple):
+        self.course_id = c[0]
+        self.grade = c[1]
+    
+    def __repr__(self):
+        return f"<{self.course_id}, {self.grade}>"

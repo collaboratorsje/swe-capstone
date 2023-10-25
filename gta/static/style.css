@@ -94,3 +94,30 @@
     background-color: var(--dark-blue);
     color: var(--white);            
 }
+
+.flex-container {
+    display: flex;
+}
+
+.flex-child {
+    flex: 1;
+    margin: 1%;
+}
+
+.flex-child:first-child {
+    margin-right: 1%;
+}
+
+.course-post {
+    border: solid var(--light-blue);
+    border-radius: 5%;
+    margin: 2%;
+    padding: 1%;
+    display: block;
+    padding-bottom: 3%;
+}
+
+.btn-remove-course {
+    float: right;
+    align-self: center;
+}
