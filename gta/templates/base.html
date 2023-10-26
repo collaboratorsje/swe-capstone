@@ -19,13 +19,15 @@
                     <li class="nav-item" style="margin-inline: 5px;">
                     {{ render_nav_item('main.Home', 'Home') }}
                     </li>
-                    <li class="nav-item" style="margin-inline: 5px;">
-                    {{ render_nav_item('main.ApplicationsPage', 'My Applications') }}
-                    </li>
                     {% if current_user.is_authenticated %}
                         <li class="nav-item" style="margin-inline: 5px;">
-                        {{ render_nav_item('main.AdminPage', 'Administration') }}
+                        {{ render_nav_item('main.ApplicationsPage', 'My Applications') }}
                         </li>
+                        {% if current_user.role == 5%}
+                            <li class="nav-item" style="margin-inline: 5px;">
+                            {{ render_nav_item('main.AdminPage', 'Administration') }}
+                            </li>
+                        {% endif %}
                     {% endif %}
                 </ul>    
             </div>

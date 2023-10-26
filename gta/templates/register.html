@@ -52,18 +52,19 @@
                                 let sub = document.getElementById("courseSubmit");
                                 let mainform = document.getElementById("mform");
                                 var courses = document.getElementById("course-posts");
+                                var classes = document.getElementsByClassName("btn-remove-course")
                                 sub.addEventListener("click", function () {
                                     //console.log(form)
                                     console.log(form["course_id"].value, form["grade"].value);
                                     if (form["ucourses"].value === null || form["ucourses"].value === undefined || form["ucourses"].value === "")
                                     {
-                                        form["ucourses"].value = form["course_id"].value+","+form["grade"].value+"-";
-                                        mainform["ucourses"].value = form["course_id"].value+","+form["grade"].value+"-";
+                                        form["ucourses"].value = form["course_id"].value+","+form["grade"].value+"|";
+                                        mainform["ucourses"].value = form["course_id"].value+","+form["grade"].value+"|";
                                     }
                                     else
                                     {
-                                        form["ucourses"].value = form["ucourses"].value+form["course_id"].value+","+form["grade"].value+"-";
-                                        mainform["ucourses"].value = form["ucourses"].value+form["course_id"].value+","+form["grade"].value+"-";
+                                        form["ucourses"].value = form["ucourses"].value+form["course_id"].value+","+form["grade"].value+"|";
+                                        mainform["ucourses"].value = form["ucourses"].value+form["course_id"].value+","+form["grade"].value+"|";
                                     };
                                     let data = new FormData(form);
                                     console.log(hid);
@@ -77,7 +78,7 @@
                                         response => response.json()
                                     ).then(
                                         response => { const NewE = Object.assign(document.createElement('div'),
-                                            {innerHTML: response["course"]+" "+response["grade"]+"%\n<button id='remove-course-"+response["course_id"]+"' class='btn btn-remove-course btn-primary'>Remove</button>",
+                                            {innerHTML: "Course: "+response["course"]+" Grade: "+response["grade"]+"<button id='remove-course-"+response["course_id"]+"' class='btn btn-remove-course btn-primary'>Remove</button>",
                                              className: "course-post",
                                              id: "course-post-"+response["course_id"]
                                             });

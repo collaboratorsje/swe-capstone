@@ -1,9 +1,10 @@
 import argparse
 import sqlite3
 import os
+from datetime import datetime
 
-
-dbfile = os.path.join(os.getcwd(), "instance", "database.db")
+cw = os.path.join(os.getcwd(), "instance")
+dbfile = os.path.join(cw, "database.db")
 tablefile = "CreateTables.sql"
 
 def Connection():
@@ -25,6 +26,19 @@ def Connection():
         except Exception as e:
             print(f"{e}: Error creating database file")
 
+def OldConnection(olddb):
+    """
+    Old Connection object to the database file.
+
+    Trys to open database file
+    If it fails it trys to create a new database file
+    If it succeeds it creates a cursor object and returns the database connection object and cursor objects
+    """
+    print(olddb)
+    with sqlite3.connect(olddb) as odb:
+        ocur = odb.cursor()
+        return odb, ocur
+    
 def CreateTables(db, cur):
     """
     Takes database connections and cursor object
@@ -44,10 +58,37 @@ def RecreateDBFile():
     """
     print("Recreating DB File")
     if os.path.exists(dbfile):
-        os.replace(dbfile, dbfile + ".bak")
+        print(dbfile)
+        olddb = dbfile.replace(".db", "") + str(datetime.now().strftime("%Y-%m-%d")) + ".db" 
+        os.replace(dbfile, olddb)
         f = open(dbfile, "w").close()
+        return olddb
     else:
         f = open(dbfile, "w").close()
+        return False
+
+def TransferDB(odb, ocur, db, cur):
+    selectsqls = [
+        """SELECT `user_id`, `user_fname`, `user_lname`, `user_email`, `role`, `major`, `degree`, `gpa`, `hours`, `graduating_semseter`, `user_pass` FROM `Users`;""",
+        """SELECT `uc_id`, `user_id`, `course_id`, `grade` FROM `UserCourses`;""",
+        """SELECT `app_id`, `user_id`, `course_id`, `status`, `editable`, `gta_cert`, `transcript`, `job_id` FROM `Applications`;""",
+        """SELECT `cert_id`, `user_id` FROM `Certifications`;""",
+        """SELECT `job_id`, `role_id`, `course_required`, `certification_required`, `status`, `user_id` FROM `Jobs`;""",
+        ]
+    insertsqls = [
+        """INSERT INTO `Users` (`user_id`, `user_fname`, `user_lname`, `user_email`, `role`, `major`, `degree`, `gpa`, `hours`, `graduating_semseter`, `user_pass`) VALUES(?,?,?,?,?,?,?,?,?,?,?);""",
+        """INSERT INTO `UserCourses` (`uc_id`, `user_id`, `course_id`, `grade`) VALUES (?,?,?,?);""",
+        """INSERT INTO `Applications` (`app_id`, `user_id`, `course_id`, `status`, `editable`, `gta_cert`, `transcript`, `job_id`) VALUES (?,?,?,?,?,?,?,?);""",
+        """INSERT INTO 'Certifications' (`cert_id`, `user_id`) VALUES (?,?);""",
+        """INSERT INTO `Jobs` (`job_id`, `role_id`, `course_required`, `certification_required`, `status`, `user_id`) VALUES (?,?,?,?,?,?);""",
+    ]
+    for i in tuple(zip(selectsqls, insertsqls)):
+        ocur.execute(i[0])
+        data = ocur.fetchall()
+        for d in data:
+            cur.execute(i[1], d)
+        db.commit()
+
 
 roles = {
     "None": 1,
@@ -164,15 +205,40 @@ if __name__ == "__main__":
         parser.add_argument("--recreate", action="store_true", help="Recreate database.db file, create tables, and repopulate with default data.")
         parser.add_argument("--createtables", "-c", action="store_true", help="Creates Tables.")
         parser.add_argument("--populatebase", action="store_true", help="Populates base tables with no records added.")
+        parser.add_argument("--transfer", "-t", action="store_true", help="Transfer Data from Backup to Main DB.")
+        parser.add_argument("--all", "-a", action="store_true", help="Runs all options.")
+        parser.add_argument("--ant", action="store_true", help="All without Transfer.")
         return parser
     
     parser = initargp()
     args = parser.parse_args()
-
+    if args.all:
+        old = RecreateDBFile()
+        db, cur = Connection()
+        CreateTables(db, cur)
+        PopulateBase(db, cur)
+        odb, ocur = OldConnection(old)
+        try:
+            TransferDB(odb, ocur, db, cur)
+            odb.close()
+            db.close()
+        except:
+            print("Error on cleanup")
+        finally:
+            os.replace(old, old + ".bak")
+    if args.ant:
+        old = RecreateDBFile()
+        db, cur = Connection()
+        CreateTables(db, cur)
+        PopulateBase(db, cur)       
     if args.recreate:
         RecreateDBFile()
     db, cur = Connection()
+    
     if args.createtables:
         CreateTables(db, cur)
     if args.populatebase:
         PopulateBase(db, cur)
+    if args.transfer:
+        odb, ocur = OldConnection()
+        TransferDB(odb, ocur, db, cur)

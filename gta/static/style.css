@@ -117,6 +117,28 @@
     padding-bottom: 3%;
 }
 
+.job-post {
+    border: solid var(--light-blue);
+    border-radius: 5%;
+    margin: 2%;
+    padding: 1%;
+    display: block;
+    padding-bottom: 3%;
+}
+
+.flex-child .job-post {
+    flex-direction: column;
+}
+.application-post {
+    border: solid var(--light-blue);
+    border-radius: 5%;
+    margin: 2%;
+    padding: 1%;
+    display: block;
+    padding-bottom: 3%;
+}
+
+
 .btn-remove-course {
     float: right;
     align-self: center;

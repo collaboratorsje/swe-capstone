@@ -62,7 +62,7 @@ class UserCourses(db.Model):
     uc_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("Users.user_id"))
     course_id = db.Column(db.Integer, db.ForeignKey("Courses.course_id"))
-    grade = db.Column(db.Numeric(5,2), nullable=False)
+    grade = db.Column(db.String(2), nullable=False)
 
 class Applications(db.Model):
     app_id = db.Column(db.Integer, primary_key=True)
