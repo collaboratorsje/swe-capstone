@@ -49,10 +49,6 @@ def AdminPage():
     apps = [{"user_id": a[0], "course": a[1]+" - "+a[2], "status": a[3], "gta_cert": a[4], "transcript": a[5], "role": a[7], "job_id": a[8]} for a in resa]
     return render_template('admin.html',jobs=jobs, apps=apps)
 
-@mbp.route('/account')
-def AccountPage():
-    return render_template('account.html')
-
 @mbp.route('/profile')
 @login_required
 def ProfilePage():
