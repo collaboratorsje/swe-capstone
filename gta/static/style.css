@@ -121,3 +121,7 @@
     float: right;
     align-self: center;
 }
+
+.list-group-item {
+    width: 65%
+}
