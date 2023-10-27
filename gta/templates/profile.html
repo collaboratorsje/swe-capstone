@@ -1,11 +1,23 @@
 {% extends 'base.html' %}
 {% block content %}
-    <!-- Code Here-->
-    <h2>Your Profile</h2>
+    <h1>Your Profile</h1>
     
-    <div id="starfield"></div>
+    <h3>Current Settings</h3>
 
-    <h2>Profile settings</h2>
+<ul>
+    <li><strong>User ID:</strong> {{ current_user.user_id }}</li>
+    <li><strong>First Name:</strong> {{ current_user.user_fname }}</li>
+    <li><strong>Last Name:</strong> {{ current_user.user_lname }}</li>
+    <li><strong>Email:</strong> {{ current_user.user_email }}</li>
+    <!-- role major and degree need to be fetched from the other table (currently integer is showing)-->
+    <li><strong>Role ID:</strong> {{ current_user.role }}</li>
+    <li><strong>Major ID:</strong> {{ current_user.major }}</li>
+    <li><strong>Degree ID:</strong> {{ current_user.degree }}</li>
+    <li><strong>GPA:</strong> {{ current_user.gpa }}</li>
+    <li><strong>Hours:</strong> {{ current_user.hours }}</li>
+    <!-- For security reasons, it's not a good idea to display the password, even if it's hashed -->
+    <li><strong>Password:</strong> {{ current_user.user_pass }}</li> 
+</ul>
 
     <form action="/update-profile" method="post" class="my-4">
         <!-- Username -->
