@@ -47,7 +47,7 @@ def RegisterPage():
                 degree=form.user_degree.data,
                 gpa = form.user_gpa.data,
                 hours = form.user_hours.data,
-                user_pass=generate_password_hash(form.user_pass.data, method='sha256')
+                user_pass=generate_password_hash(form.user_pass.data, method='scrypt')
             )
             print(nu)
             ucourses = uform.ucourses.data
@@ -87,7 +87,7 @@ def AddCourses():
     courses = []
     if request.method == 'POST' and uform.validate_on_submit():
         print(uform.ucourses.data)
-        ucourses = uform.ucourses.data.split("-")
+        ucourses = uform.ucourses.data.split("|")
         for u in ucourses:
             if u == '':
                 ucourses.remove(u)
@@ -96,7 +96,7 @@ def AddCourses():
                 c = {
                     "course_id": int(cs[0]),
                     "course": uform.course_id.choices[int(cs[0])][1],
-                    "grade": int(cs[1])
+                    "grade": cs[1]
                 }
                 courses.append(c)
         jsonify(print(courses))

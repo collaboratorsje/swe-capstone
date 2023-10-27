@@ -4,6 +4,31 @@
 <!-- Code Here-->
 <h2>Admin</h2>
 
-{{render_nav_item('form.CreateJobPage', 'Create Job')}}
-
+<button class="btn btn-primary">{{render_nav_item('form.CreateJobPage', 'Create Job')}}</button>
+<div class="flex-container">
+    <div class="flex-child">
+        <h3>Jobs</h3>
+        {% for j in jobs%}
+        <div class="job-post">
+            {{ j }}
+            <button class="btn btn-primary">Edit</button>
+            <button class="btn btn-primary">Open/Close</button>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="flex-child">
+        <h3>Applications</h3>
+        {% for a in apps %}
+        <div class="application-post">
+            {{ a['user_id'] }}
+            {{ a['course'] }}
+            <span class="badge badge-primary"> {{ a['role'] }} </span>
+            {{ a['status'] }}
+            {{ a['job_id'] }}
+            <button class="btn btn-primary">Edit</button>
+            <button class="btn btn-primary">Open/Close</button>
+        </div>
+        {% endfor%}
+    </div>
+</div>
 {% endblock %}

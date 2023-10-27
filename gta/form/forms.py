@@ -65,6 +65,22 @@ class AddUserCourseForm(FlaskForm):
     courses = [(r[0], f"{r[1]} - {r[2]}") for r in resc]
     courses.insert(0, ("", "---"))
     course_id = SelectField("Course", coerce=str, choices=courses, validators=[DataRequired()])
-    grade = DecimalField("Grade Achieved (%)", validators=[DataRequired()])
+    grades = [
+            (None, "---"),
+            ("A+", "A+"), 
+            ("A", "A"),
+            ("A-", "A-"),
+            ("B+", "B+"),
+            ("B", "B"),
+            ("B-", "B-"),
+            ("C+", "C+"),
+            ("C", "C"),
+            ("C-", "C-"),
+            ("D+", "D+"),
+            ("D", "D"),
+            ("D-", "D-"),
+            ("F", "F"),
+            ]
+    grade = SelectField("Grade Achieved", coerce=str, choices=grades, validators=[DataRequired()])
     ucourses = HiddenField()
     submit = SubmitField()

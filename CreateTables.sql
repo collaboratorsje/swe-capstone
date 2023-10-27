@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS UserCourses(
     `uc_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     `user_id` INTEGER NOT NULL,
     `course_id` INTEGER NOT NULL,
-    `grade` DECIMAL(5,2) NOT NULL,
+    `grade` VARCHAR(2) NOT NULL,
     FOREIGN KEY (`user_id`)
         REFERENCES Users (`user_id`)
             ON DELETE NO ACTION
