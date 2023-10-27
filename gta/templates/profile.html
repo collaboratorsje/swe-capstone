@@ -4,51 +4,23 @@
     
     <div id="starfield"></div>
 
-    <style>
-        /* Style the container for the starfield */
-        #starfield {
-            width: 100%;
-            height: 100vh;
-            background-color: black;
-            position: relative;
-            overflow: hidden;
-        }
+    <h2>Profile settings</h2>
 
-        /* Style the individual stars */
-        .star {
-            position: absolute;
-            background-color: white;
-            width: 2px;
-            height: 2px;
-            animation: twinkle 5s linear infinite, move 20s linear infinite;
-        }
+    <form action="/update-profile" method="post" class="my-4">
+        <!-- Username -->
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username" name="username" value="{{ current_user.username }}" readonly>
+        </div>
+        
+        <!-- Email -->
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ current_user.email }}">
+        </div>
 
-        /* Define animations for twinkling and movement */
-        @keyframes twinkle {
-            0% { opacity: 1; }
-            50% { opacity: 0; }
-            100% { opacity: 1; }
-        }
+        <!-- Add other settings as required -->
 
-        @keyframes move {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(100vh); }
-        }
-    </style>
-
-    <script>
-        // JavaScript to generate random stars and add them to the starfield
-        function createRandomStar() {
-            var star = document.createElement("div");
-            star.className = "star";
-            star.style.left = Math.random() * 100 + "vw";
-            star.style.top = Math.random() * 100 + "vh";
-            document.getElementById("starfield").appendChild(star);
-        }
-
-        // Create a bunch of random stars
-        for (var i = 0; i < 100; i++) {
-            createRandomStar();
-        }
-    </script>
+        <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+    </form>
 {% endblock %}
