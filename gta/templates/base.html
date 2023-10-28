@@ -36,7 +36,7 @@
                     <!-- If if authentificated login else account-->
                     {% if current_user.is_authenticated %}
                         <li class="nav-item" style="margin-inline: 5px;">
-                        {{ render_nav_item('form.ProfilePage', current_user)}}
+                            {{ render_nav_item('form.ProfilePage', current_user.user_fname ~ ' ' ~ current_user.user_lname) }}
                         </li>
                         <li class="nav-item" style="margin-inline: 5px;"> <!-- Add margin here -->
                             {{ render_nav_item('main.Logout', 'Logout')}}

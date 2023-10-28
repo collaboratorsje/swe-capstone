@@ -145,7 +145,42 @@
 }
 
 .list-group-item {
-    width: 65%
+    /* Width & Spacing */
+    width: 50%;
+    padding: 10px 15px; /* Add more padding for a spacious feel */
+    margin-bottom: 5px;
+
+    /* Background */
+    background-color: #f7f7f7; /* Light gray background */
+
+    /* Borders & Rounded Corners */
+    border: 1px solid var(--hover-blue); /* Add a light border */
+    border-radius: 10px; /* Rounded corners */
+    border-top: 1px solid var(--hover-blue);
+
+    /* Text Styling */
+    font-weight: 500; /* Slightly bolder text */
+    color: #333; /* Dark gray text */
+
+    /* Shadows */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+
+    /* Transition */
+    transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transition for hover effect */
+}
+
+.list-group-item:first-child {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.list-group-item:hover {
+    background-color: #e6e6e6; /* Slightly darker gray when hovered */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Increased shadow on hover */
+}
+
+.list-group {
+    margin-bottom: 10px;
 }
 
 .alert {
