@@ -178,15 +178,20 @@ def ProfilePage():
     # Check for form submission and validation
     if form.validate_on_submit():
         # Update the current_user's attributes with the form data
+
+        if form.user_email.data:
+            user_with_email = Users.query.filter_by(user_email=form.user_email.data).first()
+            if user_with_email and user_with_email.user_id != current_user.user_id:
+                flash('Email is already in use by another account. Please choose a different email.', 'danger')
+                return render_template('profile.html', form=form, courseform=uform)
+            current_user.user_email = form.user_email.data
+
         if form.user_fname.data:
             current_user.user_fname = form.user_fname.data
 
         if form.user_lname.data:
             current_user.user_lname = form.user_lname.data
 
-        if form.user_email.data:
-            current_user.user_email = form.user_email.data
-            
         if form.user_major.data and form.user_major.data != "":
             current_user.major = form.user_major.data
 
@@ -198,9 +203,8 @@ def ProfilePage():
 
         if form.user_hours.data is not None:  # Same reason as above
             current_user.hours = form.user_hours.data
-        # Assuming you're updating the password (and presumably hashed it before saving)
+
         # Password and email changing need addressed
-        # ... Add other field updates here as needed ...
 
         # Commit the changes to the database
         try:

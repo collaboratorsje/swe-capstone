@@ -53,6 +53,19 @@
             </div>
             
         </nav>
+
+            <!-- Flashed Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="container mt-2">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% endwith %}
     
     <!--Bootstrap margins and padding-->
     <main class="m-5 p-5">
