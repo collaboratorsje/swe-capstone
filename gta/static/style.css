@@ -148,3 +148,7 @@
     width: 65%
 }
 
+.alert {
+    transition: opacity 1s; 
+}
+

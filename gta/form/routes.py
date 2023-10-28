@@ -19,12 +19,12 @@ def LoginPage():
     if form.validate_on_submit and request.method == 'POST':
         u = Users.query.filter_by(user_email=form.user_email.data).first()
         print(u)
-        if check_password_hash(u.user_pass, form.user_pass.data):
+        if u and check_password_hash(u.user_pass, form.user_pass.data):
             login_user(u)
             return redirect(request.form['nextpage'])
         else:
-            flash("Incorrect User or Password")
-            return redirect(url_for('LoginPage'))
+            flash("Invalid Email or Password.", 'warning')
+            return redirect(url_for('form.LoginPage'))
     return render_template("login.html", form=form, next=nextp)
 
 @fbp.route('/register', methods=['POST', 'GET'])
