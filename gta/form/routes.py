@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, flash, request, session, jsonify
 from werkzeug.security import check_password_hash, generate_password_hash
-from flask_login import login_user, login_required
+from flask_login import login_user, login_required, current_user
 from gta.extensions import db, DBUser, DBJob, CourseScore
 from flask import current_app as app
 from gta.form import bp as fbp
@@ -174,7 +174,46 @@ def Apply(job_id):
 def ProfilePage():
     form = UpdateProfileForm()
     uform = AddUserCourseForm()
+
+    # Check for form submission and validation
+    if form.validate_on_submit():
+        # Update the current_user's attributes with the form data
+        if form.user_fname.data:
+            current_user.user_fname = form.user_fname.data
+
+        if form.user_lname.data:
+            current_user.user_lname = form.user_lname.data
+
+        if form.user_email.data:
+            current_user.user_email = form.user_email.data
+            
+        if form.user_major.data and form.user_major.data != "":
+            current_user.major = form.user_major.data
+
+        if form.user_degree.data and form.user_degree.data != "":
+            current_user.degree = form.user_degree.data
+
+        if form.user_gpa.data is not None:  # Check for None because 0 is a valid value for GPA
+            current_user.gpa = form.user_gpa.data
+
+        if form.user_hours.data is not None:  # Same reason as above
+            current_user.hours = form.user_hours.data
+        # Assuming you're updating the password (and presumably hashed it before saving)
+        # Password and email changing need addressed
+        # ... Add other field updates here as needed ...
+
+        # Commit the changes to the database
+        try:
+            db.session.commit()
+        except Exception as e:
+            print(f"Failed to Access database: { e }")
+            db.session.rollback()
+        # Give feedback to the user
+        flash('Profile updated successfully!', 'success')
+        return redirect(url_for('form.ProfilePage'))
+
     return render_template('profile.html', form=form, courseform=uform)
+
 
 '''
 @login_required

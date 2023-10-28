@@ -1,6 +1,12 @@
 {% from 'bootstrap5/form.html' import render_form, render_field, render_form_row %}
 {% extends 'base.html' %}
 {% block content %}
+
+
+<div class="alert alert-warning" role="alert">
+    ⚠️ Please be careful. Changes made here will be saved to your profile.
+</div>
+
     <h1>Your Profile</h1>
     
     <h3>Current Settings</h3>
@@ -20,7 +26,7 @@
     <li><strong>Password:</strong> {{ current_user.user_pass }}</li> 
 </ul>
 
-    <form action="/update-profile" method="post" class="my-4">
+    <form action="/profile" method="post" class="my-4">
 
         <div class="flex-child user-data">
             <h3>Change profile settings</h3>

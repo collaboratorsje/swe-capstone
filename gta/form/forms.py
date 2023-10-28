@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, EmailField, SelectField, DecimalField, SubmitField, PasswordField, HiddenField, BooleanField, FileField
-from wtforms.validators import DataRequired, InputRequired
+from wtforms.validators import DataRequired, InputRequired, Optional
 from gta.extensions import db
 from gta.model.models import Roles, Majors, Degrees, Courses
 from flask import current_app as app
@@ -95,14 +95,14 @@ class UpdateProfileForm(FlaskForm):
     degrees = [(r[0], r[1]) for r in resd]
     degrees.insert(0, ("", "---"))
     
-    user_fname = StringField("First Name")  # Removed the DataRequired() validator
-    user_lname = StringField("Last Name")   # Removed the DataRequired() validator
-    user_email = EmailField("Email")        # Removed the DataRequired() validator
-    user_major = SelectField("Major", coerce=str, choices=majors)  # Removed the DataRequired() validator
-    user_degree = SelectField("Degree", coerce=str, choices=degrees)  # Removed the DataRequired() validator
-    user_gpa = DecimalField("GPA", places=2)
-    user_hours = DecimalField("Hours", places=2)
-    user_pass = PasswordField()  # Removed the DataRequired() validator
-    user_confirm_pass = PasswordField()  # Removed the DataRequired() validator
+    user_fname = StringField("First Name")  
+    user_lname = StringField("Last Name")   
+    user_email = EmailField("Email")        
+    user_major = SelectField("Major", coerce=str, choices=majors)  
+    user_degree = SelectField("Degree", coerce=str, choices=degrees)
+    user_gpa = DecimalField("GPA", places=2, validators=[Optional()])
+    user_hours = DecimalField("Hours", places=2, validators=[Optional()])
+    user_pass = PasswordField()  
+    user_confirm_pass = PasswordField()  
     ucourses = HiddenField()
     submit = SubmitField()

@@ -45,7 +45,18 @@ def AdminPage():
     with app.app_context():
         resj = db.session.execute(db.select(Courses.course_name, Courses.course_level, Jobs.certification_required, Roles.role_name).where(Jobs.role_id == Roles.role_id).where(Jobs.course_required == Courses.course_id)).all()
         resa = db.session.execute(db.select(Users.user_id, Courses.course_name, Courses.course_level, Applications.status, Applications.status, Applications.gta_cert, Applications.transcript, Roles.role_name, Jobs.job_id).where(Applications.user_id == Users.user_id).where(Applications.course_id == Courses.course_id).where(Applications.job_id == Jobs.job_id).where(Jobs.role_id == Roles.role_id)).all()
+        all_users = Users.query.all()
+
     jobs = [{"course": r[0]+" - "+r[1], "cert_required": r[2], "role_name": r[3]} for r in resj]
     apps = [{"user_id": a[0], "course": a[1]+" - "+a[2], "status": a[3], "gta_cert": a[4], "transcript": a[5], "role": a[7], "job_id": a[8]} for a in resa]
-    return render_template('admin.html',jobs=jobs, apps=apps)
+    users = [{
+        "user_id": user.user_id,
+        "fname": user.user_fname,
+        "lname": user.user_lname,
+        "email": user.user_email,
+        "role": user.role,
+        "major": user.major,
+        # ... add or remove other attributes as needed
+    } for user in all_users]
+    return render_template('admin.html',jobs=jobs, apps=apps, users=users)
 

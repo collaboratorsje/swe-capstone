@@ -7,7 +7,7 @@ class Users(UserMixin, db.Model):
     user_id = db.Column(db.Integer, primary_key=True)
     user_fname = db.Column(db.String(25), nullable=False)
     user_lname = db.Column(db.String(25), nullable=False)
-    user_email = db.Column(db.String(25), nullable=False)
+    user_email = db.Column(db.String(25), nullable=False, unique=True)
     role = db.Column(db.Integer, db.ForeignKey("Roles.role_id"), nullable=False)
     major = db.Column(db.Integer, db.ForeignKey("Majors.major_id"), nullable=False)
     degree = db.Column(db.Integer, db.ForeignKey("Degrees.degree_id"), nullable=False)

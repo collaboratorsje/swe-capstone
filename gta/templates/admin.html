@@ -31,4 +31,23 @@
         {% endfor%}
     </div>
 </div>
+
+<!-- I added this to see if there were users with the same email before making emails unique true
+this doesn't have to stay but please leave for now for debugging purposes -->
+<div class="flex-container">
+    <div class="flex-child">
+    <h3>Users</h3>
+    {% for u in users %}
+    <div class="application-post">
+        {{ u['user_id'] }}
+        {{ u['fname'] }} {{ u['lname'] }} <!-- Assuming you want to display the name -->
+        {{ u['email'] }}
+        <span class="badge badge-primary">{{ u['role'] }}</span>
+        <!-- You can add other fields like major, degree, etc., similar to the above line -->
+    </div>
+    {% endfor %}
+    </div>
+    <div class="flex-child"></div>
+</div>
+
 {% endblock %}
