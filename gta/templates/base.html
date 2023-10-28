@@ -59,8 +59,9 @@
         {% if messages %}
             <div class="container mt-2">
                 {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}">
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
                         {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 {% endfor %}
             </div>
@@ -68,7 +69,7 @@
         {% endwith %}
     
     <!--Bootstrap margins and padding-->
-    <main class="m-5 p-5">
+    <main class="m-4 p-4">
         {% block content %}
         {% endblock %}
     </main>

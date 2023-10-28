@@ -2,32 +2,112 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="alert alert-warning" role="alert">
-    ⚠️ Please be careful. Changes made here will be saved to your profile.
+<div class="alert alert-warning static-alert mb-4" role="alert">
+    ⚠️ Changes made here will be saved to your profile.
 </div>
 
-    <h1>Your Profile</h1>
-    
-    <h3>Current Settings</h3>
+<h1>Your Profile</h1>
 
-<ul>
-    <li><strong>User ID:</strong> {{ current_user.user_id }}</li>
-    <li><strong>First Name:</strong> {{ current_user.user_fname }}</li>
-    <li><strong>Last Name:</strong> {{ current_user.user_lname }}</li>
-    <li><strong>Email:</strong> {{ current_user.user_email }}</li>
-    <!-- role major and degree need to be fetched from the other table (currently integer is showing)-->
-    <li><strong>Role:</strong> {{ current_user.role_relation.role_name }}</li>
-    <li><strong>Major:</strong> {{ current_user.major_relation.major_name }}</li>
-    <li><strong>Degree:</strong> {{ current_user.degree_relation.degree_name }}</li>    
-    <li><strong>GPA:</strong> {{ current_user.gpa }}</li>
-    <li><strong>Hours:</strong> {{ current_user.hours }}</li>
-    <!-- For security reasons, it's not a good idea to display the password, even if it's hashed -->
-    <li><strong>Password:</strong> {{ current_user.user_pass }}</li> 
-</ul>
+<h3 class="mb-4">Current Settings</h3>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <strong>User ID:</strong>
+            </div>
+            <div class="col-md-8">
+                {{ current_user.user_id }}
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <strong>First Name:</strong>
+            </div>
+            <div class="col-md-8">
+                {{ current_user.user_fname }}
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <strong>Last Name:</strong>
+            </div>
+            <div class="col-md-8">
+                {{ current_user.user_lname }}
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <strong>Email:</strong>
+            </div>
+            <div class="col-md-8">
+                {{ current_user.user_email }}
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <strong>Role:</strong>
+            </div>
+            <div class="col-md-8">
+                {{ current_user.role_relation.role_name }}
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <strong>Major:</strong>
+            </div>
+            <div class="col-md-8">
+                {{ current_user.major_relation.major_name }}
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <strong>Degree:</strong>
+            </div>
+            <div class="col-md-8">
+                {{ current_user.degree_relation.degree_name }}
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <strong>GPA:</strong>
+            </div>
+            <div class="col-md-8">
+                {{ current_user.gpa }}
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <strong>Hours:</strong>
+            </div>
+            <div class="col-md-8">
+                {{ current_user.hours }}
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <strong>Password:</strong>
+            </div>
+            <div class="col-md-8">
+                {{ current_user.user_pass }}
+            </div>
+        </div>
+
+    </div>
+</div>
 
     <form action="/profile" method="post" class="my-4">
 
-        <div class="flex-child user-data">
+        <div class="flex user-data">
             <h3>Change profile settings</h3>
                 {{ form.csrf_token() }}
                 {{ render_field(form.user_fname, class="input-width") }}
