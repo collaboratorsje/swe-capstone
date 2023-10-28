@@ -11,9 +11,9 @@
     <li><strong>Last Name:</strong> {{ current_user.user_lname }}</li>
     <li><strong>Email:</strong> {{ current_user.user_email }}</li>
     <!-- role major and degree need to be fetched from the other table (currently integer is showing)-->
-    <li><strong>Role ID:</strong> {{ current_user.role }}</li>
-    <li><strong>Major ID:</strong> {{ current_user.major }}</li>
-    <li><strong>Degree ID:</strong> {{ current_user.degree }}</li>
+    <li><strong>Role:</strong> {{ current_user.role_relation.role_name }}</li>
+    <li><strong>Major:</strong> {{ current_user.major_relation.major_name }}</li>
+    <li><strong>Degree:</strong> {{ current_user.degree_relation.degree_name }}</li>    
     <li><strong>GPA:</strong> {{ current_user.gpa }}</li>
     <li><strong>Hours:</strong> {{ current_user.hours }}</li>
     <!-- For security reasons, it's not a good idea to display the password, even if it's hashed -->

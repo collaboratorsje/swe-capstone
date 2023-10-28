@@ -13,8 +13,12 @@ class Users(UserMixin, db.Model):
     degree = db.Column(db.Integer, db.ForeignKey("Degrees.degree_id"), nullable=False)
     gpa = db.Column(db.Numeric(3,2))
     hours = db.Column(db.Numeric(3,2))
-    #graduating_semester = db.Column(db.Integer)
     user_pass = db.Column(db.String)
+
+    #relations so I can backreference from role_id major_id etc. to display human readable role,major etc.
+    role_relation = db.relationship('Roles', backref='users', lazy=True)
+    major_relation = db.relationship('Majors', backref='users', lazy=True)
+    degree_relation = db.relationship('Degrees', backref='users', lazy=True)
 
     def get_id(self):
         return self.user_id
