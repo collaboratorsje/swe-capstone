@@ -4,7 +4,7 @@ from flask_login import login_user, login_required
 from gta.extensions import db, DBUser, DBJob, CourseScore
 from flask import current_app as app
 from gta.form import bp as fbp
-from gta.form.forms import LoginForm, RegisterForm, JobForm, ApplyForm, AddUserCourseForm
+from gta.form.forms import LoginForm, RegisterForm, JobForm, ApplyForm, AddUserCourseForm, UpdateProfileForm
 from gta.model.models import Users, Jobs, Majors, Degrees, Roles, Courses, Applications, UserCourses
 
 @fbp.route('/login', methods=['POST', 'GET'])
@@ -168,9 +168,18 @@ def Apply(job_id):
             db.session.rollback()
         return redirect(url_for('main.Home'))
     return render_template("apply.html", form=form, job=job)
-    
+
+@login_required 
+@fbp.route('/profile', methods=['POST', 'GET'])
+def ProfilePage():
+    form = UpdateProfileForm()
+    uform = AddUserCourseForm()
+    return render_template('profile.html', form=form, courseform=uform)
+
+'''
 @login_required
 @fbp.route('/myaccount', methods=['POST', 'GET'])
 def MyAccount():
     form = RegisterForm()
     u = db.session.execute(db.Select(Users.user_id, Users.user_fname, Users.user_lname, Users.user_email, Majors.major_name, Degrees.degree_name, Users.gpa, Users.hours).where(session['_user_id'] == Users.user_id).where(Users.major == Majors.major_id).where(Users.degree == Degrees.degree_id)).first()
+'''

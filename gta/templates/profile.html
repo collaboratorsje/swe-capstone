@@ -1,3 +1,4 @@
+{% from 'bootstrap5/form.html' import render_form, render_field, render_form_row %}
 {% extends 'base.html' %}
 {% block content %}
     <h1>Your Profile</h1>
@@ -20,20 +21,22 @@
 </ul>
 
     <form action="/update-profile" method="post" class="my-4">
-        <!-- Username -->
-        <div class="mb-3">
-            <label for="username" class="form-label">Username</label>
-            <input type="text" class="form-control" id="username" name="username" value="{{ current_user.username }}" readonly>
-        </div>
-        
-        <!-- Email -->
-        <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" name="email" value="{{ current_user.email }}">
+
+        <div class="flex-child user-data">
+            <h3>Change profile settings</h3>
+                {{ form.csrf_token() }}
+                {{ render_field(form.user_fname, class="input-width") }}
+                {{ render_field(form.user_lname, class="input-width") }}
+                {{ render_field(form.user_email, class="input-width") }}
+                {{ render_field(form.user_major, class="input-width") }}
+                {{ render_field(form.user_degree, class="input-width") }}
+                {{ render_field(form.user_gpa, class="input-width") }}
+                {{ render_field(form.user_hours, class="input-width") }}
+                {{ render_field(form.user_pass, class="input-width") }}
+                {{ render_field(form.user_confirm_pass, class="input-width") }}
+                {{ render_field(form.ucourses) }}
+                {{ render_field(form.submit, class="submit-button") }}
         </div>
 
-        <!-- Add other settings as required -->
-
-        <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
     </form>
 {% endblock %}

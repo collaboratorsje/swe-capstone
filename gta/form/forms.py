@@ -84,3 +84,23 @@ class AddUserCourseForm(FlaskForm):
     grade = SelectField("Grade Achieved", coerce=str, choices=grades, validators=[DataRequired()])
     ucourses = HiddenField()
     submit = SubmitField()
+
+class UpdateProfileForm(FlaskForm): 
+    with app.app_context():
+        resm = db.session.execute(db.select(Majors.major_id, Majors.major_name)).all()
+        resd = db.session.execute(db.select(Degrees.degree_id, Degrees.degree_name)).all()
+    majors = [(r[0], r[1]) for r in resm]
+    majors.insert(0, ("", "---"))
+    degrees = [(r[0], r[1]) for r in resd]
+    degrees.insert(0, ("", "---"))
+    user_fname = StringField("First Name", validators=[DataRequired()])
+    user_lname = StringField("Last Name", validators=[DataRequired()])
+    user_email = EmailField("Email", validators=[DataRequired()])
+    user_major = SelectField("Major", coerce=str, choices=majors, validators=[DataRequired()])
+    user_degree = SelectField("Degree", coerce=str, choices=degrees, validators=[DataRequired()])
+    user_gpa = DecimalField("GPA", places=2)
+    user_hours = DecimalField("Hours", places=2)
+    user_pass = PasswordField(validators=[DataRequired()])
+    user_confirm_pass = PasswordField(validators=[DataRequired()])
+    ucourses = HiddenField()
+    submit = SubmitField()
