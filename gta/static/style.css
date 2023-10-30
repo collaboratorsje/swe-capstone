@@ -11,10 +11,6 @@
     width: 50%;
 }
 
-.input-width-req{
-    width: 50%;
-}
-
 .form-label
 {
     width: 10%;
@@ -69,6 +65,7 @@
 .nav-pills .nav-link {
     background-color: var(--dark-blue);
     color: var(--white);
+    font-weight: bold;
 }
 
 .nav-pills .nav-link:hover {
@@ -77,7 +74,8 @@
 
 .nav-pills .nav-link.active {
     background-color: var(--yellow);
-    color: rgb(217, 0, 255);
+    /*color: rgb(217, 0, 255);*/
+    color: var(--dark-blue);
 }
 
 .apply-btn {
