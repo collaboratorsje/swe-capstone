@@ -98,9 +98,10 @@
                 <strong>Password:</strong>
             </div>
             <div class="col-md-8">
-                {{ current_user.user_pass }}
+                <input type="password" readonly id="passwordField" value="{{ current_user.user_pass }}" class="form-control">
+                <button onclick="togglePasswordVisibility()" class="btn btn-secondary mt-2">Show Password</button>
             </div>
-        </div>
+        </div>        
 
     </div>
 </div>

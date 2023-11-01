@@ -12,3 +12,16 @@ document.addEventListener("DOMContentLoaded", function() {
     }, 5000); // Duration until the fade-out starts
 });
 
+
+function togglePasswordVisibility() {
+    const passwordField = document.getElementById('passwordField');
+    const passwordType = passwordField.getAttribute('type');
+    
+    if (passwordType === 'password') {
+        passwordField.setAttribute('type', 'text');
+    } else {
+        passwordField.setAttribute('type', 'password');
+    }
+}
+
+
