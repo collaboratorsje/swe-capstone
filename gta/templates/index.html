@@ -1,22 +1,124 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<!-- Code Here-->
 <form action="/search" method="get" class="search-form">
     <input type="text" name="query" placeholder="Search for jobs..." required>
     <button type="submit">Search</button>
 </form>
 
-<h2>Job Listings</h2>
-<ul class="list-group">
-    {% for j in jobs %}
-        <li class="list-group-item">
-            <h5>{{ j[0] }} - {{j[3]}} <span class="badge badge-primary">{{ j[2] }}</span></h5>  <!-- Assuming j[0] is the job title and j[2] is the role name -->
-            <p>{% if j[1] == 1 %}*Requires Certification{% else %}&nbsp;{% endif %}</p>
-            <a href="{{ url_for('form.Apply', job_id=loop.index|string) }}" class="btn apply-btn">Apply</a>
-        </li>
-    {% endfor %}
-</ul>
+<div class="flex-container">
+    <div class="flex-child">
+        <h2>Job Listings</h2>
+        <form>
+            <select id="course-filter" onchange="courseChange()">
+            {% for c in courses %}
+            <option value="{{c[0]}}">{{c[1]}}</option>
+            {% endfor %}
+            </select>
+            <select id="role-filter" onchange="roleChange()">
+            {% for r in roles %}
+            <option value="{{r[0]}}">{{r[1]}}</option>
+            {% endfor %}
+            </select>
+            <label>Certification Required</label>
+            <input type="checkbox" id="cert-filter" value="Certification Required" onclick="certRequired()">
+        </form>
+        <ul id="job-list-group" class="list-group">
+            {% for j in jobs %}
+                <li class="list-group-item">
+                    <h5>{{ j[0] }} - {{j[3]}} <span class="badge badge-primary">{{ j[2] }}</span></h5>
+                    <p id="job-course-id" value="{{j[4]}}">Course ID: {{j[4]}}</p>
+                    <p>{% if j[1] == 1 %}*Requires Certification{% else %}&nbsp;{% endif %}</p>
+                    <a href="{{ url_for('form.Apply', job_id=loop.index|string) }}" class="btn apply-btn">Apply</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+<script>
+    function resetJobs()
+    {
+        let coursef = document.getElementById("course-filter");
+        let jobgroup = document.getElementById("job-list-group");
+        let arr = new Array();
+        for(c of jobgroup.children) { arr.push(c); };
+        for (a of arr) { a.remove(); };
+        "{% for j in jobs%}";
+        var item = document.createElement('li');
+        item.className = "list-group-item";
+        var t = document.createElement('h5');
+        t.innerHTML = "{{j[0]}} - {{j[3]}} ";
+        var b = document.createElement('span');
+        b.className = "badge badge-primary";
+        b.innerHTML = "{{j[2]}}";
+        t.appendChild(b);
+        var pi = document.createElement('p');
+        pi.setAttribute("value", "{{j[4]}}");
+        pi.innerText = "Course ID: {{j[4]}}"
+        pi.id = "job-course-id";
+        var pc = document.createElement('p');
+        pc.innerHTML = "{% if j[1] == 1 %}*Requires Certification{% else %}&nbsp;{% endif %}";
+        var sb = document.createElement('a');
+        sb.href = "{{ url_for('form.Apply', job_id=loop.index|string) }}";
+        sb.className = "btn apply-btn";
+        sb.innerText = "Apply";
+        item.appendChild(t);
+        item.appendChild(pi);
+        item.appendChild(pc);
+        item.appendChild(sb);
+        jobgroup.appendChild(item);
+        "{% endfor %}";
+    }
+    function courseChange()
+    {
+        resetJobs();
+        let arr = new Array();
+        let coursef = document.getElementById("course-filter");
+        if (coursef.options[coursef.selectedIndex].value != "")
+        {
+            let items = document.getElementsByClassName("list-group-item");
+            for(var i of items)
+            {
+                if(i.childNodes[1].attributes.value.value !== coursef.options[coursef.selectedIndex].value)
+                {
+                    arr.push(i);
+                }
+            }
+            for (a of arr) { a.remove() };
+        }
+    };
 
+    function certRequired()
+    {
+        //console.log(this);
+        var arr = new Array()
+        var cur = document.getElementById("cert-filter").checked;
+        let items = document.getElementsByClassName("list-group-item");
+        if (cur === true)
+        {
+            for(var i of items)
+            {
+                if (i.childNodes[2].innerHTML === "&nbsp;")
+                {
+                    arr.push(i)
+                }
+            }
+            for(var a of arr)
+            {
+                a.remove();
+            }
+        }
+        else
+        {
+            for(var i of items) { i.remove()};
+            "{% for j in jobs %}";
 
+            "{% endfor %}";
+        }
+    }
+    function roleChange()
+    {
+
+    };
+</script>
 {% endblock %}

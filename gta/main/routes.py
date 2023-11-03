@@ -19,9 +19,16 @@ def Logout():
 @mbp.route('/')
 def Home():
     with app.app_context():
-        resj = db.session.execute(db.select(Courses.course_name, Jobs.certification_required, Roles.role_name, Courses.course_level).where(Jobs.role_id == Roles.role_id).where(Jobs.course_required == Courses.course_id)).all()
+        resj = db.session.execute(db.select(Courses.course_name, Jobs.certification_required, Roles.role_name, Courses.course_level, Courses.course_id).where(Jobs.role_id == Roles.role_id).where(Jobs.course_required == Courses.course_id)).all()
+        resc = db.session.execute(db.select(Courses.course_id, Courses.course_name, Courses.course_level)).all()
+        resr = db.session.execute(db.select(Roles.role_id, Roles.role_name).where(Roles.role_id > 2).where(Roles.role_id < 5)).all()
+    roles = [(r[0], r[1]) for r in resr]
+    roles.insert(0, ("", "---"))
+    print(roles)
+    courses = [(r[0], f"{r[1]} - {r[2]}") for r in resc]
+    courses.insert(0, ("", "---"))
     jobs = [r for r in resj]    
-    return render_template("index.html", jobs=jobs)
+    return render_template("index.html", jobs=jobs, courses=courses, roles=roles)
 
 @mbp.route('/jobs', methods=['GET'])
 @login_required
