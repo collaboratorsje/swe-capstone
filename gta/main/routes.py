@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, session
+from flask import render_template, redirect, url_for, session, json, request
 from flask_login import login_required, logout_user
 from gta.main import bp as mbp
 from gta.model.models import Users, Jobs, Roles, Courses, Applications
@@ -24,11 +24,46 @@ def Home():
         resr = db.session.execute(db.select(Roles.role_id, Roles.role_name).where(Roles.role_id > 2).where(Roles.role_id < 5)).all()
     roles = [(r[0], r[1]) for r in resr]
     roles.insert(0, ("", "---"))
-    print(roles)
     courses = [(r[0], f"{r[1]} - {r[2]}") for r in resc]
     courses.insert(0, ("", "---"))
-    jobs = [r for r in resj]    
-    return render_template("index.html", jobs=jobs, courses=courses, roles=roles)
+    jobs = [r for r in resj]
+    jobs2 = [list(r) for r in resj]
+    for j in jobs2:
+        for i in j:
+            if i is True or i == "True":
+                j[1] = 1
+            elif i is False or i == "False":
+                j[1] = 0
+    jobs2 = [tuple(j) for j in jobs2]
+    return render_template("index.html", jobs=jobs, jobs2=jobs2, courses=courses, roles=roles)
+
+@mbp.route('/getjobs', methods=["POST"])
+def GetJobs():
+    if request.method == "POST":
+        j = request.json
+        with app.app_context():
+            print(j["course"])
+            if j["course"] == "":
+                j["course"] = Jobs.course_required
+            if j["role"] == "":
+                j["role"] = Jobs.role_id
+            if j["cert"] == "" or j["cert"] == "false" or j["cert"] is False:
+                j["cert"] = Jobs.certification_required
+            resj = db.session.execute(db.select(Jobs.job_id, Courses.course_id, Courses.course_name, Courses.course_level, Jobs.certification_required, Roles.role_id, Roles.role_name).where(Jobs.role_id == Roles.role_id).where(Jobs.course_required == Courses.course_id).where(Jobs.course_required == j["course"]).where(Jobs.role_id == j["role"]).where(Jobs.certification_required == j["cert"])).all()
+        jobs = [tuple(j) for j in resj]
+        jobsd = {}
+        for i,j in enumerate(jobs):
+            jobsd[i] = {
+                "job_id": j[0],
+                "course_id": j[1], 
+                "course_name": j[2],
+                "course_level": j[3],
+                "course_full": j[2] + " - " + j[3] + " ",
+                "cert": j[4],
+                "role_id": j[5],
+                "role_name": j[6]
+            }
+        return json.dumps(jobsd)
 
 @mbp.route('/jobs', methods=['GET'])
 @login_required

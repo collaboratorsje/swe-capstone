@@ -24,87 +24,54 @@ function togglePasswordVisibility() {
     }
 };
 
-function resetJobs()
+function filterJobs()
 {
     let coursef = document.getElementById("course-filter");
-    let jobgroup = document.getElementById("job-list-group");
-    let arr = new Array();
-    for(c of jobgroup.children) { arr.push(c); };
-    for (a of arr) { a.remove(); };
-    "{% for j in jobs%}";
-    var item = document.createElement('li');
-    item.className = "list-group-item";
-    var t = document.createElement('h5');
-    t.innerHTML = "{{j[0]}} - {{j[3]}} ";
-    var b = document.createElement('span');
-    b.className = "badge badge-primary";
-    b.innerHTML = "{{j[2]}}";
-    t.appendChild(b);
-    var pi = document.createElement('p');
-    pi.setAttribute("value", "{{j[4]}}");
-    pi.innerText = "Course ID: {{j[4]}}"
-    pi.id = "job-course-id";
-    var pc = document.createElement('p');
-    pc.innerHTML = "{% if j[1] == 1 %}*Requires Certification{% else %}&nbsp;{% endif %}";
-    var sb = document.createElement('a');
-    sb.href = "{{ url_for('form.Apply', job_id=loop.index|string) }}";
-    sb.className = "btn apply-btn";
-    sb.innerText = "Apply";
-    item.appendChild(t);
-    item.appendChild(pi);
-    item.appendChild(pc);
-    item.appendChild(sb);
-    jobgroup.appendChild(item);
-    "{% endfor %}";
-}
-function courseChange()
-{
-    resetJobs();
-    let arr = new Array();
-    let coursef = document.getElementById("course-filter");
-    if (coursef.options[coursef.selectedIndex].value != "")
-    {
-        let items = document.getElementsByClassName("list-group-item");
-        for(var i of items)
+    let certf = document.getElementById("cert-filter");
+    let rolef = document.getElementById("role-filter");
+    let data = JSON.stringify({ "course": coursef.options[coursef.selectedIndex].value, "role": rolef.options[rolef.selectedIndex].value,"cert": certf.checked })
+    fetch('/getjobs', {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        method: "POST",
+        body: data
+    })
+    .then(response => response.json())
+    .then(
+        data =>
         {
-            if(i.childNodes[1].attributes.value.value !== coursef.options[coursef.selectedIndex].value)
+            let jobgroup = document.getElementById("job-list-group");
+            let arr = new Array();
+            for(c of jobgroup.children) { arr.push(c); };
+            for (a of arr) { a.remove(); };
+            for (d of Object.entries(data))
             {
-                arr.push(i);
+                var job = d[1]
+                var item = document.createElement('li');
+                item.className = "list-group-item";
+                var t = document.createElement('h5');
+                t.innerHTML = job["course_full"]
+                var b = document.createElement('span');
+                b.className = "badge badge-primary";
+                b.innerHTML = job["role_name"];
+                t.appendChild(b);
+                var pi = document.createElement('p');
+                pi.setAttribute("value", job["course_id"]);
+                pi.innerText = "Course ID: " + job["course_id"];
+                pi.id = "job-course-id";
+                var pc = document.createElement('p');
+                if (job["cert"] === true) { pc.innerHTML = "*Requires Certification"} else { pc.innerHTML = "&nbsp;"}
+                var sb = document.createElement('a');
+                sb.href = "/apply/"+job["job_id"]
+                sb.className = "btn apply-btn";
+                sb.innerText = "Apply";
+                item.appendChild(t);
+                item.appendChild(pi);
+                item.appendChild(pc);
+                item.appendChild(sb);
+                jobgroup.appendChild(item);
             }
-        }
-        for (a of arr) { a.remove() };
-    }
-};
-
-function certRequired()
-{
-    //console.log(this);
-    var arr = new Array()
-    var cur = document.getElementById("cert-filter").checked;
-    let items = document.getElementsByClassName("list-group-item");
-    if (cur === true)
-    {
-        for(var i of items)
-        {
-            if (i.childNodes[2].innerHTML === "&nbsp;")
-            {
-                arr.push(i)
-            }
-        }
-        for(var a of arr)
-        {
-            a.remove();
-        }
-    }
-    else
-    {
-        for(var i of items) { i.remove()};
-        "{% for j in jobs %}";
-
-        "{% endfor %}";
-    }
-}
-function roleChange()
-{
-
+    })
 };
