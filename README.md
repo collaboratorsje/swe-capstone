@@ -28,8 +28,13 @@ Install Requirements
 Launch with 
 
     python .\main.py
-
+    or
+    flask run
 Open in browser at http://127.0.0.1:5000 or http://localhost:5000
+
+#### Default Admin Account Login
+email: admin@admin.com
+pass:  admin
 
 ### Mac
 Note: The Mac setup is similar to the Windows setup, but with slight command differences.
