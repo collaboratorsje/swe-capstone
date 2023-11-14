@@ -4,12 +4,18 @@
 <!-- Code Here-->
 <h2>My Applications</h2>
 <!-- fixme -->
-{% for a in Applications %}
+{% for a in applications %}
                 <li class="list-group-item">
-                    <h5>{{ a[0] }} - {{a[3]}} <span class="badge badge-primary">{{ a[2] }}</span></h5>
-                    <p id="job-course-id" value="{{j[4]}}">Course ID: {{a[4]}}</p>
-                    <p>{% if a[1] == 1 %}*Requires Certification{% else %}&nbsp;{% endif %}</p>
-                    <a href="{{ url_for('form.Apply', job_id=loop.index|string) }}" class="btn apply-btn">Apply</a>
+                    <h5>{{ a[0] }} <span class="badge badge-primary">{{ a[1] }}</span></h5>
+                    <!--<p id="job-course-id" value="{{a[4]}}">Course ID: {{a[4]}}</p> -->
+                    <!--<p>{% if a[1] == 1 %}*Requires Certification{% else %}&nbsp;{% endif %}</p> -->
+                    <p>Status: {{ a[2] }}</p>
+                    {% if a[3] == False%}
+                    <p>Cannot be Currently Edited</p>
+                    {% else %}
+                    <button href="{{ url_for('form.EditApplication', job_id=loop.index|string) }}" class="btn edit-btn">Edit</button>
+                    {% endif %}
+
                 </li>
             {% endfor %}
 {% endblock %}

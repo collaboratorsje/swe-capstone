@@ -3,3 +3,4 @@ venv/
 __pycache__/
 *.bak
 *.session.sql
+uploads/

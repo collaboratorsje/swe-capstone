@@ -1,11 +1,13 @@
 from flask import render_template, redirect, url_for, flash, request, session, jsonify
 from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.utils import secure_filename
 from flask_login import login_user, login_required, current_user
 from gta.extensions import db, DBUser, DBJob, CourseScore
 from flask import current_app as app
 from gta.form import bp as fbp
 from gta.form.forms import LoginForm, RegisterForm, JobForm, ApplyForm, AddUserCourseForm, UpdateProfileForm
 from gta.model.models import Users, Jobs, Majors, Degrees, Roles, Courses, Applications, UserCourses
+import os
 
 @fbp.route('/login', methods=['POST', 'GET'])
 def LoginPage():
@@ -138,7 +140,7 @@ def Apply(job_id):
     u = db.session.execute(db.Select(Users.user_id, Users.user_fname, Users.user_lname, Users.user_email, Users.major, Majors.major_name, Users.degree, Degrees.degree_name, Users.gpa, Users.hours).where(session['_user_id'] == Users.user_id).where(Users.major == Majors.major_id).where(Users.degree == Degrees.degree_id)).first()
     user = DBUser(u)
     j = db.session.execute(db.Select(Jobs.job_id, Roles.role_name, Jobs.course_required, Courses.course_name, Courses.course_level, Jobs.certification_required, Jobs.status).where(Jobs.job_id == job_id).where(Jobs.role_id == Roles.role_id).where(Jobs.course_required == Courses.course_id)).first()
-    print(j)
+    #print(j)
     job = DBJob(j)
     form = ApplyForm()
     form.user_id.default = user.user_id
@@ -151,13 +153,15 @@ def Apply(job_id):
     form.user_hours.default = user.user_hours 
     form.process()
     if form.validate_on_submit and request.method == 'POST':
+        gfn = str(session['_user_id']) + "_gta_" + secure_filename(request.files['gta_cert'].filename)
+        tfn = str(session['_user_id']) + "_transcript_" + secure_filename(request.files['transcript'].filename)
         apl = Applications(
             user_id=user.user_id,
             course_id = job.course_id,
             status = job.status,
             editable=False,
-            gta_cert = form.gta_cert.data.read(),
-            transcript=form.transcript.data.read(),
+            gta_cert = request.files['gta_cert'].save(os.path.join(os.getcwd(),"uploads", gfn)),
+            transcript=request.files['transcript'].save(os.path.join(os.getcwd(), "uploads", tfn)),
             job_id=job.job_id
         )
         try:
