@@ -79,7 +79,13 @@ def JobsPage():
 @mbp.route('/applications', methods=['GET'])
 @login_required
 def ApplicationsPage():
-    return render_template('applications.html')
+    with app.app_context():
+        #fixme
+        resa = db.session.execute(db.select(Courses.course_name, Roles.role_name).where(Applications.user_id == session["_user_id"]).where(Courses.course_id == Applications.course_id)).all()
+    for a in resa:
+        print(a)
+    applications = [a for a in resa]
+    return render_template('applications.html', applications = applications)
 
 @mbp.route('/admin')
 @login_required

@@ -3,4 +3,13 @@
 
 <!-- Code Here-->
 <h2>My Applications</h2>
+<!-- fixme -->
+{% for a in Applications %}
+                <li class="list-group-item">
+                    <h5>{{ a[0] }} - {{a[3]}} <span class="badge badge-primary">{{ a[2] }}</span></h5>
+                    <p id="job-course-id" value="{{j[4]}}">Course ID: {{a[4]}}</p>
+                    <p>{% if a[1] == 1 %}*Requires Certification{% else %}&nbsp;{% endif %}</p>
+                    <a href="{{ url_for('form.Apply', job_id=loop.index|string) }}" class="btn apply-btn">Apply</a>
+                </li>
+            {% endfor %}
 {% endblock %}
