@@ -219,6 +219,7 @@
     border: 2px solid var(--yellow);
     border-radius: 0 15px 15px 0;
     cursor: pointer;
+    font-weight: bold;
     transition: background-color 0.3s, border-color 0.3s;
 }
 
@@ -226,6 +227,10 @@
     background-color: var(--white);
     color: var(--hover-blue);
     border-color: var(--hover-blue);
+}
+
+input::placeholder {
+    color: var(--white); /* Or any darker color you prefer */
 }
 
 .my-navbar {
@@ -288,3 +293,5 @@
     gap: 10px; /* Provides even spacing between elements */
     margin-bottom: 20px; /* Space between the form and job listings */
 }
+
+

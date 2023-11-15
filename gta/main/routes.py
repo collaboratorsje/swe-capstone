@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, session, json, request
+from flask import render_template, redirect, url_for, session, json, request, jsonify
 from flask_login import login_required, logout_user
 from gta.main import bp as mbp
 from gta.model.models import Users, Jobs, Roles, Courses, Applications
@@ -35,6 +35,11 @@ def Home():
             elif i is False or i == "False":
                 j[1] = 0
     jobs2 = [tuple(j) for j in jobs2]
+
+        # Inside your route before the return statement
+    test_json = jsonify(jobs=jobs2)  # Use this line to test serialization
+    print(test_json)  # Check your console for the output
+
     return render_template("index.html", jobs=jobs, jobs2=jobs2, courses=courses, roles=roles)
 
 @mbp.route('/getjobs', methods=["POST"])

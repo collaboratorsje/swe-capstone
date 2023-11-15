@@ -90,4 +90,49 @@ function filterJobs()
     })
 };
 
+function filterJobListings(query) {
+    const lowerCaseQuery = query.toLowerCase();
+
+    // If the query is empty, return the full jobs array
+    if (!query.trim()) {
+        return jobs;
+    }
+
+    // Adjust the condition to match the course name or job title
+    return jobs.filter(job =>
+        job[0].toLowerCase().includes(lowerCaseQuery) || // course name
+        job[2].toLowerCase().includes(lowerCaseQuery) || // job title
+        job[3].toLowerCase().includes(lowerCaseQuery)
+    );
+}
+
+function displayFilteredJobs(filteredJobs) {
+    const jobListElement = document.getElementById('job-list-group');
+    jobListElement.innerHTML = ''; // Clear current job listings
+
+    filteredJobs.forEach(job => {
+        const jobItem = document.createElement('li');
+        jobItem.className = 'list-group-item';
+        jobItem.innerHTML = `
+            <h5>${job[0]} - ${job[3]} <span class="badge badge-primary">${job[2]}</span></h5>
+            <p>Course ID: ${job[4]}</p>
+            ${job[1] ? '<span class="badge badge-warning">Certification Required</span>' : ''}
+            <a href="/apply/${job[4]}" class="btn apply-btn">Apply</a>
+        `; // Update href link as per your application's routing
+        jobListElement.appendChild(jobItem);
+    });
+}
+
+document.getElementById('search-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the form from submitting traditionally
+    const searchQuery = document.querySelector('input[name="query"]').value;
+    const filteredJobs = filterJobListings(searchQuery);
+    displayFilteredJobs(filteredJobs);
+});
+
+document.querySelector('input[name="query"]').addEventListener('input', function() {
+    const searchQuery = this.value;
+    const filteredJobs = filterJobListings(searchQuery);
+    displayFilteredJobs(filteredJobs);
+});
 

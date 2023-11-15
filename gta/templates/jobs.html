@@ -4,7 +4,14 @@
 <!-- Code Here-->
 <h2>Jobs</h2>
 
-{% for j in jobs %}
-    <h4>{{ j[0], j[2] }}</h4>
-{% endfor %}
+<ul id="job-list-group" class="list-group">
+    {% for j in jobs %}
+        <li class="list-group-item">
+            <h5>{{ j[0] }} - {{j[3]}} <span class="badge badge-primary">{{ j[2] }}</span></h5>
+            <p></p>
+            <p>{% if j[1] == 1 %}<span class="badge badge-primary">Certification Required</span>{% else %}&nbsp;{% endif %}</p>
+            <a href="{{ url_for('form.Apply', job_id=loop.index|string) }}" class="btn apply-btn">Apply</a>
+        </li>
+    {% endfor %}
+</ul>
 {% endblock %}
