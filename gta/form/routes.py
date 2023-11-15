@@ -153,24 +153,40 @@ def Apply(job_id):
     form.user_hours.default = user.user_hours 
     form.process()
     if form.validate_on_submit and request.method == 'POST':
-        gfn = str(session['_user_id']) + "_gta_" + secure_filename(request.files['gta_cert'].filename)
-        tfn = str(session['_user_id']) + "_transcript_" + secure_filename(request.files['transcript'].filename)
-        apl = Applications(
-            user_id=user.user_id,
-            course_id = job.course_id,
-            status = job.status,
-            editable=False,
-            gta_cert = request.files['gta_cert'].save(os.path.join(os.getcwd(),"uploads", gfn)),
-            transcript=request.files['transcript'].save(os.path.join(os.getcwd(), "uploads", tfn)),
-            job_id=job.job_id
-        )
+        # Ensure the 'uploads' directory exists
+        uploads_dir = os.path.join(app.root_path, 'uploads')
+        print(f"Uploads directory path: {uploads_dir}")
+        if not os.path.exists(uploads_dir):
+            os.makedirs(uploads_dir)
         try:
+            gfn = str(session['_user_id']) + "_gta_" + secure_filename(request.files['gta_cert'].filename)
+            tfn = str(session['_user_id']) + "_transcript_" + secure_filename(request.files['transcript'].filename)
+
+            gta_cert_path = os.path.join(uploads_dir, gfn)
+            transcript_path = os.path.join(uploads_dir, tfn)
+
+            request.files['gta_cert'].save(gta_cert_path)
+            request.files['transcript'].save(transcript_path)
+
+            apl = Applications(
+                user_id=user.user_id,
+                course_id=job.course_id,
+                status=job.status,
+                editable=False,
+                gta_cert=gta_cert_path,
+                transcript=transcript_path,
+                job_id=job.job_id
+            )
+
             db.session.add(apl)
             db.session.commit()
         except Exception as e:
-            print(f"Failed to Access database: { e }")
+            print(f"Error: {e}")
             db.session.rollback()
+            # Handle the error appropriately (e.g., display an error message to the user)
+
         return redirect(url_for('main.Home'))
+
     return render_template("apply.html", form=form, job=job)
 
 @login_required 

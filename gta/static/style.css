@@ -185,3 +185,61 @@
     transition: opacity 1s; 
 }
 
+.search-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--dark-blue);
+    padding: 10px;
+    border-radius: 25px;
+    max-width: 500px;
+    margin: 20px auto;
+}
+
+.search-form input[type="text"] {
+    flex-grow: 1;
+    padding: 8px 15px;
+    border-radius: 15px 0 0 15px;
+    border: 2px solid var(--yellow);
+    background-color: var(--light-blue);
+    color: var(--white);
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.search-form input[type="text"]:focus {
+    outline: none;
+    background-color: var(--dark-blue);
+    border-color: var(--white);
+}
+
+.search-form button {
+    padding: 8px 15px;
+    background-color: var(--yellow);
+    color: var(--dark-blue);
+    border: 2px solid var(--yellow);
+    border-radius: 0 15px 15px 0;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.search-form button:hover {
+    background-color: var(--white);
+    color: var(--hover-blue);
+    border-color: var(--hover-blue);
+}
+
+.my-navbar {
+    display: flex;
+    justify-content: space-between; /* Aligns the three sections */
+    align-items: center; /* Vertically centers the content */
+}
+
+.navbar-center {
+    flex-grow: 1; /* Allows the center div to take up the available space */
+    display: flex;
+    justify-content: center; /* Centers the image horizontally */
+}
+
+.navbar-center img {
+    max-height: 50px; /* Adjust the size of the image as needed */
+}
