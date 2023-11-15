@@ -243,3 +243,48 @@
 .navbar-center img {
     max-height: 50px; /* Adjust the size of the image as needed */
 }
+
+/* Simplified Styling for Select Dropdowns */
+.select-filter {
+    padding: 10px 15px;
+    border: 1px solid var(--yellow);
+    background-color: var(--white);
+    border-radius: 5px; /* Less pronounced rounded corners */
+    font-size: 1em;
+    color: var(--dark-blue);
+    margin-right: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.select-filter:focus {
+    border-color: var(--light-blue); /* Highlight the border on focus */
+    background-color: var(--white);
+    outline: none;
+}
+
+/* Simplified Styling for Checkbox */
+.checkbox-custom {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: var(--dark-blue);
+}
+
+.checkbox-custom input[type="checkbox"] {
+    margin-right: 5px; /* Space between checkbox and label */
+    cursor: pointer;
+    accent-color: var(--yellow); /* Styling the checkbox with the theme color */
+}
+
+.checkbox-custom label {
+    margin-left: 5px;
+}
+
+/* Simplified Form Layout */
+.form-filter {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Provides even spacing between elements */
+    margin-bottom: 20px; /* Space between the form and job listings */
+}

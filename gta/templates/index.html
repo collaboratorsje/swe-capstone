@@ -9,20 +9,22 @@
 <div class="flex-container">
     <div class="flex-child">
         <h2>Job Listings</h2>
-        <form>
-            <select id="course-filter", onchange="filterJobs()">
-            {% for c in courses %}
-            <option value="{{c[0]}}">{{c[1]}}</option>
-            {% endfor %}
+        <form class="form-filter">
+            <select id="course-filter" class="select-filter" onchange="filterJobs()">
+                {% for c in courses %}
+                <option value="{{ c[0] }}">{{ c[1] }}</option>
+                {% endfor %}
             </select>
-            <select id="role-filter" onchange="filterJobs()">
-            {% for r in roles %}
-            <option value="{{r[0]}}">{{r[1]}}</option>
-            {% endfor %}
+            <select id="role-filter" class="select-filter" onchange="filterJobs()">
+                {% for r in roles %}
+                <option value="{{ r[0] }}">{{ r[1] }}</option>
+                {% endfor %}
             </select>
-            <label>Certification Required</label>
-            <input type="checkbox" id="cert-filter" value="Certification Required" onclick="filterJobs()">
-        </form>
+            <div class="checkbox-custom">
+                <input type="checkbox" id="cert-filter" onclick="filterJobs()">
+                <label for="cert-filter">Certification Required</label>
+            </div>
+        </form>        
         <div>
             <h1></h1>
         </div>
