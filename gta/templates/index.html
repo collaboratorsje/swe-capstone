@@ -40,8 +40,8 @@
         </ul>
     </div>
 </div>
-<script type="text/javascript">
-    var jobs = {{ jobs2|tojson|safe }};
-</script>
+    <script>
+        var jobs = {{ jobs2|tojson|safe }};
+    </script>
 <script src="{{ url_for('static', filename='scripts.js') }}"></script>
 {% endblock %}
