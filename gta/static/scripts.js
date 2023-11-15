@@ -75,7 +75,7 @@ function filterJobs()
                 pi.innerText = "Course ID: " + job["course_id"];
                 pi.id = "job-course-id";
                 var pc = document.createElement('p');
-                if (job["cert"] === true) { pc.innerHTML = "*Requires Certification"} else { pc.innerHTML = "&nbsp;"}
+                if (job["cert"] === true) { pc.innerHTML = '<span class="badge badge-primary">Certification Required</span>'} else { pc.innerHTML = "&nbsp;"}
                 var sb = document.createElement('a');
                 sb.href = "/apply/"+job["job_id"]
                 sb.className = "btn apply-btn";
@@ -116,7 +116,7 @@ function displayFilteredJobs(filteredJobs) {
         jobItem.innerHTML = `
             <h5>${job[0]} - ${job[3]} <span class="badge badge-primary">${job[2]}</span></h5>
             <p>Course ID: ${job[4]}</p>
-            ${job[1] ? '<span class="badge badge-warning">Certification Required</span>' : ''}
+            ${job[1] ? '<p><span class="badge badge-primary">Certification Required</span></p>' : '<p>&nbsp;</p>'}
             <a href="/apply/${job[4]}" class="btn apply-btn">Apply</a>
         `; // Update href link as per your application's routing
         jobListElement.appendChild(jobItem);

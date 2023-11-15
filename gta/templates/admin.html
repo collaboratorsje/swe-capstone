@@ -27,12 +27,13 @@
     <div class="flex-child">
         <h3>Applications</h3>
         {% for a in apps %}
-        <div class="application-post">
+        <div class="application-post list-group-item">
             {{ a['user_id'] }}
             {{ a['course'] }}
             <span class="badge badge-primary"> {{ a['role'] }} </span>
-            {{ a['status'] }}
-            {{ a['job_id'] }}
+            <p>User: {{ a['user_id']}}</p>
+            <p>Job ID: {{ a['job_id'] }}</p>
+            <p>Status: {{ a['status'] }}</p>
             <button class="btn btn-primary">Edit</button>
             <button class="btn btn-primary">Open/Close</button>
         </div>
