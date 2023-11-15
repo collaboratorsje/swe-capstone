@@ -24,6 +24,19 @@ function togglePasswordVisibility() {
     }
 };
 
+// Function to update the job listings title with the count
+function updateJobListingsTitle() {
+    // Get the number of job elements
+    var jobCount = document.querySelectorAll(".list-group-item").length;
+    
+    // Update the title with the count
+    var titleElement = document.getElementById("job-list-title");
+    titleElement.innerText = "Job Listings (" + jobCount + ")";
+}
+
+// Call the function initially and whenever jobs change (e.g., filtering)
+updateJobListingsTitle();
+
 function filterJobs()
 {
     let coursef = document.getElementById("course-filter");
@@ -73,5 +86,8 @@ function filterJobs()
                 item.appendChild(sb);
                 jobgroup.appendChild(item);
             }
+            updateJobListingsTitle();
     })
 };
+
+
