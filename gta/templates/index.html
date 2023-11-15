@@ -33,7 +33,7 @@
                 <li class="list-group-item">
                     <h5>{{ j[0] }} - {{j[3]}} <span class="badge badge-primary">{{ j[2] }}</span></h5>
                     <p id="job-course-id" value="{{j[4]}}">Course ID: {{j[4]}}</p>
-                    <p>{% if j[1] == 1 %}*Requires Certification{% else %}&nbsp;{% endif %}</p>
+                    <p>{% if j[1] == 1 %}<span class="badge badge-primary">Certification Required</span>{% else %}&nbsp;{% endif %}</p>
                     <a href="{{ url_for('form.Apply', job_id=loop.index|string) }}" class="btn apply-btn">Apply</a>
                 </li>
             {% endfor %}

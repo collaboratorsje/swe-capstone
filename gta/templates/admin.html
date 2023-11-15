@@ -2,19 +2,27 @@
 {% block content %}
 
 <!-- Code Here-->
-<h2>Admin</h2>
+<div class="flex-container">
+    <div class="flex-child">
+        <h2>Admin Dashboard</h2>
+        <button class="btn btn-primary">{{render_nav_item('form.CreateJobPage', 'Create Job')}}</button>
+    </div>
+</div>
 
-<button class="btn btn-primary">{{render_nav_item('form.CreateJobPage', 'Create Job')}}</button>
 <div class="flex-container">
     <div class="flex-child">
         <h3>Jobs</h3>
-        {% for j in jobs%}
-        <div class="job-post">
-            {{ j }}
-            <button class="btn btn-primary">Edit</button>
-            <button class="btn btn-primary">Open/Close</button>
-        </div>
-        {% endfor %}
+            <ul id="job-list-group" class="list-group">
+                {% for j in jobs %}
+                    <li class="list-group-item">
+                        <h5>{{ j['course'] }} - <span class="badge badge-primary">{{ j['role_name'] }}</span></h5>
+                        <p>{% if j['cert_required'] %}<span class="badge badge-primary">Certification Required</span>{% else %}&nbsp;{% endif %}</p>
+                        <!-- Additional job details here, if any -->
+                        <button class="btn btn-primary">Edit</button>
+                        <button class="btn btn-primary">Open/Close</button>
+                    </li>
+                {% endfor %}
+            </ul>
     </div>
     <div class="flex-child">
         <h3>Applications</h3>
