@@ -34,7 +34,11 @@
                     <h5>{{ j[0] }} - {{j[3]}} <span class="badge badge-primary">{{ j[2] }}</span></h5>
                     <p id="job-course-id" value="{{j[4]}}">Course ID: {{j[4]}}</p>
                     <p>{% if j[1] == 1 %}<span class="badge badge-primary">Certification Required</span>{% else %}&nbsp;{% endif %}</p>
-                    <a href="{{ url_for('form.Apply', job_id=loop.index|string) }}" class="btn apply-btn">Apply</a>
+                    {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('form.Apply', job_id=loop.index|string) }}" class="btn apply-btn">Apply</a>
+                    {% else %}
+                        <a href="/login" class="btn apply-btn">Apply</a>
+                    {% endif %}
                 </li>
             {% endfor %}
         </ul>
