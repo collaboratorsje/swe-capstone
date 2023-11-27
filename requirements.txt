@@ -5,3 +5,4 @@ flask_wtf
 wtforms
 flask-login
 python-dotenv
+pytest-playwright
