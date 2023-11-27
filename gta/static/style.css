@@ -4,6 +4,8 @@
     --hover-blue: #003058;
     --yellow: #FFD52F;
     --white: #FFFFFF;
+    --search-bg-blue: #e5eef5;
+    --search-input-blue: #6b94b5;
 }
 
 
@@ -191,9 +193,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--dark-blue);
-    padding: 10px;
-    border-radius: 25px;
     max-width: 500px;
     margin: 20px auto;
 }
@@ -201,17 +200,15 @@
 .search-form input[type="text"] {
     flex-grow: 1;
     padding: 8px 15px;
-    border-radius: 15px 0 0 15px;
-    border: 2px solid var(--yellow);
-    background-color: var(--light-blue);
-    color: var(--white);
-    transition: background-color 0.3s, border-color 0.3s;
+    border-radius: 5px 0 0 5px;
+    border: 2px solid var(--search-bg-blue);
+    background-color: var(--search-bg-blue);
 }
 
 .search-form input[type="text"]:focus {
     outline: none;
-    background-color: var(--dark-blue);
-    border-color: var(--white);
+    font-weight: bold;
+    color: var(--dark-blue);
 }
 
 .search-form button {
@@ -219,20 +216,22 @@
     background-color: var(--yellow);
     color: var(--dark-blue);
     border: 2px solid var(--yellow);
-    border-radius: 0 15px 15px 0;
+    border-radius: 0 5px 5px 0;
+    border-color: var(--yellow);
     cursor: pointer;
     font-weight: bold;
     transition: background-color 0.3s, border-color 0.3s;
 }
 
 .search-form button:hover {
-    background-color: var(--white);
-    color: var(--hover-blue);
+    background-color: var(--hover-blue);
+    color: var(--white);
     border-color: var(--hover-blue);
 }
 
 input::placeholder {
-    color: var(--white); /* Or any darker color you prefer */
+    font-weight: bold;
+    color: var(--search-input-blue); /* Or any darker color you prefer */
 }
 
 .my-navbar {
