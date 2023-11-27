@@ -143,6 +143,8 @@
 }
 
 .list-group-item {
+    
+
     /* Width & Spacing */
     width: 100%;
     padding: 10px 15px; /* Add more padding for a spacious feel */
@@ -152,9 +154,9 @@
     background-color: #f7f7f7; /* Light gray background */
 
     /* Borders & Rounded Corners */
-    border: 1px solid var(--hover-blue); /* Add a light border */
+    border: 2px solid var(--hover-blue); /* Add a light border */
     border-radius: 10px; /* Rounded corners */
-    border-top: 1px solid var(--hover-blue);
+    /* border-top: 1px solid var(--hover-blue); */
 
     /* Text Styling */
     font-weight: 500; /* Slightly bolder text */
