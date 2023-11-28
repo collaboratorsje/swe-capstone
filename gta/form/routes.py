@@ -2,6 +2,7 @@ from flask import render_template, redirect, url_for, flash, request, session, j
 from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils import secure_filename
 from flask_login import login_user, login_required, current_user
+from flask_login.mixins import AnonymousUserMixin
 from gta.extensions import db, DBUser, DBJob, CourseScore
 from flask import current_app as app
 from gta.form import bp as fbp
@@ -175,8 +176,8 @@ def Apply(job_id):
                     course_id=job.course_id,
                     status=job.status,
                     editable=False,
-                    gta_cert=request.files['gta_cert'],
-                    transcript=request.files['transcript'],
+                    gta_cert=request.files['gta_cert'].read(),
+                    transcript=request.files['transcript'].read(),
                     job_id=job.job_id
                 )
                 try:
@@ -200,7 +201,9 @@ def Apply(job_id):
 def ProfilePage():
     form = UpdateProfileForm()
     uform = AddUserCourseForm()
-
+    print(current_user)
+    if isinstance(current_user, AnonymousUserMixin):
+        return redirect(url_for("form.LoginPage"))
     # Check for form submission and validation
     if form.validate_on_submit():
         # Update the current_user's attributes with the form data

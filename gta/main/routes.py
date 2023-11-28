@@ -1,5 +1,5 @@
 from flask import render_template, redirect, url_for, session, json, request, jsonify
-from flask_login import login_required, logout_user
+from flask_login import login_required, logout_user, current_user
 from gta.main import bp as mbp
 from gta.model.models import Users, Jobs, Roles, Courses, Applications
 from gta.extensions import login_manager
@@ -96,6 +96,8 @@ def ApplicationsPage():
 @mbp.route('/admin')
 @login_required
 def AdminPage():
+    if current_user.role != 5:
+        return redirect(url_for("form.LoginPage"))
     with app.app_context():
         resj = db.session.execute(db.select(Courses.course_name, Courses.course_level, Jobs.certification_required, Roles.role_name).where(Jobs.role_id == Roles.role_id).where(Jobs.course_required == Courses.course_id)).all()
         resa = db.session.execute(db.select(Users.user_id, Courses.course_name, Courses.course_level, Applications.status, Applications.status, Applications.gta_cert, Applications.transcript, Roles.role_name, Jobs.job_id).where(Applications.user_id == Users.user_id).where(Applications.course_id == Courses.course_id).where(Applications.job_id == Jobs.job_id).where(Jobs.role_id == Roles.role_id)).all()

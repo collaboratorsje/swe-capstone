@@ -4,3 +4,4 @@ __pycache__/
 *.bak
 *.session.sql
 uploads/
+instance/database.db
