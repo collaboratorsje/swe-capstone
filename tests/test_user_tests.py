@@ -33,7 +33,7 @@ def test_login(page: Page):
     page.locator('input[name="user_email"]').fill("test@test.com")
     page.locator('input[name="user_pass"]').fill("test")
     page.get_by_role('button', name='Submit').click()
-    expect(page)#.to_have_title("http://localhost:5000")
+    expect(page).to_have_url("/")
 """
 def test_user_access_applications(page: Page):
     page.goto('http://localhost:5000/applications')
