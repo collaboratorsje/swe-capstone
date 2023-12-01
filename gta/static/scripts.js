@@ -10,6 +10,14 @@ document.addEventListener("DOMContentLoaded", function() {
             }, 1000); // Matches the duration of the fade effect
         });
     }, 5000); // Duration until the fade-out starts
+
+    // Combined logic for toggleGtaCert
+    var checkbox = document.getElementById('toggleGtaCert');
+    var gtaCertField = document.querySelector('.gta-cert-field');
+    gtaCertField.style.display = checkbox.checked ? 'block' : 'none';
+    checkbox.addEventListener('change', function() {
+        gtaCertField.style.display = checkbox.checked ? 'block' : 'none';
+    });
 });
 
 
@@ -118,7 +126,7 @@ function displayFilteredJobs(filteredJobs) {
             <p>Course ID: ${job[4]}</p>
             ${job[1] ? '<p><span class="badge badge-primary">Certification Required</span></p>' : '<p>&nbsp;</p>'}
             <a href="/apply/${job[4]}" class="btn apply-btn">Apply</a>
-        `; // Update href link as per your application's routing
+        `;
         jobListElement.appendChild(jobItem);
     });
 }
@@ -135,4 +143,7 @@ document.querySelector('input[name="query"]').addEventListener('input', function
     const filteredJobs = filterJobListings(searchQuery);
     displayFilteredJobs(filteredJobs);
 });
+
+
+
 
