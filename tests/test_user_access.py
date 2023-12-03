@@ -1,8 +1,9 @@
 #from playwright.async_api import Page, expect
-#import asyncio
-#import pytest
+import asyncio
+import pytest
 from playwright.sync_api import Page, expect
 import re
+from test_util import login
 
 base = "http://localhost:5000"
 apps = base+'/applications'
@@ -11,13 +12,8 @@ lin = base+'/login'
 reg = base+'/register'
 prof = base+'/profile'
 
-def login(page: Page, user="testuc@test.com", pa="test"):
-    page.goto(lin)
-    page.locator('input[name="user_email"]').fill(user)
-    page.locator('input[name="user_pass"]').fill(pa)
-    page.get_by_role('button', name='Submit').click()
-
 # 1.1
+#@pytest.mark.asyncio
 def test_unlogged_access_applications(page: Page):
     page.goto(apps)
     expect(page).to_have_url(re.compile("login"))
