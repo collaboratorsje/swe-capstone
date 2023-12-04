@@ -98,7 +98,7 @@ function filterJobs()
     })
 };
 
-function filterJobListings(query) {
+function searchJobs(query) {
     const lowerCaseQuery = query.toLowerCase();
 
     // If the query is empty, return the full jobs array
@@ -114,7 +114,7 @@ function filterJobListings(query) {
     );
 }
 
-function displayFilteredJobs(filteredJobs) {
+function displayJobs(filteredJobs) {
     const jobListElement = document.getElementById('job-list-group');
     jobListElement.innerHTML = ''; // Clear current job listings
 
@@ -134,14 +134,14 @@ function displayFilteredJobs(filteredJobs) {
 document.getElementById('search-form').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevent the form from submitting traditionally
     const searchQuery = document.querySelector('input[name="query"]').value;
-    const filteredJobs = filterJobListings(searchQuery);
-    displayFilteredJobs(filteredJobs);
+    const filteredJobs = searchJobs(searchQuery);
+    displayJobs(filteredJobs);
 });
 
 document.querySelector('input[name="query"]').addEventListener('input', function() {
     const searchQuery = this.value;
-    const filteredJobs = filterJobListings(searchQuery);
-    displayFilteredJobs(filteredJobs);
+    const filteredJobs = searchJobs(searchQuery);
+    displayJobs(filteredJobs);
 });
 
 
