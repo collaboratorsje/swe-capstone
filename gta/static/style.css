@@ -63,6 +63,32 @@
     background-color: var(--light-blue);
     color: var(--dark-blue);
 }
+.small-my-navbar {
+    border-radius: 10px;
+    background-color: var(--light-blue);
+    color: var(--dark-blue);
+    width: 80%;
+    margin: auto;
+}
+.nav-tabs {
+    border-bottom: 0px solid transparent;
+}
+
+.nav-tabs .nav-link{
+    background-color: var(--dark-blue);
+    color: var(--white);
+    font-weight: bold;
+}
+.nav-tabs .nav-link:hover {
+    background-color: var(--hover-blue);
+    cursor: pointer;
+}
+
+.nav-tabs .nav-link.active {
+    background-color: var(--yellow);
+    /*color: rgb(217, 0, 255);*/
+    color: var(--dark-blue);
+}
 
 .nav-pills .nav-link {
     background-color: var(--dark-blue);
@@ -72,6 +98,7 @@
 
 .nav-pills .nav-link:hover {
     background-color: var(--hover-blue);
+    cursor: pointer;
 }
 
 .nav-pills .nav-link.active {
@@ -102,6 +129,19 @@
 .flex-child {
     flex: 1;
     margin: 1%;
+}
+
+.flex-container-column{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+.flex-child-center{
+    margin: auto;
+    justify-content: center;
+    align-items: center;
 }
 
 .flex-child:first-child {
@@ -296,3 +336,15 @@ input::placeholder {
 }
 
 
+.admin-tabs{
+    color: var(--white);
+}
+
+.nav-tabs{
+
+}
+
+.btn-job{
+    margin-bottom: 10px;
+    width: 200px;
+}

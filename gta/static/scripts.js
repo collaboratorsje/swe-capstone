@@ -145,5 +145,59 @@ document.querySelector('input[name="query"]').addEventListener('input', function
 });
 
 
+function displayJobs() {
+    var x = document.getElementById("jobsList");
+    var y = document.getElementById("applicationsList");
+    var z = document.getElementById("usersList");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    }
+    y.style.display = "none";
+    z.style.display = "none";
 
+    var a = document.getElementById("jobsButton");
+    var b = document.getElementById("applicationsButton");
+    var c = document.getElementById("usersButton");
 
+    a.classList.add('active');
+    b.classList.remove('active');
+    c.classList.remove('active');
+}
+
+function displayApplications() {
+    var x = document.getElementById("applicationsList");
+    var y = document.getElementById("jobsList");
+    var z = document.getElementById("usersList");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    }
+    y.style.display = "none";
+    z.style.display = "none";
+
+    var a = document.getElementById("applicationsButton");
+    var b = document.getElementById("jobsButton");
+    var c = document.getElementById("usersButton");
+
+    a.classList.add("active");
+    b.classList.remove("active");
+    c.classList.remove("active");
+}
+
+function displayUsers() {
+    var x = document.getElementById("usersList");
+    var y = document.getElementById("jobsList");
+    var z = document.getElementById("applicationsList");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    }
+    y.style.display = "none";
+    z.style.display = "none";
+
+    var a = document.getElementById("usersButton");
+    var b = document.getElementById("jobsButton");
+    var c = document.getElementById("applicationsButton");
+
+    a.classList.add("active");
+    b.classList.remove("active");
+    c.classList.remove("active");
+}

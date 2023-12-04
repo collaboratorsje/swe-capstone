@@ -2,15 +2,27 @@
 {% block content %}
 
 <!-- Code Here-->
-<div class="flex-container">
-    <div class="flex-child">
-        <h2>Admin Dashboard</h2>
-        <button class="btn btn-primary">{{render_nav_item('form.CreateJobPage', 'Create Job')}}</button>
-    </div>
+<div class="flex-container-columm">
+    <h2>Admin Dashboard</h2>
+    
+    <button class="btn btn-primary btn-job">{{render_nav_item('form.CreateJobPage', 'Create Job')}}</button>
+    <nav class="navbar navbar-center small-my-navbar">
+        <ul class="nav nav-pills">
+            <li class="nav-item" style="margin-inline: 5px;">
+                <a class="nav-link active" id="jobsButton" onclick="displayJobs()">Jobs</a>
+            </li>
+            <li class="nav-item" style="margin-inline: 5px;">
+                <a class="nav-link" id="applicationsButton" onclick="displayApplications()">Applications</a>
+            </li>
+            <li class="nav-item" style="margin-inline: 5px;">
+                <a class="nav-link" id = "usersButton" onclick="displayUsers()">Users</a>
+            </li>
+        </ul>
+    </nav>
 </div>
 
-<div class="flex-container">
-    <div class="flex-child">
+<div class="flex-container-column">
+    <div class="flex-child active" style="display: block;"  id="jobsList">
         <h3>Jobs</h3>
             <ul id="job-list-group" class="list-group">
                 {% for j in jobs %}
@@ -25,7 +37,7 @@
                 {% endfor %}
             </ul>
     </div>
-    <div class="flex-child">
+    <div class="flex-child" style="display: none;" id="applicationsList">
         <h3>Applications</h3>
         {% for a in apps %}
         <div class="application-post list-group-item">
@@ -43,12 +55,7 @@
         <div></div>
         {% endfor%}
     </div>
-</div>
-
-<!-- I added this to see if there were users with the same email before making emails unique true
-this doesn't have to stay but please leave for now for debugging purposes -->
-<div class="flex-container">
-    <div class="flex-child">
+    <div class="flex-child" style="display: none;" id="usersList">
         <h3>Users</h3>
         {% for u in users %}
         <div class="application-post list-group-item">
@@ -67,5 +74,10 @@ this doesn't have to stay but please leave for now for debugging purposes -->
     </div>
     <div class="flex-child"></div>
 </div>
+</div>
+
+<!-- I added this to see if there were users with the same email before making emails unique true
+this doesn't have to stay but please leave for now for debugging purposes -->
+
 
 {% endblock %}
