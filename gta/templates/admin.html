@@ -19,7 +19,7 @@
                         <p>{% if j['cert_required'] %}<span class="badge badge-primary">Certification Required</span>{% else %}&nbsp;{% endif %}</p>
                         <!-- Additional job details here, if any -->
                         <button class="btn btn-primary">Edit</button>
-                        <button class="btn btn-primary">Open/Close</button>
+                        <button class="btn btn-danger">Remove Job</button>
                     </li>
                     <div></div>
                 {% endfor %}
@@ -35,8 +35,10 @@
             <p>User: {{ a['user_id']}}</p>
             <p>Job ID: {{ a['job_id'] }}</p>
             <p>Status: {% if a['status'] %} Open {% else %} Closed {% endif %}</p>
-            <button class="btn btn-primary">Edit</button>
+            <button class="btn btn-primary">View</button>
             <button class="btn btn-primary">Open/Close</button>
+            <button class="btn btn-danger">Reject</button>
+            <button class="btn btn-primary">Accept</button>
         </div>
         <div></div>
         {% endfor%}
@@ -47,16 +49,21 @@
 this doesn't have to stay but please leave for now for debugging purposes -->
 <div class="flex-container">
     <div class="flex-child">
-    <h3>Users</h3>
-    {% for u in users %}
-    <div class="application-post">
-        {{ u['user_id'] }}
-        {{ u['fname'] }} {{ u['lname'] }} <!-- Assuming you want to display the name -->
-        {{ u['email'] }}
-        <span class="badge badge-primary">{{ u['role'] }}</span>
-        <!-- You can add other fields like major, degree, etc., similar to the above line -->
-    </div>
-    {% endfor %}
+        <h3>Users</h3>
+        {% for u in users %}
+        <div class="application-post list-group-item">
+            <p>User ID: {{ u['user_id'] }}</p>
+            <p>Name: {{ u['fname'] }} {{ u['lname'] }}</p> <!-- Assuming you want to display the name -->
+            <p>Email: {{ u['email'] }}</p>
+            {% if u['role'] == 5%}
+            <span class="badge badge-primary">User Type: Admin</span>
+            {% else %}
+            <span class="badge badge-primary">User Type: Student</span>
+            {% endif %}
+            <!-- You can add other fields like major, degree, etc., similar to the above line -->
+        </div>
+        <div></div>
+        {% endfor %}
     </div>
     <div class="flex-child"></div>
 </div>
