@@ -1,6 +1,9 @@
 // static/scripts.js
 
 document.addEventListener("DOMContentLoaded", function() {
+    // ... existing code ...
+
+    // Fade out alerts
     setTimeout(function() {
         let alerts = document.querySelectorAll('.alert:not(.static-alert)');
         alerts.forEach(function(alert) {
@@ -11,15 +14,36 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }, 5000); // Duration until the fade-out starts
 
-    // Combined logic for toggleGtaCert
+    // Toggle GTA certification logic
     var checkbox = document.getElementById('toggleGtaCert');
-    var gtaCertField = document.querySelector('.gta-cert-field');
-    gtaCertField.style.display = checkbox.checked ? 'block' : 'none';
-    checkbox.addEventListener('change', function() {
-        gtaCertField.style.display = checkbox.checked ? 'block' : 'none';
-    });
-});
+    if (checkbox) {
+        var gtaCertField = document.querySelector('.gta-cert-field');
+        if (gtaCertField) {
+            gtaCertField.style.display = checkbox.checked ? 'block' : 'none';
+            checkbox.addEventListener('change', function() {
+                gtaCertField.style.display = checkbox.checked ? 'block' : 'none';
+            });
+        }
+    }
 
+    // Add event listener for search form submission
+    var searchForm = document.getElementById('search-form');
+    if (searchForm) {
+        searchForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting traditionally
+            const searchQuery = document.querySelector('input[name="query"]').value;
+            const filteredJobs = searchJobs(searchQuery);
+            displayJobs(filteredJobs);
+        });
+    }
+
+    setupSearchFormListener();
+    setupInputEventListener();
+
+    // Call updateJobListingsTitle initially and whenever jobs change
+    updateJobListingsTitle();
+
+});
 
 function togglePasswordVisibility() {
     const passwordField = document.getElementById('passwordField');
@@ -32,14 +56,12 @@ function togglePasswordVisibility() {
     }
 };
 
-// Function to update the job listings title with the count
 function updateJobListingsTitle() {
-    // Get the number of job elements
-    var jobCount = document.querySelectorAll(".list-group-item").length;
-    
-    // Update the title with the count
     var titleElement = document.getElementById("job-list-title");
-    titleElement.innerText = "Job Listings (" + jobCount + ")";
+    if (titleElement) {
+        var jobCount = document.querySelectorAll(".list-group-item").length;
+        titleElement.innerText = "Job Listings (" + jobCount + ")";
+    }
 }
 
 // Call the function initially and whenever jobs change (e.g., filtering)
@@ -131,18 +153,28 @@ function displayJobs(filteredJobs) {
     });
 }
 
-document.getElementById('search-form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent the form from submitting traditionally
-    const searchQuery = document.querySelector('input[name="query"]').value;
-    const filteredJobs = searchJobs(searchQuery);
-    displayJobs(filteredJobs);
-});
+function setupSearchFormListener() {
+    var searchForm = document.getElementById('search-form');
+    if (searchForm) {
+        searchForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting traditionally
+            const searchQuery = document.querySelector('input[name="query"]').value;
+            const filteredJobs = searchJobs(searchQuery);
+            displayJobs(filteredJobs);
+        });
+    }
+}
 
-document.querySelector('input[name="query"]').addEventListener('input', function() {
-    const searchQuery = this.value;
-    const filteredJobs = searchJobs(searchQuery);
-    displayJobs(filteredJobs);
-});
+function setupInputEventListener() {
+    var searchInput = document.querySelector('input[name="query"]');
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            const searchQuery = this.value;
+            const filteredJobs = searchJobs(searchQuery);
+            displayJobs(filteredJobs);
+        });
+    }
+}
 
 
 function displayJobs() {
@@ -200,4 +232,27 @@ function displayUsers() {
     a.classList.add("active");
     b.classList.remove("active");
     c.classList.remove("active");
+}
+
+function confirmAndRemoveJob(jobId) {
+    if (confirm('Are you sure you want to remove this job?')) {
+        fetch('/delete-job', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ jobId: jobId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Remove the job element from the list or refresh the page
+                alert('Job removed successfully');
+                window.location.reload(); // Simple way to refresh the page
+            } else {
+                alert('Error removing job');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
 }

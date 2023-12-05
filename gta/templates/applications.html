@@ -13,7 +13,7 @@
         <!--<p>{% if a[1] == 1 %}*Requires Certification{% else %}&nbsp;{% endif %}</p> -->
         <p>Status: {% if a['status'] %} Open {% else %} Closed {% endif %}</p>
         {% if a[3] == False%}
-        <p>Cannot be Currently Edited</p>
+        <p>Currently cannot be edited (Closed)</p>
         {% else %}
         <button href="{{ url_for('form.EditApplication', job_id=loop.index|string) }}" class="btn edit-btn">Edit</button>
         {% endif %}

@@ -118,3 +118,23 @@ def AdminPage():
     } for user in all_users]
     return render_template('admin.html',jobs=jobs, apps=apps, users=users)
 
+# FIXME 
+@app.route('/delete-job', methods=['POST'])
+def delete_job():
+    data = request.json
+    job_id = data['jobId']
+
+    try:
+        job_to_delete = Job.query.get(job_id)
+        if job_to_delete:
+            db.session.delete(job_to_delete)
+            db.session.commit()
+            return jsonify({'success': True})
+        else:
+            return jsonify({'success': False, 'error': 'Job not found'}), 404
+    except Exception as error:
+        db.session.rollback()
+        return jsonify({'success': False, 'error': str(error)}), 500
+
+
+
