@@ -136,7 +136,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    
+    align-content: center;
 }
 .flex-child-center{
     margin: auto;
@@ -345,6 +345,8 @@ input::placeholder {
 }
 
 .btn-job{
+    display: block;
+    margin: auto;
     margin-bottom: 10px;
     width: 200px;
 }
