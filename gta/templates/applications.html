@@ -11,7 +11,7 @@
         <h5>{{ a[0] }} <span class="badge badge-primary">{{ a[1] }}</span></h5>
         <!--<p id="job-course-id" value="{{a[4]}}">Course ID: {{a[4]}}</p> -->
         <!--<p>{% if a[1] == 1 %}*Requires Certification{% else %}&nbsp;{% endif %}</p> -->
-        <p>Status: {{ a[2] }}</p>
+        <p>Status: {% if a['status'] %} Open {% else %} Closed {% endif %}</p>
         {% if a[3] == False%}
         <p>Cannot be Currently Edited</p>
         {% else %}
