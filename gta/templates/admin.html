@@ -32,7 +32,7 @@
                         <p>{{ j['job_id'] }}</p>
                         <!-- Additional job details here, if any -->
                         <button class="btn btn-primary">Edit</button>
-                        <button class="btn btn-danger">Remove Job</button>
+                        <button class="btn btn-danger" onclick="if(confirm('Are you sure?')) { handleConfirmation(); }">Remove Job</button>
                     </li>
                     <div></div>
                 {% endfor %}
