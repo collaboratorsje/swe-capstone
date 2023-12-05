@@ -29,6 +29,7 @@
                     <li class="list-group-item">
                         <h5>{{ j['course'] }} - <span class="badge badge-primary">{{ j['role_name'] }}</span></h5>
                         <p>{% if j['cert_required'] %}<span class="badge badge-primary">Certification Required</span>{% else %}&nbsp;{% endif %}</p>
+                        <p>{{ j['job_id'] }}</p>
                         <!-- Additional job details here, if any -->
                         <button class="btn btn-primary">Edit</button>
                         <button class="btn btn-danger">Remove Job</button>
