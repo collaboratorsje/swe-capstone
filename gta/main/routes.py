@@ -125,7 +125,7 @@ def delete_job():
     job_id = data['jobId']
 
     try:
-        job_to_delete = Job.query.get(job_id)
+        job_to_delete = Jobs.query.get(job_id)
         if job_to_delete:
             db.session.delete(job_to_delete)
             db.session.commit()
