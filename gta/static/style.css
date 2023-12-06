@@ -340,10 +340,6 @@ input::placeholder {
     color: var(--white);
 }
 
-.nav-tabs{
-
-}
-
 .btn-job{
     display: block;
     margin: auto;

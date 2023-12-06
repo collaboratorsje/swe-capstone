@@ -18,7 +18,6 @@ def test_unlogged_click_login(page: Page):
 # 2.1
 def test_unlogged_click_register(page: Page):
     click_register(page)
-    page.wait_for_load_state()
     expect(page).to_have_url(lin)
     # check user in db
     delete_test_user()
@@ -27,7 +26,6 @@ def test_unlogged_click_register(page: Page):
 def test_unlogged_click_register_login(page: Page):
     click_register(page)
     click_login(page, user="testtest@test.com")
-    page.wait_for_load_state()
     expect(page).to_have_url(base+'/')
     # check user in db
     # check for profile button
@@ -44,7 +42,6 @@ def test_logged_click_logout(page:Page):
 def test_logged_click_register_ucourses(page: Page):
     click_register(page, courses=True)
     click_login(page, user="testtest@test.com")
-    page.wait_for_load_state()
     expect(page).to_have_url(base+'/')
     # check user in db
     # check for profile button
@@ -53,7 +50,7 @@ def test_logged_click_register_ucourses(page: Page):
 # 5.1
 def test_filter_course(page: Page):
     page.goto(base)
-    page.select_option('select#course-filter', 'CS 201R - Problem Solving and Programming II')
+    page.select_option('select#course-filter, 'CS 201R - Problem Solving and Programming II')
     # check for courses not filtered
 
 # 5.2 
@@ -65,23 +62,23 @@ def test_filter_position(page: Page):
 # 5.3 
 def test_filter_cert(page: Page):
     page.goto(base)
-    page.locator('input[id="cert-filter"]').check()
+    page.selector(input[id="cert-filter"]').check()
     # check for non-cert jobs listed
 
 # 5.4 
 def test_filter_search(page: Page):
     page.goto(base)
-    page.locator('input[name="query"]').fill("CS 201R")
-    page.locator('button[id="submit-query"]').click()
+    page.selector(input[id="query"]').fill('CS 201R')
+    page.selector(button[id=""]').click()
     # check for non CS 201R jobs
 
 # 5.5 
 def test_filter_combined(page: Page):
     page.goto(base)
-    page.select_option('select#course-filter', 'CS 201R - Problem Solving and Programming II')
+    page.select_option('select#course-filter, 'CS 201R - Problem Solving and Programming II')
     page.select_option('select#role-filter', 'Grader')
-    page.locator('input[name="query"]').fill("CS 201R")
-    page.locator('button[id="submit-query"]').click()
+    page.selector(input[id="query"]').fill('CS 201R')
+    page.selector(button[id=""]').click()
     # check for non CS 201R jobs
 
 # 6.1
@@ -125,36 +122,34 @@ def test_logged_click_apply_cert(page: Page):
 def test_admin_click_edit_app(page: Page):
     login(page, user="admin@admin.com", pa="admin")
     page.goto(admin)
-    page.locator('button[id="app-oc"]').all()[0].click()
+    page.locator(button[id="job-oc"]').click()
     # check if job is open
 
 # 7.2
 def test_admin_click_edit_job(page: Page):
     login(page, user="admin@admin.com", pa="admin")
     page.goto(admin)
-    page.locator('button[id="job-edit"]').all()[0].click()
+    page.locator(button[id="job-edit"]').click()
     # Make some edit
     # Save edit
     # check job edited
 
-"""
 # 7.3
 def test_admin_click_remove_job(page: Page):
     login(page, user="admin@admin.com", pa="admin")
     page.goto(admin)
-    page.locator('button[id="job-remove"]').click()
+    page.locator(button[id="job-remove"]').click()
     page.on("dialog", handle_dialog)
     # check job is removed
-"""
+
 # 7.4
 def test_admin_click_accept_app(page: Page):
     login(page, user="admin@admin.com", pa="admin")
     page.goto(admin)
-    page.locator('a[id="applicationsButton"]').all()[0].click()
-    page.locator('button[id="app-acc"]').all()[0].click()
+    page.locator('a[id="applicationsButton"]').click()
+    page.locator('button[id="app-acc"]').click()
     # check if app is accepted
 
-"""
 # 7.5
 def test_admin_click_reject_app(page: Page):
     login(page, user="admin@admin.com", pa="admin")
@@ -162,13 +157,12 @@ def test_admin_click_reject_app(page: Page):
     page.locator('a[id="applicationsButton"]').click()
     page.locator('button[id="app-rej"]').click()
     # check if app is rejected
-"""
 # 7.6
 def test_admin_click_create_job(page: Page):
     login(page, user="admin@admin.com", pa="admin")
     page.goto(admin)
-    page.locator('button[id="create-job"]').click()
+    page.locator('a[id="create-job"]').click()
     page.select_option('select#role', 'Grader')
     page.select_option('select#course_required', 'CS 101 - Problem Solving and Programming I')
-    page.get_by_role('button', name='submit').click()
+    page.get_by_role('button', 'submit').click()
     # check if job present

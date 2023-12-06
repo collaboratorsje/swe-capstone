@@ -279,7 +279,7 @@ function confirmAndRemoveApplication(appId) {
         .catch(error => console.error('Error:', error));
     }
 }
-
+//{{ url_for('form.EditApplication', job_id=loop.index|string) }}
 function openCloseApplicationEditing(appId){
     fetch('/update-open-close', {
         method: 'POST',
