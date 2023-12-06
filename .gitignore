@@ -5,3 +5,4 @@ __pycache__/
 *.session.sql
 uploads/
 instance/database.db
+instance/database.db

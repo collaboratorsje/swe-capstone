@@ -77,6 +77,7 @@ def RegisterPage():
                 db.session.rollback()
             finally:
                 ucourses.clear()
+                return redirect(url_for("form.LoginPage"))
         else:
             print("User Exists")
             return redirect(url_for("form.RegisterPage"))

@@ -16,15 +16,15 @@
         <nav class="navbar navbar-extended-sm my-navbar">
             <div class="navbar navbar-nav mr-auto">
                 <ul class="nav nav-pills">
-                    <li class="nav-item" style="margin-inline: 5px;">
+                    <li class="nav-item" name="nav-home" style="margin-inline: 5px;">
                     {{ render_nav_item('main.Home', 'Home') }}
                     </li>
                     {% if current_user.is_authenticated %}
-                        <li class="nav-item" style="margin-inline: 5px;">
+                        <li class="nav-item" name="nav-applications" style="margin-inline: 5px;">
                         {{ render_nav_item('main.ApplicationsPage', 'My Applications') }}
                         </li>
                         {% if current_user.role == 5%}
-                            <li class="nav-item" style="margin-inline: 5px;">
+                            <li class="nav-item" name="nav-admin" style="margin-inline: 5px;">
                             {{ render_nav_item('main.AdminPage', 'Administration') }}
                             </li>
                         {% endif %}
@@ -38,17 +38,17 @@
                 <ul class="nav nav-pills">
                     <!-- If if authentificated login else account-->
                     {% if current_user.is_authenticated %}
-                        <li class="nav-item" style="margin-inline: 5px;">
+                        <li class="nav-item" name="nav-profile" style="margin-inline: 5px;">
                             {{ render_nav_item('form.ProfilePage', current_user.user_fname ~ ' ' ~ current_user.user_lname) }}
                         </li>
-                        <li class="nav-item" style="margin-inline: 5px;"> <!-- Add margin here -->
+                        <li class="nav-item" name="nav-logout" style="margin-inline: 5px;"> <!-- Add margin here -->
                             {{ render_nav_item('main.Logout', 'Logout')}}
                         </li>
                     {% else %}
-                        <li class="nav-item" style="margin-inline: 5px;">
+                        <li class="nav-item" name="nav-login" style="margin-inline: 5px;">
                         {{ render_nav_item('form.LoginPage', 'Login') }}
                         </li>
-                        <li class="nav-item" style="margin-inline: 5px;"> <!-- Add margin here -->
+                        <li class="nav-item" name="nav-register" style="margin-inline: 5px;"> <!-- Add margin here -->
                             {{ render_nav_item('form.RegisterPage', 'Register') }}
                         </li>
                     {% endif %}
