@@ -51,7 +51,7 @@
             <p>App ID: {{a['app_id'] }}</p>
             <p>Status: {% if a['status'] %} Open {% else %} Closed {% endif %}</p>
             <button id="app-view" class="btn btn-primary">View</button>
-            <button id="app-oc" class="btn btn-primary">Open/Close</button>
+            <button id="app-oc" class="btn btn-primary" onclick="openCloseApplicationEditing({{ a['app_id']}})">Open/Close</button>
             <button id="app-acc" class="btn btn-primary">Accept</button>
             <button id="app-rej" class="btn btn-danger" onclick="confirmAndRemoveApplication({{ a['app_id']}})">Reject</button>
         </div>

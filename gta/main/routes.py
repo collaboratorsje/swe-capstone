@@ -157,3 +157,24 @@ def delete_application():
         db.session.rollback()
         return jsonify({'success': False, 'error': str(error)}), 500
 
+@app.route('/update-open-close', methods=['POST'])
+def open_close_application():
+    data = request.json
+    app_id = data['appId']
+
+    try:
+        app_to_update = Applications.query.get(app_id)
+        if app_to_update:
+            if app_to_update.editable:
+                app_to_update.editable = 0
+                app_to_update.status = 0
+            else:
+                app_to_update.editable = 1
+                app_to_update.status = 1
+            db.session.commit()
+            return jsonify({'success': True})
+        else:
+             return jsonify({'success': False, 'error': 'Application not found'}), 404
+    except Exception as error:
+        db.session.rollback()
+        return jsonify({'success': False, 'error': str(error)}), 500

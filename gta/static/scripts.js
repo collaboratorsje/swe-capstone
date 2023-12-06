@@ -279,3 +279,24 @@ function confirmAndRemoveApplication(appId) {
         .catch(error => console.error('Error:', error));
     }
 }
+
+function openCloseApplicationEditing(appId){
+    fetch('/update-open-close', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ appId: appId})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Remove the application element from the list or refresh the page
+            alert('Application accepted successfully');
+            window.location.reload();
+        } else {
+            alert('Error accepting application');
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
