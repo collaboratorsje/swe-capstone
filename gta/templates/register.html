@@ -27,7 +27,7 @@
     </div>
     <div class="flex-child course-data">
         <h3>Course Data</h3>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCourseForm">Add Course</button>
+        <button type="button" class="btn btn-primary" name="adducourse" data-bs-toggle="modal" data-bs-target="#addCourseForm">Add Course</button>
         <br><br>
         <div id="course-posts">
         </div>
@@ -83,7 +83,8 @@
                                              id: "course-post-"+response["course_id"]
                                             });
                                             courses.appendChild(NewE);
-                                            alert("Added Course")});
+                                            //alert("Added Course")
+                                        });
                                 });
 
                             </script>

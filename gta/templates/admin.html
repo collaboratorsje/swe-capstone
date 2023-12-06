@@ -6,7 +6,7 @@
     
     <h2 style="text-align: center;">Admin Dashboard</h2>
     
-    <button class="btn btn-primary btn-job">{{render_nav_item('form.CreateJobPage', 'Create Job')}}</button>
+    <button id="create-job" class="btn btn-primary btn-job">{{render_nav_item('form.CreateJobPage', 'Create Job')}}</button>
     <nav class="navbar navbar-center small-my-navbar">
         <ul class="nav nav-pills">
             <li class="nav-item" style="margin-inline: 5px;">
@@ -32,8 +32,8 @@
                         <p>{% if j['cert_required'] %}<span class="badge badge-primary">Certification Required</span>{% else %}&nbsp;{% endif %}</p>
                         <p>Job ID: {{ j['job_id'] }}</p>
                         <!-- Additional job details here, if any -->
-                        <button class="btn btn-primary">Edit</button>
-                        <button class="btn btn-danger" onclick="confirmAndRemoveJob({{ j['job_id'] }})">Remove Job</button>
+                        <button id="job-edit" class="btn btn-primary">Edit</button>
+                        <button id="job-close" class="btn btn-danger" onclick="confirmAndRemoveJob({{ j['job_id'] }})">Remove Job</button>
                     </li>
                     <div></div>
                 {% endfor %}
@@ -49,10 +49,10 @@
             <p>User: {{ a['user_id']}}</p>
             <p>Job ID: {{ a['job_id'] }}</p>
             <p>Status: {% if a['status'] %} Open {% else %} Closed {% endif %}</p>
-            <button class="btn btn-primary">View</button>
-            <button class="btn btn-primary">Open/Close</button>
-            <button class="btn btn-danger">Reject</button>
-            <button class="btn btn-primary">Accept</button>
+            <button id="app-view" class="btn btn-primary">View</button>
+            <button id="app-oc" class="btn btn-primary">Open/Close</button>
+            <button id="app-acc" class="btn btn-primary">Accept</button>
+            <button id="app-rej" class="btn btn-danger">Reject</button>
         </div>
         <div></div>
         {% endfor%}
