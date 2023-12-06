@@ -48,11 +48,12 @@
             <span class="badge badge-primary"> {{ a['role'] }} </span>
             <p>User: {{ a['user_id']}}</p>
             <p>Job ID: {{ a['job_id'] }}</p>
+            <p>App ID: {{a['app_id'] }}</p>
             <p>Status: {% if a['status'] %} Open {% else %} Closed {% endif %}</p>
             <button id="app-view" class="btn btn-primary">View</button>
             <button id="app-oc" class="btn btn-primary">Open/Close</button>
             <button id="app-acc" class="btn btn-primary">Accept</button>
-            <button id="app-rej" class="btn btn-danger">Reject</button>
+            <button id="app-rej" class="btn btn-danger" onclick="confirmAndremoveApplication({{ a['app_id']}})">Reject</button>
         </div>
         <div></div>
         {% endfor%}

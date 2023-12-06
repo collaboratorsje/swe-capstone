@@ -256,3 +256,26 @@ function confirmAndRemoveJob(jobId) {
         .catch(error => console.error('Error:', error));
     }
 }
+
+function confirmAndRemoveApplication(appId) {
+    if (confirm('Are you sure you want to reject this application?')) {
+        fetch('/reject-application', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({appId: appId})
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Remove the application element from the list or refresh the page
+                alert('Application removed successfully');
+                window.location.reload();
+            } else {
+                alert('Error removing application');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+}
