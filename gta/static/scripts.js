@@ -292,7 +292,7 @@ function openCloseApplicationEditing(appId){
     .then(data => {
         if (data.success) {
             // Remove the application element from the list or refresh the page
-            alert('Application accepted successfully');
+            alert('Application editing updated successfully');
             window.location.reload();
         } else {
             alert('Error accepting application');
