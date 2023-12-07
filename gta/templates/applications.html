@@ -13,7 +13,7 @@
         <!--<p>{% if a[1] == 1 %}*Requires Certification{% else %}&nbsp;{% endif %}</p> -->
         <p>Job ID: {{ a [5] }}</p>
         <p>App ID: {{ a[4] }}</p>
-        <p>Status: {% if a['status'] %} Open {% else %} Closed {% endif %}</p>
+        <p>Status: {% if a[3] %} Open {% else %} Closed {% endif %}</p>
         {% if a[3] == False%}
         <p>Currently cannot be edited (Closed)</p>
         {% else %}

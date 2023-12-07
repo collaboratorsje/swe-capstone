@@ -50,7 +50,7 @@
             <p>User: {{ a['user_id']}}</p>
             <p>Job ID: {{ a['job_id'] }}</p>
             <p>App ID: {{a['app_id'] }}</p>
-            <p>Status: {% if a['status'] %} Open {% else %} Closed {% endif %}</p>
+            <p>Status: {% if a['editable'] %} Open {% else %} Closed {% endif %}</p>
             <button id="app-view" class="btn btn-primary">View</button>
             <button id="app-oc" class="btn btn-primary" onclick="openCloseApplicationEditing({{ a['app_id'] }})">Open/Close</button>
             <button id="app-acc" class="btn btn-primary" onclick="confirmAndAcceptApplication({{ a['app_id'] }})">Accept</button>
