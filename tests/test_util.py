@@ -10,6 +10,7 @@ def login(page: Page, user="testuc@test.com", pa="test"):
     page.locator('input[name="user_email"]').fill(user)
     page.locator('input[name="user_pass"]').fill(pa)
     page.get_by_role('button', name='Submit').click()
+    page.wait_for_load_state()
 
 def click_register(page: Page, user="testtest@test.com", pa="test", id="000000001", fname="test", lname="test", gpa="4", hours="40", courses=None):
     page.goto(base)
@@ -35,6 +36,7 @@ def click_register(page: Page, user="testtest@test.com", pa="test", id="00000000
     page.locator('input[name="user_pass"]').fill(pa)
     page.locator('input[name="user_confirm_pass"]').fill(pa)
     page.get_by_role('button', name="submit").click()
+    page.wait_for_load_state()
 
 def click_login(page: Page, user="testuc@test.com", pa="test"):
     page.goto(base)
@@ -42,6 +44,7 @@ def click_login(page: Page, user="testuc@test.com", pa="test"):
     page.locator('input[name="user_email"]').fill(user)
     page.locator('input[name="user_pass"]').fill(pa)
     page.get_by_role('button', name='Submit').click()
+    page.wait_for_load_state()
 
 def delete_test_user():
     cw = os.path.join(os.getcwd(), "instance")

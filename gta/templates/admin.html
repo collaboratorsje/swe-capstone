@@ -28,7 +28,7 @@
             <ul id="job-list-group" class="list-group">
                 {% for j in jobs %}
                     <li class="list-group-item">
-                        <h5>{{ j['course'] }} - <span class="badge badge-primary">{{ j['role_name'] }}</span></h5>
+                        <h5 id="course-name">{{ j['course'] }} <span class="badge badge-primary">{{ j['role_name'] }}</span></h5>
                         <p>{% if j['cert_required'] %}<span class="badge badge-primary">Certification Required</span>{% else %}&nbsp;{% endif %}</p>
                         <p>Job ID: {{ j['job_id'] }}</p>
                         <!-- Additional job details here, if any -->
@@ -47,10 +47,10 @@
             {{ a['user_id'] }}
             {{ a['course'] }}
             <span class="badge badge-primary"> {{ a['role'] }} </span>
-            <p>User: {{ a['user_id']}}</p>
-            <p>Job ID: {{ a['job_id'] }}</p>
-            <p>App ID: {{a['app_id'] }}</p>
-            <p>Status: {% if a['editable'] %} Open {% else %} Closed {% endif %}</p>
+            <p>User: <span id="user-id">{{ a['user_id']}}</span></p>
+            <p>Job ID: <span id="job-id">{{ a['job_id'] }}</span></p>
+            <p>App ID: <span id="app-id">{{a['app_id'] }}</span></p>
+            <p>Status: <span id="app-status">{% if a['editable'] %} Open {% else %} Closed {% endif %}</span></p>
             <button id="app-view" class="btn btn-primary">View</button>
             <button id="app-oc" class="btn btn-primary" onclick="openCloseApplicationEditing({{ a['app_id'] }})">Open/Close</button>
             <button id="app-acc" class="btn btn-primary" onclick="confirmAndAcceptApplication({{ a['app_id'] }})">Accept</button>

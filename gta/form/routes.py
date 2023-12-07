@@ -6,7 +6,7 @@ from flask_login.mixins import AnonymousUserMixin
 from gta.extensions import db, DBUser, DBJob, CourseScore
 from flask import current_app as app
 from gta.form import bp as fbp
-from gta.form.forms import LoginForm, RegisterForm, JobForm, ApplyForm, EditApplyForm, AddUserCourseForm, UpdateProfileForm
+from gta.form.forms import LoginForm, RegisterForm, JobForm, ApplyForm, AddUserCourseForm, UpdateProfileForm, EditApplyForm
 from gta.model.models import Users, Jobs, Majors, Degrees, Roles, Courses, Applications, UserCourses
 import os
 
@@ -133,7 +133,7 @@ def CreateJobPage():
         else:
             print("Job Exists")
             return redirect(url_for("form.CreateJobPage"))
-        return redirect(url_for("main.JobsPage"))
+        return redirect(url_for("main.AdminPage"))
     return render_template("createjob.html", form=form)
 
 @login_required
@@ -217,13 +217,13 @@ def UpdateApplication(app_id):
         emptyGFN = str(session['_user_id']) + "_" + str(job.job_id) + "_new_gta_"
         emptyTFN = str(session['_user_id']) + "_" + str(job.job_id) + "_new_transcript_"
     
-        print(f"Current TFN: {app.transcript_file_name}")
-        print(f"Current GFN: {app.gta_cert_file_name}")
+        #print(f"Current TFN: {app.transcript_file_name}")
+        #print(f"Current GFN: {app.gta_cert_file_name}")
 
-        print(f"New TFN:       {tfn}")
-        print(f"Empty TFN: {emptyTFN}")
-        print(f"New GFN:       {gfn}")
-        print(f"Empty GFN: {emptyGFN}")
+        #print(f"New TFN:       {tfn}")
+        #print(f"Empty TFN: {emptyTFN}")
+        #print(f"New GFN:       {gfn}")
+        #print(f"Empty GFN: {emptyGFN}")
 
         if gfn != emptyGFN:
             app.gta_cert_file_name = gfn
@@ -241,11 +241,7 @@ def UpdateApplication(app_id):
             print(f"Error:\n{e}")
         
         return redirect(url_for('main.Home'))
-
-    #FIX
     return render_template("editapply.html", form=form, job=job)
-
-
 
 @login_required 
 @fbp.route('/profile', methods=['POST', 'GET'])

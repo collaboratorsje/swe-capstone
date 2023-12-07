@@ -208,7 +208,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
 
     /* Transition */
-    transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transition for hover effect */
+    /*transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transition for hover effect */
 }
 
 .list-group-item:first-child {
@@ -216,11 +216,10 @@
     border-top-right-radius: 10px;
 }
 
-.list-group-item:hover {
-    background-color: #e6e6e6; /* Slightly darker gray when hovered */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Increased shadow on hover */
-}
-
+/* .list-group-item:hover { */
+   /*  background-color: #e6e6e6; /* Slightly darker gray when hovered */
+   /*  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Increased shadow on hover */
+/*}*/
 .list-group {
     margin-bottom: 10px;
 }
