@@ -17,7 +17,7 @@
         {% if a[3] == False%}
         <p>Currently cannot be edited (Closed)</p>
         {% else %}
-        <button href = "{{ url_for('form.UpdateApplication', app_id= a[4], job_id= a[5])}}" class="btn btn-primary">Edit</button>
+        <a href = "{{ url_for('form.UpdateApplication', app_id= a[4])}}" class="btn btn-primary">Edit</a>
         {% endif %}
 
     </li>

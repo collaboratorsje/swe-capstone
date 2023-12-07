@@ -6,7 +6,7 @@ from flask_login.mixins import AnonymousUserMixin
 from gta.extensions import db, DBUser, DBJob, CourseScore
 from flask import current_app as app
 from gta.form import bp as fbp
-from gta.form.forms import LoginForm, RegisterForm, JobForm, ApplyForm, AddUserCourseForm, UpdateProfileForm
+from gta.form.forms import LoginForm, RegisterForm, JobForm, ApplyForm, EditApplyForm, AddUserCourseForm, UpdateProfileForm
 from gta.model.models import Users, Jobs, Majors, Degrees, Roles, Courses, Applications, UserCourses
 import os
 
@@ -201,32 +201,47 @@ def Apply(job_id):
         return redirect(url_for("form.LoginPage"))
     
 @login_required
-@fbp.route('/updateapplication', methods=['POST', 'GET'])
-def UpdateApplication(app_id, job_id):
-    try:
-        app = Applications.query.get(app_id)
-        u = db.session.execute(db.Select(Users.user_id, Users.user_fname, Users.user_lname, Users.user_email, Users.major, Majors.major_name, Users.degree, Degrees.degree_name, Users.gpa, Users.hours).where(session['_user_id'] == Users.user_id).where(Users.major == Majors.major_id).where(Users.degree == Degrees.degree_id)).first()
+@fbp.route('/updateapplication/<app_id>', methods=['POST', 'GET'])
+def UpdateApplication(app_id):
+    app = Applications.query.get(app_id)
 
-        user = DBUser(u)
-        j = db.session.execute(db.Select(Jobs.job_id, Roles.role_name, Jobs.course_required, Courses.course_name, Courses.course_level, Jobs.certification_required, Jobs.status).where(Jobs.job_id == job_id).where(Jobs.role_id == Roles.role_id).where(Jobs.course_required == Courses.course_id)).first()
-        #print(j)
-        job = DBJob(j)
-        form = ApplyForm()
-        form.user_id.default = user.user_id
-        form.user_fname.default = user.user_fname
-        form.user_lname.default = user.user_lname
-        form.user_email.default = user.user_email
-        form.user_major.default = user.major_id
-        form.user_degree.default = user.degree_id
-        form.user_gpa.default = user.user_gpa
-        form.user_hours.default = user.user_hours 
-        form.process()
+    j = db.session.execute(db.Select(Jobs.job_id, Roles.role_name, Jobs.course_required, Courses.course_name, Courses.course_level, Jobs.certification_required, Jobs.status).where(Jobs.job_id == app.job_id).where(Jobs.role_id == Roles.role_id).where(Jobs.course_required == Courses.course_id)).first()
+    #print(j)
+    job = DBJob(j)
+    form = EditApplyForm()
 
-        #FIX
+    if form.validate_on_submit():
+        gfn = str(session['_user_id']) + "_" + str(job.job_id) + "_new_gta_" + secure_filename(request.files['gta_cert'].filename)
+        tfn = str(session['_user_id']) + "_" + str(job.job_id) + "_new_transcript_" + secure_filename(request.files['transcript'].filename)
 
-        return render_template("apply.html", form=form, job=job)
-    except:
-        return redirect(url_for("form.LoginPage"))
+        emptyGFN = str(session['_user_id']) + "_" + str(job.job_id) + "_new_gta_"
+        emptyTFN = str(session['_user_id']) + "_" + str(job.job_id) + "_new_transcript_"
+    
+        print(f"Current TFN: {app.transcript_file_name}")
+        print(f"Current GFN: {app.gta_cert_file_name}")
+
+        print(f"New TFN:       {tfn}")
+        print(f"Empty TFN: {emptyTFN}")
+        print(f"New GFN:       {gfn}")
+        print(f"Empty GFN: {emptyGFN}")
+
+        if gfn != emptyGFN:
+            app.gta_cert_file_name = gfn
+        if tfn != emptyTFN:
+            app.transcript_file_name = tfn
+        
+        print(f"New Current TFN: {app.transcript_file_name}")
+        print(f"New Current GFN: {app.gta_cert_file_name}")
+
+        try:
+            db.session.commit()
+            print("Updated Application")
+        except Exception as e:
+            print(f"Error:\n{e}")
+        return redirect(url_for('main.Home'))
+
+    #FIX
+    return render_template("editapply.html", form=form, job=job)
 
 
 

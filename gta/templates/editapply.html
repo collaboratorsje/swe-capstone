@@ -1,0 +1,21 @@
+{% from 'bootstrap5/form.html' import render_form, render_field, render_form_row %}
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>{{ job.course_name }} - {{ job.course_level }} <span class="badge badge-primary">{{ job.role }}</span></h2>
+
+<h5>Please upload only your new files</h5>
+
+<form method="POST" enctype="multipart/form-data">
+    {{ form.csrf_token() }}
+    {{ render_field(form.transcript, class="input-width") }}
+    {{ render_field(form.gta_cert, class="input-width")}}
+
+    <div class="mb-3"> <!-- Wrapper div for the submit button -->
+        {{ render_field(form.submit, class="submit-button") }}
+    </div>
+</form>
+
+<script src="{{ url_for('static', filename='scripts.js') }}"></script>
+
+{% endblock %}

@@ -87,8 +87,8 @@ def ApplicationsPage():
     with app.app_context():
         #fixme
         resa = db.session.execute(db.select(Courses.course_name, Roles.role_name, Applications.status, Applications.editable, Applications.app_id,Jobs.job_id).where(Applications.user_id == session["_user_id"]).where(Courses.course_id == Applications.course_id).where(Applications.job_id == Jobs.job_id).where(Jobs.role_id == Roles.role_id)).all()
-    #for a in resa:
-     #   print(a)
+    # for a in resa:
+    #    print(a)
     applications = [a for a in resa]
     print(applications)
     return render_template('applications.html', applications = applications)

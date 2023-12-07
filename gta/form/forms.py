@@ -59,6 +59,11 @@ class ApplyForm(RegisterForm):
     gta_cert = FileField("GTA Certification")
     transcript = FileField("Transcript",validators=[DataRequired()])
 
+class EditApplyForm(FlaskForm):
+    gta_cert = FileField("GTA Certification")
+    transcript = FileField("Transcript")
+    submit = SubmitField()
+
 class AddUserCourseForm(FlaskForm):
     with app.app_context():
         resc = db.session.execute(db.select(Courses.course_id, Courses.course_name, Courses.course_level)).all()
