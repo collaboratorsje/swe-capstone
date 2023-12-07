@@ -236,8 +236,10 @@ def UpdateApplication(app_id):
         try:
             db.session.commit()
             print("Updated Application")
+            flash('Application files updated successfully!', 'success')
         except Exception as e:
             print(f"Error:\n{e}")
+        
         return redirect(url_for('main.Home'))
 
     #FIX
