@@ -163,23 +163,25 @@ def Apply(job_id):
             if not os.path.exists(uploads_dir):
                 os.makedirs(uploads_dir)
             try:
-                gfn = str(session['_user_id']) + "_gta_" + secure_filename(request.files['gta_cert'].filename)
-                tfn = str(session['_user_id']) + "_transcript_" + secure_filename(request.files['transcript'].filename)
+                gfn = str(session['_user_id']) + "_" + str(job.job_id) + "_gta_" + secure_filename(request.files['gta_cert'].filename)
+                tfn = str(session['_user_id']) + "_" + str(job.job_id) + "_transcript_" + secure_filename(request.files['transcript'].filename)
 
                 gta_cert_path = os.path.join(uploads_dir, gfn)
                 transcript_path = os.path.join(uploads_dir, tfn)
-
-                request.files['gta_cert'].save(gta_cert_path)
-                request.files['transcript'].save(transcript_path)
-
+                try:
+                    request.files['gta_cert'].save(gta_cert_path)
+                    request.files['transcript'].save(transcript_path)
+                except Exception as e:
+                    print(e)                
+                print(request.files['gta_cert'].read())
                 apl = Applications(
                     user_id=user.user_id,
                     course_id=job.course_id,
                     status=job.status,
                     editable=False,
-                    gta_cert=request.files['gta_cert'].read(),
-                    transcript=request.files['transcript'].read(),
-                    job_id=job.job_id
+                    job_id=job.job_id,
+                    gta_cert_file_name=gfn,
+                    transcript_file_name=tfn
                 )
                 try:
                     db.session.add(apl)

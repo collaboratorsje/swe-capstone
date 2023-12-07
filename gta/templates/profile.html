@@ -16,7 +16,7 @@
             <div class="col-md-4">
                 <strong>User ID:</strong>
             </div>
-            <div class="col-md-8">
+            <div id="u-id" class="col-md-8">
                 {{ current_user.user_id }}
             </div>
         </div>
@@ -25,7 +25,7 @@
             <div class="col-md-4">
                 <strong>First Name:</strong>
             </div>
-            <div class="col-md-8">
+            <div id="u-fname" class="col-md-8">
                 {{ current_user.user_fname }}
             </div>
         </div>
@@ -34,7 +34,7 @@
             <div class="col-md-4">
                 <strong>Last Name:</strong>
             </div>
-            <div class="col-md-8">
+            <div id="u-lname" class="col-md-8">
                 {{ current_user.user_lname }}
             </div>
         </div>
@@ -43,7 +43,7 @@
             <div class="col-md-4">
                 <strong>Email:</strong>
             </div>
-            <div class="col-md-8">
+            <div id="u-email" class="col-md-8">
                 {{ current_user.user_email }}
             </div>
         </div>
@@ -52,7 +52,7 @@
             <div class="col-md-4">
                 <strong>Role:</strong>
             </div>
-            <div class="col-md-8">
+            <div id="u-role" class="col-md-8">
                 {{ current_user.role_relation.role_name }}
             </div>
         </div>
@@ -61,7 +61,7 @@
             <div class="col-md-4">
                 <strong>Major:</strong>
             </div>
-            <div class="col-md-8">
+            <div id="u-major" class="col-md-8">
                 {{ current_user.major_relation.major_name }}
             </div>
         </div>
@@ -70,7 +70,7 @@
             <div class="col-md-4">
                 <strong>Degree:</strong>
             </div>
-            <div class="col-md-8">
+            <div id="u-degree" class="col-md-8">
                 {{ current_user.degree_relation.degree_name }}
             </div>
         </div>
@@ -79,7 +79,7 @@
             <div class="col-md-4">
                 <strong>GPA:</strong>
             </div>
-            <div class="col-md-8">
+            <div id="u-gpa" class="col-md-8">
                 {{ current_user.gpa }}
             </div>
         </div>
@@ -88,7 +88,7 @@
             <div class="col-md-4">
                 <strong>Hours:</strong>
             </div>
-            <div class="col-md-8">
+            <div id="u-hours" class="col-md-8">
                 {{ current_user.hours }}
             </div>
         </div>
@@ -97,12 +97,7 @@
             <div class="col-md-4">
                 <strong>Password:</strong>
             </div>
-            <div class="col-md-8">
-                <input type="password" readonly id="passwordField" value="{{ current_user.user_pass }}" class="form-control">
-                <button onclick="togglePasswordVisibility()" class="btn btn-secondary mt-2">Show Password</button>
-            </div>
         </div>        
-
     </div>
 </div>
 
@@ -118,8 +113,6 @@
                 {{ render_field(form.user_degree, class="input-width") }}
                 {{ render_field(form.user_gpa, class="input-width") }}
                 {{ render_field(form.user_hours, class="input-width") }}
-                {{ render_field(form.user_pass, class="input-width") }}
-                {{ render_field(form.user_confirm_pass, class="input-width") }}
                 {{ render_field(form.ucourses) }}
                 {{ render_field(form.submit, class="submit-button") }}
         </div>

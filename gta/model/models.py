@@ -74,6 +74,6 @@ class Applications(db.Model):
     course_id = db.Column(db.Integer, db.ForeignKey("Courses.course_id"))
     status = db.Column(db.Boolean, nullable=False)
     editable = db.Column(db.Boolean, nullable=False)
-    gta_cert = db.Column(db.BLOB)
-    transcript = db.Column(db.BLOB, nullable=False)
     job_id = db.Column(db.Integer, db.ForeignKey("Jobs.job_id"))
+    gta_cert_file_name = db.Column(db.String(50))
+    transcript_file_name = db.Column(db.String(50), nullable=False)

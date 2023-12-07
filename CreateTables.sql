@@ -105,8 +105,8 @@ CREATE TABLE IF NOT EXISTS Applications(
     `status` BOOL NOT NULL,
     `editable` BOOL NOT NULL,
     `job_id` INTEGER NOT NULL,
-    `gta_cert` BINARY,
-    `transcript` BINARY NOT NULL,
+    `gta_cert_file_name` VARCHAR(50),
+    `transcript_file_name` VARCHAR(50),
     FOREIGN KEY (`user_id`)
         REFERENCES Users (`user_id`)
             ON UPDATE NO ACTION
