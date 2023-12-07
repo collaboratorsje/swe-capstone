@@ -157,6 +157,25 @@ def delete_application():
         db.session.rollback()
         return jsonify({'success': False, 'error': str(error)}), 500
 
+@app.route('/accept-application', methods=['POST'])
+def accept_application():
+    data = request.json
+    app_id = data['appId']
+
+    try:
+        app_to_accept = Applications.query.get(app_id)
+        if app_to_accept:
+            # Update the application's status and editable fields
+            app_to_accept.status = False  # Assuming 0 is represented by False
+            app_to_accept.editable = False  # Assuming 0 is represented by False
+            db.session.commit()
+            return jsonify({'success': True})
+        else:
+            return jsonify({'success': False, 'error': 'Application not found'}), 404
+    except Exception as error:
+        db.session.rollback()
+        return jsonify({'success': False, 'error': str(error)}), 500
+
 @app.route('/update-open-close', methods=['POST'])
 def open_close_application():
     data = request.json

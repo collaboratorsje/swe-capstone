@@ -42,7 +42,8 @@
     <div class="flex-child" style="display: none;" id="applicationsList">
         <h3>Applications</h3>
         {% for a in apps %}
-        <div class="application-post list-group-item">
+        <!-- Add a dynamic ID or class using a['app_id'] -->
+        <div class="application-post list-group-item" id="application-item-{{ a['app_id'] }}">
             {{ a['user_id'] }}
             {{ a['course'] }}
             <span class="badge badge-primary"> {{ a['role'] }} </span>
@@ -51,13 +52,13 @@
             <p>App ID: {{a['app_id'] }}</p>
             <p>Status: {% if a['status'] %} Open {% else %} Closed {% endif %}</p>
             <button id="app-view" class="btn btn-primary">View</button>
-            <button id="app-oc" class="btn btn-primary" onclick="openCloseApplicationEditing({{ a['app_id']}})">Open/Close</button>
-            <button id="app-acc" class="btn btn-primary">Accept</button>
-            <button id="app-rej" class="btn btn-danger" onclick="confirmAndRemoveApplication({{ a['app_id']}})">Reject</button>
+            <button id="app-oc" class="btn btn-primary" onclick="openCloseApplicationEditing({{ a['app_id'] }})">Open/Close</button>
+            <button id="app-acc" class="btn btn-primary" onclick="confirmAndAcceptApplication({{ a['app_id'] }})">Accept</button>
+            <button id="app-rej" class="btn btn-danger" onclick="confirmAndRemoveApplication({{ a['app_id'] }})">Reject</button>
         </div>
         <div></div>
-        {% endfor%}
-    </div>
+        {% endfor %}
+    </div>    
     <div class="flex-child" style="display: none;" id="usersList">
         <h3>Users</h3>
         {% for u in users %}

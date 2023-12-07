@@ -279,6 +279,36 @@ function confirmAndRemoveApplication(appId) {
         .catch(error => console.error('Error:', error));
     }
 }
+
+function confirmAndAcceptApplication(appId) {
+    if (confirm('Are you sure you want to accept this application?')) {
+        fetch('/accept-application', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ appId: appId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Select the element using the dynamic ID
+                var applicationElement = document.getElementById(`application-item-${appId}`);
+                if (applicationElement) {
+                    applicationElement.classList.add('accepted-application');
+                } else {
+                    console.log("No element found with ID: application-item-" + appId);
+                }
+                alert('Application accepted successfully');
+            } else {
+                alert('Error accepting application');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+}
+
+
 //{{ url_for('form.EditApplication', job_id=loop.index|string) }}
 function openCloseApplicationEditing(appId){
     fetch('/update-open-close', {
