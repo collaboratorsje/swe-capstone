@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function() {
             event.preventDefault(); // Prevent the form from submitting traditionally
             const searchQuery = document.querySelector('input[name="query"]').value;
             const filteredJobs = searchJobs(searchQuery);
-            displayJobs(filteredJobs);
+            displaySearchedJobs(filteredJobs);
         });
     }
 
@@ -136,7 +136,7 @@ function searchJobs(query) {
     );
 }
 
-function displayJobs(filteredJobs) {
+function displaySearchedJobs(filteredJobs) {
     const jobListElement = document.getElementById('job-list-group');
     jobListElement.innerHTML = ''; // Clear current job listings
 
@@ -160,7 +160,7 @@ function setupSearchFormListener() {
             event.preventDefault(); // Prevent the form from submitting traditionally
             const searchQuery = document.querySelector('input[name="query"]').value;
             const filteredJobs = searchJobs(searchQuery);
-            displayJobs(filteredJobs);
+            displaySearchedJobs(filteredJobs);
         });
     }
 }
@@ -171,7 +171,7 @@ function setupInputEventListener() {
         searchInput.addEventListener('input', function() {
             const searchQuery = this.value;
             const filteredJobs = searchJobs(searchQuery);
-            displayJobs(filteredJobs);
+            displaySearchedJobs(filteredJobs);
         });
     }
 }
