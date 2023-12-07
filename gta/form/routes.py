@@ -197,6 +197,37 @@ def Apply(job_id):
         return render_template("apply.html", form=form, job=job)
     except:
         return redirect(url_for("form.LoginPage"))
+    
+@login_required
+@fbp.route('/updateapplication', methods=['POST', 'GET'])
+def UpdateApplication(app_id, job_id):
+    try:
+        app = Applications.query.get(app_id)
+        u = db.session.execute(db.Select(Users.user_id, Users.user_fname, Users.user_lname, Users.user_email, Users.major, Majors.major_name, Users.degree, Degrees.degree_name, Users.gpa, Users.hours).where(session['_user_id'] == Users.user_id).where(Users.major == Majors.major_id).where(Users.degree == Degrees.degree_id)).first()
+
+        user = DBUser(u)
+        j = db.session.execute(db.Select(Jobs.job_id, Roles.role_name, Jobs.course_required, Courses.course_name, Courses.course_level, Jobs.certification_required, Jobs.status).where(Jobs.job_id == job_id).where(Jobs.role_id == Roles.role_id).where(Jobs.course_required == Courses.course_id)).first()
+        #print(j)
+        job = DBJob(j)
+        form = ApplyForm()
+        form.user_id.default = user.user_id
+        form.user_fname.default = user.user_fname
+        form.user_lname.default = user.user_lname
+        form.user_email.default = user.user_email
+        form.user_major.default = user.major_id
+        form.user_degree.default = user.degree_id
+        form.user_gpa.default = user.user_gpa
+        form.user_hours.default = user.user_hours 
+        form.process()
+
+        #FIX
+
+        return render_template("apply.html", form=form, job=job)
+    except:
+        return redirect(url_for("form.LoginPage"))
+
+
+
 @login_required 
 @fbp.route('/profile', methods=['POST', 'GET'])
 def ProfilePage():
