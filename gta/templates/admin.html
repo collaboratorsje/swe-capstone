@@ -32,7 +32,7 @@
                         <p>{% if j['cert_required'] %}<span class="badge badge-primary">Certification Required</span>{% else %}&nbsp;{% endif %}</p>
                         <p>Job ID: {{ j['job_id'] }}</p>
                         <!-- Additional job details here, if any -->
-                        <button id="job-edit" class="btn btn-primary">Edit</button>
+                        <a href="{{ url_for('form.EditJob', job_id= j['job_id'])}}"  id="job-edit" class="btn btn-primary">Edit</a>
                         <button id="job-close" class="btn btn-danger" onclick="confirmAndRemoveJob({{ j['job_id'] }})">Remove Job</button>
                     </li>
                     <div></div>

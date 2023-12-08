@@ -1,0 +1,16 @@
+{% from 'bootstrap5/form.html' import render_form, render_field, render_form_row %}
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Edit {{ job.course_name }} - {{ job.course_level }} <span class="badge badge-primary">{{ job.role }}</span></h2>
+
+<h5>Please update ALL information</h5>
+
+<form method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    {{ render_form(form) }}
+</form>
+
+<script src="{{ url_for('static', filename='scripts.js') }}"></script>
+
+{% endblock %}

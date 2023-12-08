@@ -6,7 +6,7 @@ from flask_login.mixins import AnonymousUserMixin
 from gta.extensions import db, DBUser, DBJob, CourseScore
 from flask import current_app as app
 from gta.form import bp as fbp
-from gta.form.forms import LoginForm, RegisterForm, JobForm, ApplyForm, AddUserCourseForm, UpdateProfileForm, EditApplyForm
+from gta.form.forms import LoginForm, RegisterForm, JobForm, EditJobForm, ApplyForm, AddUserCourseForm, UpdateProfileForm, EditApplyForm
 from gta.model.models import Users, Jobs, Majors, Degrees, Roles, Courses, Applications, UserCourses
 import os
 
@@ -239,9 +239,38 @@ def UpdateApplication(app_id):
             flash('Application files updated successfully!', 'success')
         except Exception as e:
             print(f"Error:\n{e}")
+            db.session.rollback()
         
         return redirect(url_for('main.Home'))
     return render_template("editapply.html", form=form, job=job)
+
+@login_required
+@fbp.route('/editjob/<job_id>', methods=['POST', 'GET'])
+def EditJob(job_id):
+    job = Jobs.query.get(job_id)
+
+    j = db.session.execute(db.Select(Roles.role_name, Courses.course_name, Courses.course_level).where(Jobs.job_id == job_id).where(Jobs.role_id == Roles.role_id).where(Jobs.course_required == Courses.course_id)).first()
+
+
+
+    form = EditJobForm()
+    form.role.default = job.role_id
+    form.certification_required.default = job.certification_required
+
+    if form.validate_on_submit():
+        job.role_id = form.role.data
+        job.certification_required = form.certification_required.data
+
+        try:
+            db.session.commit()
+            print('Updated job successfully')
+            flash('Job has been updated successfully!', 'success')
+        except Exception as e:
+                print(f"Error:\n{e}")
+                db.session.rollback()
+        return redirect(url_for('main.AdminPage'))
+    return render_template("editjob.html", form=form, job=j)
+    
 
 @login_required 
 @fbp.route('/profile', methods=['POST', 'GET'])

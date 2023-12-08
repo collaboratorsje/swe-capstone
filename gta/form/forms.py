@@ -53,6 +53,15 @@ class JobForm(FlaskForm):
     # populate courses from db for course required field
     submit = SubmitField()
 
+class EditJobForm(FlaskForm):
+    with app.app_context():
+        resr = db.session.execute(db.select(Roles.role_id, Roles.role_name).where(Roles.role_id > 2).where(Roles.role_id < 5)).all()
+    roles = [(r[0], r[1]) for r in resr]
+    roles.insert(0, ("", "---"))
+    role = SelectField("Job Role", coerce=str, choices=roles, validators=[DataRequired()])
+    certification_required = BooleanField("Certification Y/N")
+    submit = SubmitField()
+
 class ApplyForm(RegisterForm):
     user_pass = None
     user_confirm_pass = None
