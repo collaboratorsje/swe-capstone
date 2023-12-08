@@ -13,4 +13,15 @@
 <p>Hours:      {{user.hours}}</p>
 <p>Transcript: {{app.transcript_file_name}}</p>
 <p>GTA Certification: {{app.gta_cert_file_name}}</p>
+<ul class="list-group">
+    {% for c in courses %}  
+        <li class="list-group-item">
+            <h5>Course: {{c['course_name']}} - {{c['course_level']}}</h5>
+            <p>Grade: {{c['grade']}}</p>
+        </li>
+        <div></div>
+    {% endfor %}
+</ul>
+
+
 {% endblock %}

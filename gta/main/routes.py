@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, session, json, request, jsonify
 from flask_login import login_required, logout_user, current_user
 from gta.main import bp as mbp
-from gta.model.models import Users, Jobs, Roles, Courses, Applications, Majors
+from gta.model.models import Users, Jobs, Roles, Courses, Applications, Majors, UserCourses
 from gta.extensions import login_manager
 from flask_bootstrap import Bootstrap5
 from flask import current_app as app
@@ -213,5 +213,11 @@ def open_close_application():
 def view_application(app_id):
     app = Applications.query.get(app_id)
     user = Users.query.get(app.user_id)
+    userCourses = db.session.execute(db.select(Courses.course_name, Courses.course_level, UserCourses.grade).where(UserCourses.user_id == app.user_id)).all()
+    courses = [{
+        "course_name": entry[0],
+        "course_level": entry[1],
+        "grade": entry[2],
+    }for entry in userCourses]
     job = db.session.execute(db.select(Courses.course_name, Courses.course_level).where(Jobs.course_required == Courses.course_id).where(Jobs.job_id == app.job_id)).all()
-    return render_template('viewapplication.html', user = user, app=app, job=job)
+    return render_template('viewapplication.html', user = user, app=app, job=job, courses = courses)
