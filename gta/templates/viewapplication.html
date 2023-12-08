@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Application View</h1>
+<h2>{{job[0][0]}} - {{job[0][1]}}</h2>
+<p>User ID:    {{user.user_id}}</p>
+<p>First Name: {{user.user_fname}}</p>
+<p>Last Name:  {{user.user_lname}}</p>
+<p>Email:      {{user.user_email}}</p>
+<p>Role:       {{user.role}}</p>
+<p>Major:      {{user.major}}</p>
+<p>Degree:     {{user.degree}}</p>
+<p>GPA:        {{user.gpa}}</p>
+<p>Hours:      {{user.hours}}</p>
+{% endblock %}

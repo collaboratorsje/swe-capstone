@@ -208,3 +208,10 @@ def open_close_application():
     except Exception as error:
         db.session.rollback()
         return jsonify({'success': False, 'error': str(error)}), 500
+    
+@app.route('/view-user-application/<app_id>', methods=['POST', 'GET'])
+def view_application(app_id):
+    app = Applications.query.get(app_id)
+    user = Users.query.get(app.user_id)
+    job = db.session.execute(db.select(Courses.course_name, Courses.course_level).where(Jobs.course_required == Courses.course_id).where(Jobs.job_id == app.job_id)).all()
+    return render_template('viewapplication.html', user = user, app=app, job=job)

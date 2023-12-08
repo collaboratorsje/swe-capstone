@@ -51,7 +51,7 @@
             <p>Job ID: <span id="job-id">{{ a['job_id'] }}</span></p>
             <p>App ID: <span id="app-id">{{a['app_id'] }}</span></p>
             <p>Editable: <span id="app-status">{% if a['editable'] %} Open {% else %} Closed {% endif %}</span></p>
-            <button id="app-view" class="btn btn-primary">View</button>
+            <a href="{{ url_for('view_application', app_id = a['app_id'])}}" id="app-view" class="btn btn-primary">View</a>
             <button id="app-oc" class="btn btn-primary" onclick="openCloseApplicationEditing({{ a['app_id'] }})">Open/Close</button>
             <button id="app-acc" class="btn btn-primary" onclick="confirmAndAcceptApplication({{ a['app_id'] }})">Accept</button>
             <button id="app-rej" class="btn btn-danger" onclick="confirmAndRemoveApplication({{ a['app_id'] }})">Reject</button>

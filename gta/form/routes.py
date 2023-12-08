@@ -70,6 +70,8 @@ def RegisterPage():
             try:
                 db.session.add(nu)
                 [db.session.add(course) for course in courses]
+                for course in courses:
+                    print(course)
                 db.session.commit()
                 print("Inserted")
             except Exception as e:
