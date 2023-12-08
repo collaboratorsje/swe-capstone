@@ -1,7 +1,6 @@
 // static/scripts.js
 
 document.addEventListener("DOMContentLoaded", function() {
-    // ... existing code ...
 
     // Fade out alerts
     setTimeout(function() {
@@ -37,6 +36,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
+    loadTabState();
     setupSearchFormListener();
     setupInputEventListener();
 
@@ -44,6 +44,20 @@ document.addEventListener("DOMContentLoaded", function() {
     updateJobListingsTitle();
 
 });
+
+// Define the loadTabState function
+function loadTabState() {
+    var currentTab = localStorage.getItem('currentTab');
+    if (currentTab) {
+        if (currentTab === 'jobs') {
+            displayJobs();
+        } else if (currentTab === 'applications') {
+            displayApplications();
+        } else if (currentTab === 'users') {
+            displayUsers();
+        }
+    }
+}
 
 function togglePasswordVisibility() {
     const passwordField = document.getElementById('passwordField');
@@ -194,6 +208,7 @@ function displayJobs() {
     a.classList.add('active');
     b.classList.remove('active');
     c.classList.remove('active');
+    saveCurrentTab('jobs');
 }
 
 function displayApplications() {
@@ -213,6 +228,7 @@ function displayApplications() {
     a.classList.add("active");
     b.classList.remove("active");
     c.classList.remove("active");
+    saveCurrentTab('applications');
 }
 
 function displayUsers() {
@@ -232,6 +248,7 @@ function displayUsers() {
     a.classList.add("active");
     b.classList.remove("active");
     c.classList.remove("active");
+    saveCurrentTab('users');
 }
 
 function confirmAndRemoveJob(jobId) {
@@ -269,9 +286,12 @@ function confirmAndRemoveApplication(appId) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                // Remove the application element from the list or refresh the page
+                const applicationElement = document.getElementById(`application-item-${appId}`);
+                if (applicationElement) {
+                    applicationElement.remove();
+                }
                 alert('Application removed successfully');
-                window.location.reload();
+                // window.location.reload();
             } else {
                 alert('Error removing application');
             }
@@ -327,4 +347,26 @@ function openCloseApplicationEditing(appId){
         }
     })
     .catch(error => console.error('Error:', error));
+}
+
+function saveCurrentTab(tabName) {
+    localStorage.setItem('currentTab', tabName);
+}
+
+function loadTabState() {
+    var currentTab = localStorage.getItem('currentTab');
+    switch (currentTab) {
+        case 'jobs':
+            displayJobs();
+            break;
+        case 'applications':
+            displayApplications();
+            break;
+        case 'users':
+            displayUsers();
+            break;
+        default:
+            displayJobs(); // Default to jobs if nothing is saved
+            break;
+    }
 }

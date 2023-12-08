@@ -10,13 +10,13 @@
     <nav class="navbar navbar-center small-my-navbar">
         <ul class="nav nav-pills">
             <li class="nav-item" style="margin-inline: 5px;">
-                <a class="nav-link active" id="jobsButton" onclick="displayJobs()">Jobs</a>
+                <a class="nav-link" id="jobsButton" onclick="displayJobs(); saveCurrentTab('jobs');">Jobs</a>
             </li>
             <li class="nav-item" style="margin-inline: 5px;">
-                <a class="nav-link" id="applicationsButton" onclick="displayApplications()">Applications</a>
-            </li>
+                <a class="nav-link" id="applicationsButton" onclick="displayApplications(); saveCurrentTab('applications');">Applications</a>
+            </li>            
             <li class="nav-item" style="margin-inline: 5px;">
-                <a class="nav-link" id = "usersButton" onclick="displayUsers()">Users</a>
+                <a class="nav-link" id = "usersButton" onclick="displayUsers(); saveCurrentTab('users');">Users</a>
             </li>
         </ul>
     </nav>
