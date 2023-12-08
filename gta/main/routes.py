@@ -213,7 +213,7 @@ def open_close_application():
 def view_application(app_id):
     app = Applications.query.get(app_id)
     user = Users.query.get(app.user_id)
-    userCourses = db.session.execute(db.select(Courses.course_name, Courses.course_level, UserCourses.grade).where(UserCourses.user_id == app.user_id)).all()
+    userCourses = db.session.execute(db.select(Courses.course_name, Courses.course_level, UserCourses.grade).where(UserCourses.course_id == Courses.course_id).where(UserCourses.user_id == app.user_id)).all()
     courses = [{
         "course_name": entry[0],
         "course_level": entry[1],
