@@ -291,8 +291,7 @@ function confirmAndAcceptApplication(appId) {
         })
         .then(response => response.json())
         .then(data => {
-            if (data.success) {
-                // Select the element using the dynamic ID
+            if (data.success && data.status) { // Check if the application is accepted
                 var applicationElement = document.getElementById(`application-item-${appId}`);
                 if (applicationElement) {
                     applicationElement.classList.add('accepted-application');
@@ -307,7 +306,6 @@ function confirmAndAcceptApplication(appId) {
         .catch(error => console.error('Error:', error));
     }
 }
-
 
 //{{ url_for('form.EditApplication', job_id=loop.index|string) }}
 function openCloseApplicationEditing(appId){

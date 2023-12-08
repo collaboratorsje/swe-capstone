@@ -178,11 +178,11 @@ def accept_application():
     try:
         app_to_accept = Applications.query.get(app_id)
         if app_to_accept:
-            # Update the application's status and editable fields
-            app_to_accept.status = False  # Assuming 0 is represented by False
-            app_to_accept.editable = False  # Assuming 0 is represented by False
+            # Update the application's status
+            app_to_accept.status = True  # Update the status to indicate acceptance
+            app_to_accept.editable = False # Close the accepted app to editing
             db.session.commit()
-            return jsonify({'success': True})
+            return jsonify({'success': True, 'status': app_to_accept.status})
         else:
             return jsonify({'success': False, 'error': 'Application not found'}), 404
     except Exception as error:

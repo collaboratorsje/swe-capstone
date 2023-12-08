@@ -43,14 +43,14 @@
         <h3>Applications</h3>
         {% for a in apps %}
         <!-- Add a dynamic ID or class using a['app_id'] -->
-        <div class="application-post list-group-item" id="application-item-{{ a['app_id'] }}">
+        <div class="application-post list-group-item {% if a['status'] %}accepted-application{% endif %}" id="application-item-{{ a['app_id'] }}">
             {{ a['user_id'] }}
             {{ a['course'] }}
             <span class="badge badge-primary"> {{ a['role'] }} </span>
             <p>User: <span id="user-id">{{ a['user_id']}}</span></p>
             <p>Job ID: <span id="job-id">{{ a['job_id'] }}</span></p>
             <p>App ID: <span id="app-id">{{a['app_id'] }}</span></p>
-            <p>Status: <span id="app-status">{% if a['editable'] %} Open {% else %} Closed {% endif %}</span></p>
+            <p>Editable: <span id="app-status">{% if a['editable'] %} Open {% else %} Closed {% endif %}</span></p>
             <button id="app-view" class="btn btn-primary">View</button>
             <button id="app-oc" class="btn btn-primary" onclick="openCloseApplicationEditing({{ a['app_id'] }})">Open/Close</button>
             <button id="app-acc" class="btn btn-primary" onclick="confirmAndAcceptApplication({{ a['app_id'] }})">Accept</button>
