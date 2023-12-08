@@ -78,13 +78,16 @@
                                         response => response.json()
                                     ).then(
                                         response => { const NewE = Object.assign(document.createElement('div'),
-                                            {innerHTML: "Course: "+response["course"]+" Grade: "+response["grade"]+"<button id='remove-course-"+response["course_id"]+"' class='btn btn-remove-course btn-primary'>Remove</button>",
-                                             className: "course-post",
+                                            {innerHTML: "<p>Course: "+response["course"]+ "</p>"+"<p>Grade: "+response["grade"]+"</p>"+"<a id='remove-course-"+response["course_id"]+"' class='btn btn-primary'>Remove</a>",
+                                             className: "list-group-item",
                                              id: "course-post-"+response["course_id"]
                                             });
                                             courses.appendChild(NewE);
                                             //alert("Added Course")
-                                        });
+                                    }).then(
+                                        response => { const NewDiv = Object.assign(document.createElement('div'));
+                                            courses.appendChild(NewDiv);
+                                    });
                                 });
 
                             </script>
