@@ -5,6 +5,7 @@
 <!-- Code Here-->
 <h2>Create Job</h2>
 <form method="POST" action="/createjob">
+    {{ form.csrf_token() }}
     {{ form.hidden_tag() }}
     {{ render_form(form) }}
 </form>

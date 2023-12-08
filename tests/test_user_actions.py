@@ -115,6 +115,7 @@ def test_logged_click_apply_nocert(page: Page):
     page.get_by_role('button', name='submit').click()
     page.goto(apps)
     expect(page.locator('li[class="list-group-item"]').all()[-1]).to_have_text(re.compile("CS 191 - Discrete Structures I"))
+
 # 6.2
 def test_logged_click_apply_cert(page: Page):
     login(page)
@@ -134,7 +135,23 @@ def test_logged_click_apply_cert(page: Page):
     expect(page.locator('li[class="list-group-item"]').all()[-1]).to_have_text(re.compile("CS 201R - Problem Solving and Programming II"))
 
 # 6.3
-#def test_logged_click_edit_app(page: Page):
+def test_logged_click_edit_app(page: Page):
+    login(page)
+    page.goto(apps)
+    page.wait_for_load_state()
+    page.locator('a[id="app-edit"]').all()[0].click()
+    page.wait_for_load_state()
+    with page.expect_file_chooser() as fc:
+        page.locator('input[id="transcript"]').click()
+    t_choice = fc.value
+    t_choice.set_files("testing-requirements.txt")
+    with page.expect_file_chooser() as fc:
+        page.locator('input[id="gta_cert"]').click()
+    g_choice = fc.value
+    g_choice.set_files("testing-requirements.txt")
+    page.get_by_role('button', name='submit')
+    page.wait_for_load_state()
+    expect(page).to_have_url(base+'/')
 
 # 6.4
 def test_logged_click_edit_profile(page: Page):
@@ -172,7 +189,18 @@ def test_admin_click_edit_app(page: Page):
 def test_admin_click_edit_job(page: Page):
     login(page, user="admin@admin.com", pa="admin")
     page.goto(admin)
-    page.locator('button[id="job-edit"]').click()
+    page.locator('a[id="job-edit"]').all()[0].click()
+    page.select_option('select#role', 'Lab Instructor')
+    page.locator('input[id="certification_required"]').uncheck()
+    page.get_by_role('button', name="submit").click()
+    page.wait_for_load_state()
+    first = page.locator('li[class="list-group-item"]').all()[0]
+    expect(first.locator('span[class="badge badge-primary"]')).to_have_text(re.compile("Lab Instructor"))
+    expect(first.locator('p').all()[0]).to_be_empty()
+    page.locator('a[id="job-edit"]').all()[0].click()
+    page.select_option('select#role', 'Grader')
+    page.locator('input[id="certification_required"]').check()
+    page.get_by_role('button', name="submit").click()
     # Make some edit
     # Save edit
     # check job edited

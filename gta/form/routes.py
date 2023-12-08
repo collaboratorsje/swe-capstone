@@ -70,8 +70,6 @@ def RegisterPage():
             try:
                 db.session.add(nu)
                 [db.session.add(course) for course in courses]
-                for course in courses:
-                    print(course)
                 db.session.commit()
                 print("Inserted")
             except Exception as e:
@@ -105,7 +103,9 @@ def AddCourses():
                     "grade": cs[1]
                 }
                 courses.append(c)
-        jsonify(print(courses))
+        #jsonify(print(courses))
+        print("Here", courses)
+        #print(courses.pop())
         return jsonify(courses.pop())
 
 @login_required
@@ -253,13 +253,12 @@ def EditJob(job_id):
 
     j = db.session.execute(db.Select(Roles.role_name, Courses.course_name, Courses.course_level).where(Jobs.job_id == job_id).where(Jobs.role_id == Roles.role_id).where(Jobs.course_required == Courses.course_id)).first()
 
-
-
     form = EditJobForm()
     form.role.default = job.role_id
     form.certification_required.default = job.certification_required
+    #form.process()
 
-    if form.validate_on_submit():
+    if form.validate_on_submit() and request.method == "POST":
         job.role_id = form.role.data
         job.certification_required = form.certification_required.data
 

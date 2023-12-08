@@ -101,12 +101,3 @@ def test_admin_access_login(page: Page):
     login(page, user="admin@admin.com", pa="admin")
     page.goto(lin)
     expect(page).to_have_url(re.compile("login"))
-#pytest_plugins = ('pytest_asyncio_cooperative')
-
-#@pytest.mark.asyncio_cooperative
-#async def test_unlogged_access(page: Page):
-#    await page.goto('http://localhost:5000/applications')
-    #await expect(page.goto("http://localhost:5000/applications")).to_have_title(re.compile("login"))
-    #print(page)
-    #print(page.title)
-    #expect(page.title == "Login")

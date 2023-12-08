@@ -371,6 +371,20 @@ function loadTabState() {
     }
 }
 
-function removeUserCourse(courseId){
+function removeUserCourse(courseId) {
+    var uc = document.getElementById("ucourses");
+    console.log(uc.value);
+    var courses = uc.value.split("|");
+    console.log(courses);
+    let out = "";
+    for(c of courses)
+    {
+        if( !c.startsWith(courseId) && c != "")
+        {
+            out = out.concat(c, "|");
+            console.log("Inloop, Out", out);
+        };
+    };
+    uc.value = out 
     document.getElementById("course-post-" + courseId).outerHTML = "";
-}
+};
