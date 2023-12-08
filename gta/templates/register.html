@@ -78,7 +78,7 @@
                                         response => response.json()
                                     ).then(
                                         response => { const NewE = Object.assign(document.createElement('div'),
-                                            {innerHTML: "<p>Course: "+response["course"]+ "</p>"+"<p>Grade: "+response["grade"]+"</p>"+"<a id='remove-course-"+response["course_id"]+"' class='btn btn-primary'>Remove</a>",
+                                            {innerHTML: "<p>Course: "+response["course"]+ "</p>"+"<p>Grade: "+response["grade"]+"</p>"+"<a onclick = 'removeUserCourse("+ response["course_id"] + ");' id='remove-course-"+response["course_id"]+"' class='btn btn-primary'>Remove</a>",
                                              className: "list-group-item",
                                              id: "course-post-"+response["course_id"]
                                             });

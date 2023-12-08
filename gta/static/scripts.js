@@ -370,3 +370,7 @@ function loadTabState() {
             break;
     }
 }
+
+function removeUserCourse(courseId){
+    document.getElementById("course-post-" + courseId).outerHTML = "";
+}
