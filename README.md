@@ -9,8 +9,13 @@ Team Members: Blake Lord, Brandon Piotrowski, Ryan Borland, Seth Emery
 
 ### Windows
 
+Pull Repository
+
+    git clone https://github.com/collaboratorsje/swe-capstone.git
+
 Virtual Environment Setup
 
+    cd swe-capstone
     python -m venv venv 
 
 Activate Virtual Environment (Must do every time you launch, you'll see (venv) in your terminal) 
@@ -27,8 +32,6 @@ Install Requirements
 
 Launch with 
 
-    python .\main.py
-    or
     flask run
 Open in browser at http://127.0.0.1:5000 or http://localhost:5000
 
@@ -53,8 +56,6 @@ Install Requirements
 
 Launch with 
 
-    python ./main.py
-    or
     flask run
 
 Open in browser at http://127.0.0.1:5000 or http://localhost:5000
