@@ -65,6 +65,7 @@
         <div class="application-post list-group-item">
             <p>User ID: {{ u['user_id'] }}</p>
             <p>Name: {{ u['fname'] }} {{ u['lname'] }}</p> <!-- Assuming you want to display the name -->
+            <p>Major: {{ u['major']}}</p>
             <p>Email: {{ u['email'] }}</p>
             {% if u['role'] == 5%}
             <span class="badge badge-primary">User Type: Admin</span>
