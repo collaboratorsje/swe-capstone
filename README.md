@@ -28,7 +28,7 @@ or
 
 Install Requirements
 
-    python -m pip install -r .\hackaroo_requirements.txt
+    python -m pip install -r .\requirements.txt
 
 Launch with 
 
@@ -52,7 +52,7 @@ Activate Virtual Environment (Must do every time you launch, you'll see (venv) i
 
 Install Requirements
 
-    python3 -m pip install -r ./hackaroo_requirements.txt
+    python3 -m pip install -r ./requirements.txt
 
 Launch with 
 
